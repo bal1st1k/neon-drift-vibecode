@@ -1,0 +1,997 @@
+[
+  {
+    "old": "for promt/car/motor weight.txt",
+    "new": "for promt/car/motor-weight.txt",
+    "sha256": "f0277cbf150d71563969cb380f231fb83d6500d8bafe9c20048bf10b97e09547"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/ae86-gt-apex-v2.jpg",
+    "new": "for promt/car/SPRITE 2D/ae86-sprite.jpg",
+    "sha256": "4066536570932a1dddb8ae8e35661542c179db9691f2f7e1454729657b9676be"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Honda Civic SiR-II (EG6).jpg",
+    "new": "for promt/car/SPRITE 2D/eg6-sprite.jpg",
+    "sha256": "74b0b13cc3fc3f7a7d600b1356e184efa2fd91f576c482261bbd5433d6488f8c"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Honda Civic Type R (EK9).jpg",
+    "new": "for promt/car/SPRITE 2D/ek9-sprite.jpg",
+    "sha256": "6fb26d5137682b4ee968cbcccf62533aca708ebbff4400568fe9f9c04e08f70e"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Honda Integra Type R (DC2).jpg",
+    "new": "for promt/car/SPRITE 2D/dc2-sprite.jpg",
+    "sha256": "42b4bac484d070e0890de75c337ac2aaa8956d24bc079d013bd2aa61ca3173d4"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Honda NSX (NA1).jpg",
+    "new": "for promt/car/SPRITE 2D/nsx-sprite.jpg",
+    "sha256": "d1b14c15c9dd0255154f116b3b749b8bb8ebbc9c576c2926d98911daf40904a0"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Nissan_180sx_RPS13_top-down_view_bird-eye_perspective_isolated_on-0.jpg",
+    "new": "for promt/car/SPRITE 2D/180sx-sprite-original.jpg",
+    "sha256": "ea00ebcbc79d4bb4bf93ca76aaa33a5d0f67acfc9dd0a017291ebfb69a9e8261"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Nissan_SilEighty_RPS13_top-down_view_bird-eye_perspective_isolate-0.jpg",
+    "new": "for promt/car/SPRITE 2D/sileighty-sprite-original.jpg",
+    "sha256": "1d09b58a4ab109a2e6136316740fb3691eeacd6ef2bb4dc62f38a23862a29cbf"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Nissan_Silvia_K_s_Aero_S14_top-down_view_bird-eye_perspective_iso-0.jpg",
+    "new": "for promt/car/SPRITE 2D/s14-sprite-original.jpg",
+    "sha256": "770396957f2ba6f913b502c41ba4962da48d1be893d313b12f5d5462c8f2dff2"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Nissan_Silvia_K_s_S13_top-down_view_bird-eye_perspective_isolated-0.jpg",
+    "new": "for promt/car/SPRITE 2D/s13-sprite-original.jpg",
+    "sha256": "f8b9d4eb7f276d5bcb27014ff80b30fed26d610f07752a4e28cb1401d1bab8d9"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Nissan_Silvia_Spec-R_S15_top-down_view_bird-eye_perspective_isola-0.jpg",
+    "new": "for promt/car/SPRITE 2D/s15-sprite-original.jpg",
+    "sha256": "e1bc8981d7eb21ef7850a2460615282e9e413ad9e57961369f8d115f05c54565"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Nissan_Skyline_25GT_Turbo_ER34_top-down_view_bird-eye_perspective-0.jpg",
+    "new": "for promt/car/SPRITE 2D/er34-sprite-original.jpg",
+    "sha256": "e2da8e2068735d6ebbafc9dff9633ff5c2a5c610a3538ddc2026dfcd4a15b336"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Toyota_Altezza_SXE10_top-down_view_bird-eye_perspective_isolated_-0.jpg",
+    "new": "for promt/car/SPRITE 2D/altezza-sprite-original.jpg",
+    "sha256": "dbee42a29910e2893941fe59fe39c0b990ce04db1091500d47b1d23e26738521"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Toyota_Corolla_Levin_SR_AE85_top-down_view_bird-eye_perspective_i-0.jpg",
+    "new": "for promt/car/SPRITE 2D/ae85-sprite-original.jpg",
+    "sha256": "857ed00a0063197a5f4c76c843856b6933c12b288fed984770514c4a88be326d"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Toyota_MR-S_S-Edition_ZZW30_top-down_view_bird-eye_perspective_is-0.jpg",
+    "new": "for promt/car/SPRITE 2D/mrs-sprite-original.jpg",
+    "sha256": "b98d572b5f904ca19204b09f984fcb773e196a7814bcf558fcbe44ba504c7d18"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Toyota_Sprinter_Trueno_GT-APEX_AE86_top-down_view_bird-eye_perspe-0.jpg",
+    "new": "for promt/car/SPRITE 2D/ae86-sprite-original.jpg",
+    "sha256": "a2b91aa9108a69ee2224a3da5041d48be42809a26d8c11fca574bc0c83dc5462"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/lucid-origin_2D_sprite_of_a_Toyota_Supra_RZ_JZA80_top-down_view_bird-eye_perspective_isolated-0.jpg",
+    "new": "for promt/car/SPRITE 2D/supra-sprite-original.jpg",
+    "sha256": "4b5047f2dd9723b3ce2dcc3c59cc5bbc3c1b95c873348f3b8441d062f34070df"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Mazda RX-7 Type R (FD3S).jpg",
+    "new": "for promt/car/SPRITE 2D/fd3s-sprite.jpg",
+    "sha256": "c409c0a0258f4b565febf1919e023a71cc6de02986b5be4b1185005c8ce13f16"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Mitsubishi Lancer Evolution III GSR (CE9A).jpg",
+    "new": "for promt/car/SPRITE 2D/evo3-sprite.jpg",
+    "sha256": "e85066d9dc153b39309c8ce511965724c7d699583f03c0a115f98c9168eb5e82"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Mitsubishi Lancer Evolution IV RS (CN9A).jpg",
+    "new": "for promt/car/SPRITE 2D/evo4-sprite.jpg",
+    "sha256": "802a58469ecfa57f98691e405a0662119c19d5f7d4db23369ac4d9d4a7baa8ca"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Mitsubishi Lancer Evolution V RS (CP9A).jpg",
+    "new": "for promt/car/SPRITE 2D/evo5-sprite.jpg",
+    "sha256": "97cb5b0122de876d1d9bf9b569b00b1f9244b80399aade0b31f0cdb37373f443"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Mitsubishi Lancer Evolution VI GSR Tommi Mäkinen Edition (CP9A).jpg",
+    "new": "for promt/car/SPRITE 2D/evo6-sprite.jpg",
+    "sha256": "c60583e30510a96484a15bfe958beaa0c4cd9a9801bc402759657b97645131cd"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Mitsubishi Lancer Evolution VII GSR (CT9A).jpg",
+    "new": "for promt/car/SPRITE 2D/evo7-sprite.jpg",
+    "sha256": "ba8d7c9a664da3e968281f7c327a132ea2cfd2c27f657559ee0bf9d0bb630390"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Nissan Skyline GT-R (BNR32).jpg",
+    "new": "for promt/car/SPRITE 2D/bnr32-sprite.jpg",
+    "sha256": "ec79ef65d6e5be88a7eca42d474d68fa78ddeb30dff68e6f3e17180e4a77f396"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Nissan Skyline GT-R V-Spec II (BNR32).jpg",
+    "new": "for promt/car/SPRITE 2D/bnr32-vspec-sprite.jpg",
+    "sha256": "0a27e3ae5105483ce81a54ff5db6e487d93f55a3448a156c9196ce83891129bd"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Nissan Skyline GT-R V-Spec II Nür (BNR34).jpg",
+    "new": "for promt/car/SPRITE 2D/bnr34-sprite.jpg",
+    "sha256": "044e26fb36ba0dd06027be2b3ce8a9aaed6fd9285f1b5dc5cbcce8903af5181c"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Subaru Impreza WRX STi Coupe Type R Version V (GC8F).jpg",
+    "new": "for promt/car/SPRITE 2D/gc8-sprite.jpg",
+    "sha256": "841eeb71c0eba0cacea9c0ac49f554c8d2654600a07205b21842414a4282fdf0"
+  },
+  {
+    "old": "for promt/car/SPRITE 2D/Toyota MR2 (SW20).jpg",
+    "new": "for promt/car/SPRITE 2D/mr2-sprite.jpg",
+    "sha256": "233f30c54dae3c0321db9aee8fc5b006c878457a0f23fe6c6fbcb813828ed4c1"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/1990 Mercedes-Benz 190 E 2_5-16 EVO 2 W 201 blue-black metallic.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/w201-evo2-photo-04.jpg",
+    "sha256": "bbb0f60ea33edec39045562ed23d935d054bd782b2b21277d6e847eba657a019"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/Generated Image October 30, 2026 - 1_42PM.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/w201-evo2-sprite.jpg",
+    "sha256": "b8af6a3cd6117f477a7f06ebace6f1755d843eb9459fe771e71c37c64c2c1ac1"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/Generated Image October 30, 2026 - 1_44PM.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/case-closed.jpg",
+    "sha256": "dfc5e45a3acd13e33d6523188ffd93004c2002feff0fb2f6644ebc8122d4fb4d"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/Generated Image October 30, 2026 - 1_45PM.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/case-open.jpg",
+    "sha256": "bde32a85d40ee1bbe10fb25b8e0d2051977e066c61399bb9a00d0368c5f5934d"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/Mercedes rear.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/w201-evo2-photo-03.jpg",
+    "sha256": "6b8a8e310dafea707cc226a0fcc65b505445a760ff15a3941278568cc09a35ef"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/Ten Classic Cars You Need to Import Now! -___.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/w201-evo2-photo-02.jpg",
+    "sha256": "468f493ef99e0159efbf938cb31afc85f4b38ff47d0a1a88ffcbb1f629c15fe5"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/The Mercedes-Benz 190E 2_5-16 Evolution II___.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/w201-evo2-photo-05.jpg",
+    "sha256": "71d83b0fcf777760ce9573d9e0f8986f4a9ac5164e3c8ffcb2523b8e5442c3b1"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/UNSTABLE FRAGMENTS.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/unstable-fragments.jpg",
+    "sha256": "8aec451ff73b49977587ad0e1aaa7eb0d9560bf21c225918ded0e2a8eef409d8"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/возможности для дизайна.txt",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/design-notes.txt",
+    "sha256": "6be71d4cf99a4684c328dc550fc2faa8c25fe1b5a88d3d1d28bbe9749ddfe5b7"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/возможный пример, не делать при возможности.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/layout-reference.jpg",
+    "sha256": "02c53c76a3209092fd6c799b43232a2028eb588f38fbbd8a2d0e19b29b35e80c"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/для карточки.jpg",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/card.jpg",
+    "sha256": "dd732810c9460ca1c5db81a70860912b301f65aba9971fe8a1d35ba08263cf2c"
+  },
+  {
+    "old": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/характеристики.txt",
+    "new": "for promt/major update 4.0/Mercedes-Benz 190E 2.5-16 Evolution II (W201)/specifications.txt",
+    "sha256": "10979f4fb555305dd664e74f2b524410526ede819e8b02d443aa2666cd47d96d"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi%27s_Fifth_Consecutive_Hairpin.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-fifth-consecutive-hairpin.webp",
+    "sha256": "8d14cc5e4805cf13751ca708011c7cf2c097fc6403b9b7dcafbf2aacb468c780"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi%27s_First_Consecutive_Hairpin.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-first-consecutive-hairpin.webp",
+    "sha256": "733077b26a1ef0e0640a0c229ff6b9b88948bed812e2515af78210327def94de"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi%27s_Fourth_Consecutive_Hairpin.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-fourth-consecutive-hairpin.webp",
+    "sha256": "06d5e7fd83dfd1733e1ccd72a8326246a941d959e0b0b9d5e6b0e8613bbade3e"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi%27s_Kink_of_Death.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-kink-of-death.webp",
+    "sha256": "7992d1fec58a5e12f6ae085cc271eae4dbf85e49ce55372cb76f3c23d97a60ab"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi%27s_Second_Consecutive_Hairpin.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-second-consecutive-hairpin.webp",
+    "sha256": "9b4143393c6e82fe2f00a8c0e29bb8ffdc82201a966f172382a19f228cc6e4cf"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi%27s_Third_Consecutive_Hairpin.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-third-consecutive-hairpin.webp",
+    "sha256": "216bdf1440773a028fe20090be584763f5562bb193b599252b1874d0042f6efe"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Akagi_Low_Speed_Zone.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/akagi-low-speed-zone.webp",
+    "sha256": "bd4515fdae241996d369445f48184388cb7c2390b2a25f2a442cc6932bac6f54"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Base_of_Akagi.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/base-of-akagi.webp",
+    "sha256": "939556130a40d575030d01b75b11b7f6a6dd94aef404fd8ebe67b9f63788004a"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Deeper_Down_Akagi.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/deeper-down-akagi.webp",
+    "sha256": "49264447aaa61a7fea0ca4763539f523c93a7c4d34d7fcb26fef913994c1e55c"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Depths_of_Akagi.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/depths-of-akagi.webp",
+    "sha256": "5797deae91992efb2293cf5d25379f308bdfef11f2640ea0107009a1e3c949e5"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Descending_Akagi.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/descending-akagi.webp",
+    "sha256": "bd77deded3eead8e22e0bbe68ec0efea240e5060d7d1765e09097a7b9311ce91"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/akagi/Peak_of_Akagi.webp",
+    "new": "for promt/major update 4.0/карты реворк/akagi/peak-of-akagi.webp",
+    "sha256": "0b64ec2d2cc32338aacc810912d500e0c9a3265b373a6254e563fc8eef1269ab"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/Enna Skyline/Enna_Skyline_Downhill_Starting_Point.webp",
+    "new": "for promt/major update 4.0/карты реворк/Enna Skyline/enna-skyline-downhill-starting-point.webp",
+    "sha256": "d6cbb5d118a845d9b66378d5fc7ddcd7dd25a1df056011254e05716429682152"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/Enna Skyline/Enna_Skyline_Uphill_Starting_Point.webp",
+    "new": "for promt/major update 4.0/карты реворк/Enna Skyline/enna-skyline-uphill-starting-point.webp",
+    "sha256": "332241cc4f48adff2224926d85a97bc84bc1bd352e80b352c9d06d97a998443c"
+  },
+  {
+    "old": "for promt/major update 4.0/карты реворк/Новий Text Document.txt",
+    "new": "for promt/major update 4.0/карты реворк/update-notes.txt",
+    "sha256": "61215862a6d161a3a0daf40f8f764e7b89ac850efd1bfd82434cb6a1dfdcf782"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Nissan 180SX Type X (RPS13).jpg",
+    "new": "for promt/major update 4.0/машины реворк/180sx-sprite.jpg",
+    "sha256": "7899d2954364814d109b94910a002630c8af2c0a858d87ad9911f5cdd224d8f1"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Nissan SilEighty (RPS13).jpg",
+    "new": "for promt/major update 4.0/машины реворк/sileighty-sprite.jpg",
+    "sha256": "7e1c79855f0e00391138503f605a69ee5b18e90074eda2283331a13f8e6caab1"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Nissan Silvia K's (S13).jpg",
+    "new": "for promt/major update 4.0/машины реворк/s13-sprite.jpg",
+    "sha256": "5c9aa34abbb826c156b7f53a55e221f5158515919eb8a71aa354b8e60a606c85"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Nissan Silvia K's Aero (S14 Kouki).jpg",
+    "new": "for promt/major update 4.0/машины реворк/s14-sprite.jpg",
+    "sha256": "38b891cd12ff3ed1ed116f4effd103059519f0b086d1ba239b6a26bc2a974c44"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Nissan Silvia Spec-R (S15).jpg",
+    "new": "for promt/major update 4.0/машины реворк/s15-sprite.jpg",
+    "sha256": "a04afac82b75d02d44248d0c2ac45a7c66148aa8118f0e20791610967218b459"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Nissan Skyline 25GT Turbo (ER34).jpg",
+    "new": "for promt/major update 4.0/машины реворк/er34-sprite.jpg",
+    "sha256": "adc04aead8b44c6d3bc18b661f3e328a085abe8ee16db890a288cec15f696265"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Toyota Corolla Levin SR (AE85).jpg",
+    "new": "for promt/major update 4.0/машины реворк/ae85-sprite.jpg",
+    "sha256": "d4e7860165cc4f32dfee88d48c95f5355b9e4f37299ae1e76c421865417cc9c7"
+  },
+  {
+    "old": "for promt/major update 4.0/машины реворк/Toyota MR-S S-Edition (ZZW30).jpg",
+    "new": "for promt/major update 4.0/машины реворк/mrs-sprite.jpg",
+    "sha256": "0e5ce9b21f9c2fdc5c9ee5a856789c0bc36711df850853da2ff64d7d0f43f809"
+  },
+  {
+    "old": "for promt/major update 4.0/Новий Text Document.txt",
+    "new": "for promt/major update 4.0/update-notes.txt",
+    "sha256": "7a5495b59dcecf3c7876e0c0ef9efbf270b6e4a451707f75f649c5fca093c58a"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/10tsuchisaka_pic.webp",
+    "new": "for promt/map/Tsuchisaka/tsuchisaka-route.webp",
+    "sha256": "bd2e9ff40ef4ceb30745ddc718393fad320660fd533c22f319b3ed982ddb5b1d"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Ascending_Tsuchisaka.webp",
+    "new": "for promt/map/Tsuchisaka/ascending-tsuchisaka.webp",
+    "sha256": "39bbe614250261b17d8e9dda5ff466139cbf53f718d79627b0bdc750372d66fa"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Deeper_Down_Tsuchisaka.webp",
+    "new": "for promt/map/Tsuchisaka/deeper-down-tsuchisaka.webp",
+    "sha256": "c9f1f4685700ad3bec54b745dc72ceacd6a9cb02f95aa48b3fdd524a68fb0335"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Depths_of_Tsuchisaka.webp",
+    "new": "for promt/map/Tsuchisaka/depths-of-tsuchisaka.webp",
+    "sha256": "5e8f7e3b1012b75adbb2f9055a8a0a58778858dc9c53c03b5133514b21ca6d1f"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Descending_Tsuchisaka.webp",
+    "new": "for promt/map/Tsuchisaka/descending-tsuchisaka.webp",
+    "sha256": "ae183dd4d75176ea221540f71a575da6938c15cd1564d845bc4ae099e73aff0c"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Map_of_Tsuchisaka.webp",
+    "new": "for promt/map/Tsuchisaka/map-of-tsuchisaka.webp",
+    "sha256": "57b50cd0a1a4bd947c7f953b49ba2ad260a682e087a7f5cbbc8f6adfca1db525"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Peak_of_Tsuchisaka.webp",
+    "new": "for promt/map/Tsuchisaka/peak-of-tsuchisaka.webp",
+    "sha256": "c7dd29c1490a325a96712bdd47dcfdf98630c7380ab5f84afb43874b5be16ed8"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Tsuchisaka_Construction_Straight.webp",
+    "new": "for promt/map/Tsuchisaka/tsuchisaka-construction-straight.webp",
+    "sha256": "ac45c38f068b398674d376baf4c5b26a7858a50feb20bb7806b5a1d7bc7012d3"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Tsuchisaka_Inbound_Starting_Point.webp",
+    "new": "for promt/map/Tsuchisaka/tsuchisaka-inbound-starting-point.webp",
+    "sha256": "ebe3aa5c24a267b1f9836f0374e085a7c9f3db20fb5a4c058b2d7f020edfae44"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Tsuchisaka_Oil_Slick_Bridge.webp",
+    "new": "for promt/map/Tsuchisaka/tsuchisaka-oil-slick-bridge.webp",
+    "sha256": "5ec2c0194345e249902d0e8ca25d9c7509b16b60280b172cb472ca241279b2c5"
+  },
+  {
+    "old": "for promt/map/Tsuchisaka/Tsuchisaka_Outbound_Starting_Point.webp",
+    "new": "for promt/map/Tsuchisaka/tsuchisaka-outbound-starting-point.webp",
+    "sha256": "b37591a60940963876f789e92c329760bd1e59302a9b8ee0e1df6a16fe5f2561"
+  },
+  {
+    "old": "for promt/S2000/Generated Image October 28, 2026 - 12_35PM.jpg",
+    "new": "for promt/S2000/s2000-purchase.jpg",
+    "sha256": "afad81aaeec62536d8b0721b08a43c26006e1b6dc3f60a2027a5c2e6fd83c3c9"
+  },
+  {
+    "old": "for promt/S2000/honda s2000 2d sprite.jpg",
+    "new": "for promt/S2000/s2000-sprite.jpg",
+    "sha256": "b8e8837740e08f35869492ac1dd9742478bd3411c9977c97ee8520dd793e2dbb"
+  },
+  {
+    "old": "for promt/S2000/photo_5406858089429934056_x.jpg",
+    "new": "for promt/S2000/s2000-hero.jpg",
+    "sha256": "1691964322045dba3121f7d22185c837be195663b1aea7376369bf3a9439e199"
+  },
+  {
+    "old": "for promt/S2000/образец.png",
+    "new": "for promt/S2000/reference.png",
+    "sha256": "fb5045053fadfd9db21b3b34d1f6a9e2f63ec389828441f47c944a7140ef06e9"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_08PM (1).jpg",
+    "new": "for promt/tuning/blue/intake-blue.jpg",
+    "sha256": "f6e87514d195021db74ad1828015d723861e7c136bbfc611b67a656ab01a5c90"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_08PM.jpg",
+    "new": "for promt/tuning/blue/turbo-blue.jpg",
+    "sha256": "8209b62a9d9d0f870a08dadd07eb9f505184e75846cf5c4fe78a8c80bf38c07c"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_09PM.jpg",
+    "new": "for promt/tuning/blue/exhaust-blue.jpg",
+    "sha256": "02cb29fe55be4c04f894e1add225ff567ac2aa46e6b6711d96615ea346e5e63c"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_10PM (1).jpg",
+    "new": "for promt/tuning/blue/tires-blue.jpg",
+    "sha256": "9d2b986f3e6587fed8182525f5a8117cb3e2d82d59475cb528646c456efd9f88"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_10PM.jpg",
+    "new": "for promt/tuning/blue/ecu-blue.jpg",
+    "sha256": "9a52ea64919b803c2eef65a7a9f4895b62ccd3c9d5440bd8c3144440aed2005d"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_11PM.jpg",
+    "new": "for promt/tuning/blue/suspension-blue.jpg",
+    "sha256": "a41aaf6c1d89d601fb603a1f522c0c99b1686349e469fc7cbb5d75eb8f1b9048"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_12PM.jpg",
+    "new": "for promt/tuning/blue/brakes-blue.jpg",
+    "sha256": "24c3a6bdbb5dee8c226bc97b60eca01b43f5fcf950951efaca270e029206525a"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_13PM.jpg",
+    "new": "for promt/tuning/blue/weight-blue.jpg",
+    "sha256": "b89abb9edbbe4ed0f95752049733147913cdf0c89b1afd6d1d483373327a5b6f"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_18PM.jpg",
+    "new": "for promt/tuning/blue/gearbox-blue.jpg",
+    "sha256": "2f0bebca707e176e3dc27d5f9717d826765c4c3cfa49e55cb00120a843b61918"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_19PM.jpg",
+    "new": "for promt/tuning/blue/differential-blue.jpg",
+    "sha256": "039779780aa4f139b9dea427c69e2309bde35541ad9461eafd06f27b722170c3"
+  },
+  {
+    "old": "for promt/tuning/blue/Generated Image October 27, 2026 - 2_20PM.jpg",
+    "new": "for promt/tuning/blue/nitro-blue.jpg",
+    "sha256": "e0f8ca04d3f19ad70ac04889c3dd4ac47d88e03eadb2f3e4b6a824b7d691560f"
+  },
+  {
+    "old": "for promt/tuning/red/11.jpg",
+    "new": "for promt/tuning/red/weight-red.jpg",
+    "sha256": "d0d875e0ebe0d9248cb2bfd0d26aebcffee4688a729203ef1738103bcb9c0b39"
+  },
+  {
+    "old": "for promt/tuning/red/Gemini_Generated_Image_cq4e9gcq4e9gcq4e.jpg",
+    "new": "for promt/tuning/red/gearbox-red.jpg",
+    "sha256": "0e840a9d8fde6ad92cac79780b979c1f048795e10f70a81b9f60258492d24d98"
+  },
+  {
+    "old": "for promt/tuning/red/Gemini_Generated_Image_d0y2cyd0y2cyd0y2.jpg",
+    "new": "for promt/tuning/red/differential-red.jpg",
+    "sha256": "6948f619107ea18402fa978a9cebdee6d6d23a4aeb02dc6f9f1d083e7a272561"
+  },
+  {
+    "old": "for promt/tuning/red/Gemini_Generated_Image_gbfri6gbfri6gbfr.jpg",
+    "new": "for promt/tuning/red/nitro-red.jpg",
+    "sha256": "f0a5bc2600a50317e32252277a742349fa7f81bf237e68229e5268f20d0a7086"
+  },
+  {
+    "old": "for promt/tuning/red/Gemini_Generated_Image_ntmubbntmubbntmu.jpg",
+    "new": "for promt/tuning/red/suspension-red.jpg",
+    "sha256": "aa9fc9fbb69de64df0835f8b68a4797179eabeb404eaff0717d3b0d6949b5eae"
+  },
+  {
+    "old": "for promt/tuning/red/Gemini_Generated_Image_rxwn7urxwn7urxwn.jpg",
+    "new": "for promt/tuning/red/brakes-red.jpg",
+    "sha256": "cc200c4bb119c1f40ae4402fb5346963324d4cc91914977cc17279e2d6961372"
+  },
+  {
+    "old": "for promt/tuning/red/Generated Image October 27, 2026 - 2_50PM (1).jpg",
+    "new": "for promt/tuning/red/intake-red.jpg",
+    "sha256": "dd3cb6c03c72a08fb5c165fb102ea5c879c32217ec224af14d8d9c402bfc7517"
+  },
+  {
+    "old": "for promt/tuning/red/Generated Image October 27, 2026 - 2_50PM.jpg",
+    "new": "for promt/tuning/red/turbo-red.jpg",
+    "sha256": "bdb653ba8df173bbc5335425e0606ad4e2a8a4019131411e8275f68cb1d8799c"
+  },
+  {
+    "old": "for promt/tuning/red/Generated Image October 27, 2026 - 2_52PM.jpg",
+    "new": "for promt/tuning/red/exhaust-red.jpg",
+    "sha256": "5fa75dd490e19b39263653691cc21709836055b533f6e5012887f55d1b96de39"
+  },
+  {
+    "old": "for promt/tuning/red/Generated Image October 27, 2026 - 2_53PM.jpg",
+    "new": "for promt/tuning/red/ecu-red.jpg",
+    "sha256": "cb45f6ba79eac98700f07dbcd8ceb78250d7bb0611e9f0cc97d2c5f8ac25663c"
+  },
+  {
+    "old": "for promt/tuning/red/Generated Image October 27, 2026 - 2_54PM.jpg",
+    "new": "for promt/tuning/red/tires-red.jpg",
+    "sha256": "ea7f9e86027a19630a10e68db1d7c8ee84e16ae49a0fda157233043ba7e15d7a"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_23PM.jpg",
+    "new": "for promt/tuning/yellow/turbo-yellow.jpg",
+    "sha256": "684349aca69ad2e7d33213b759e290a9fc1ea5d6e4c8aefb1252b57a17b53079"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_25PM.jpg",
+    "new": "for promt/tuning/yellow/intake-yellow.jpg",
+    "sha256": "610f98b1db1f54ea8764bdaf469c70c54b9bf29b97d812945875109063a98e9a"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_26PM.jpg",
+    "new": "for promt/tuning/yellow/exhaust-yellow.jpg",
+    "sha256": "cdd2eb0ee1663f072729a093ee2b535ad1e5bd9f9dcb6b58eadee0d8b008c691"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_28PM.jpg",
+    "new": "for promt/tuning/yellow/ecu-yellow.jpg",
+    "sha256": "678e4d84d4aa81f571790c7b135f2262c2e5d6662b0b03ca4a9b63c65e3e6e2d"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_29PM.jpg",
+    "new": "for promt/tuning/yellow/tires-yellow.jpg",
+    "sha256": "f166020ec995ecb6ffe827457ab6a7198d24d1c05977cfecb1fb738369790312"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_30PM.jpg",
+    "new": "for promt/tuning/yellow/suspension-yellow.jpg",
+    "sha256": "df397e0bf045efb16685c2909ead25175b4ebc5f4653885e2f20f66060f3fdde"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_32PM.jpg",
+    "new": "for promt/tuning/yellow/brakes-yellow.jpg",
+    "sha256": "01c5e7370e5712983ae4f892be420cfb8865359774b5214e6309853307ea2d02"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_33PM.jpg",
+    "new": "for promt/tuning/yellow/weight-yellow.jpg",
+    "sha256": "2d56a9e3df69a7c4bfda9ddeb25afc10d3bed42655a3ad60add1732e5258fe0d"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_34PM.jpg",
+    "new": "for promt/tuning/yellow/gearbox-yellow.jpg",
+    "sha256": "0b37b4d68e5d746df622bfad3f6e994b3a504c5e32f7a852cecc97e8342a880e"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_35PM.jpg",
+    "new": "for promt/tuning/yellow/differential-yellow.jpg",
+    "sha256": "e1e0dea5fd4fb15993668c881c2b66aa7089d42ab851d99d76030ed0bec0cc00"
+  },
+  {
+    "old": "for promt/tuning/yellow/Generated Image October 27, 2026 - 2_45PM.jpg",
+    "new": "for promt/tuning/yellow/nitro-yellow.jpg",
+    "sha256": "6c155e54734679383c639ea179893b7a32c14eea9aaefafefb9eb0450a7bad62"
+  },
+  {
+    "old": "for promt/tuning/ящики/Generated Image October 28, 2026 - 10_34AM.jpg",
+    "new": "for promt/tuning/ящики/case-reference-01.jpg",
+    "sha256": "57537287cbc24dee101d8b048c7a96502e9a99bec8303280b1208816a0b6a379"
+  },
+  {
+    "old": "for promt/tuning/ящики/Generated Image October 28, 2026 - 10_36AM.jpg",
+    "new": "for promt/tuning/ящики/case-reference-02.jpg",
+    "sha256": "4cc2aa8c7fecafdf6a31ab20ed18c1c219d4c82e97a49bd85506e5787282c83a"
+  },
+  {
+    "old": "for promt/tuning/ящики/Generated Image October 28, 2026 - 12_31PM.jpg",
+    "new": "for promt/tuning/ящики/case-reference-03.jpg",
+    "sha256": "cbdfe34180d9cc9fa5415d75404b9d14ae7f429e5142e73899114bbf739de00d"
+  },
+  {
+    "old": "for promt/tuning/ящики/Generated Image October 28, 2026 - 12_32PM.jpg",
+    "new": "for promt/tuning/ящики/case-reference-04.jpg",
+    "sha256": "67a68ac0414311fe0c13e2b61db3ff2a94c314be60ec20c98d05cded8ba598db"
+  },
+  {
+    "old": "for promt/wangan midnight/для ии11.txt",
+    "new": "for promt/wangan midnight/event-notes.txt",
+    "sha256": "c3cebd024940690512c03903e3f390a024d76ac5218e5d7473bacefd9c04a3f2"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_12AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-01.jpg",
+    "sha256": "296c81d97f0e3ea0819a6cc6084bac5e5a352dc87f2ed2bb75a0416f8ebdbb12"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_13AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-02.jpg",
+    "sha256": "91e1509ebaf992d0a3f264978b1b3010d719b59c8cdd522392825b478206642f"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_14AM (1).jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-03.jpg",
+    "sha256": "339ee039ed887b2febd212ef4f32054bfbe55dd913d718393162c962051f5dd0"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_14AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-04.jpg",
+    "sha256": "841f59f79ad4ee572aaf678e578f4a2045706ccf7799d7638e10936345b1a224"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_15AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-05.jpg",
+    "sha256": "7c0dbaabe65bc3c5dba7a34747d91e425b5728e406769c703940e4b3efb92d4b"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_16AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-06.jpg",
+    "sha256": "52e6e147756fbb42a6521610e98d51ce41ca67418a73bcdf6123965cc9272bf7"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_17AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-07.jpg",
+    "sha256": "6ee55ef4eb5fd0e0bcf2ed7cc125979b8c5fa02fc73339719a51eb785a90a83a"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_19AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-08.jpg",
+    "sha256": "e11faf678b1ad53715944f7c40d2ca0d9b00224300fba76274b238e670da169a"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_20AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-09.jpg",
+    "sha256": "b973c3f6685d22d787eca840fe899cd684d7f907b10673c88b4842be70109fe7"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/Generated Image October 29, 2026 - 11_21AM.jpg",
+    "new": "for promt/wangan midnight/спрайты для потока/traffic-10.jpg",
+    "sha256": "642bfa26e26b64e04fff611d9eb520b56c0929b1cf437280d53c3f8689a4454b"
+  },
+  {
+    "old": "for promt/wangan midnight/спрайты для потока/для ии.txt",
+    "new": "for promt/wangan midnight/спрайты для потока/instructions.txt",
+    "sha256": "959a8c5dd2665730554f8f91820f41bf2ea869c59a4fec21f56c537402da63f4"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-east/Screenshot 2026-10-29 110805.png",
+    "new": "for promt/wangan midnight/трасы/wangan-east/wangan-east-map.png",
+    "sha256": "b61b785a3fa20b2baf193405555c92e87bfdde8e7f513b9209f74bb1c1f35626"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-east/wangan-east_01.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-east/wangan-east-01.jpg",
+    "sha256": "c278ba19f97c60df780e85df6db1ea470d2f0d012e522942a86938400136a141"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-east/wangan-east_02.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-east/wangan-east-02.jpg",
+    "sha256": "39330e14ae7b07651e5bc7ee0372fe514be78d7cc90a30d2d5a3bfe3a6135f98"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-east/wangan-east_03.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-east/wangan-east-03.jpg",
+    "sha256": "3bbd160875cfe29242e460fe61b14e2b1a551ebc113ab71dac06ae92752c3e0c"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-east/wangan-east_04.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-east/wangan-east-04.jpg",
+    "sha256": "7831759eb533f76512dff156784fb7cfe8e0693e5a81e61db61b3b168f5535c1"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-east/wangan-east_img01.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-east/wangan-east-img01.jpg",
+    "sha256": "d43f0adf9df2bf782939c2c8ffba84ce8c0acee393a7b4b88478b0c0eb0b462a"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-west/Screenshot 2026-10-29 110825.png",
+    "new": "for promt/wangan midnight/трасы/wangan-west/wangan-west-map.png",
+    "sha256": "63db0a86e0b1ebd573779e8e62f4164be5d8c23d36898758181b054fae5564ad"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-west/wangan-west_01.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-west/wangan-west-01.jpg",
+    "sha256": "a3ae742f7d68dc8e3941fcc3c4f3f3770592298d1464ce69694d3b6498eb5ca5"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-west/wangan-west_02.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-west/wangan-west-02.jpg",
+    "sha256": "144c74d9f2e0aa83885f50898917914b77e6f9191c79df66c2beae2a13afda09"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-west/wangan-west_03.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-west/wangan-west-03.jpg",
+    "sha256": "44c7cda94d09f92c51b148132aa7db89b2df3194b295dbf6c3be50c3544cff9d"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-west/wangan-west_04.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-west/wangan-west-04.jpg",
+    "sha256": "2b373d53458e13351dc53be80c7a4d6d5f4e8ed1b98dc11b28a87bcc2ddffc63"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/wangan-west/wangan-west_img01.jpg",
+    "new": "for promt/wangan midnight/трасы/wangan-west/wangan-west-img01.jpg",
+    "sha256": "c8fb4f6451eee4c05080b3aa239c29e0c0a6ee5e7aa48b3efa0d76b8f3e657d0"
+  },
+  {
+    "old": "for promt/wangan midnight/трасы/для трас ии.txt",
+    "new": "for promt/wangan midnight/трасы/track-notes.txt",
+    "sha256": "c25e48ed318168c0ad0dc4c38cc3cc6e85a31fe5067b790290605710c9466ffd"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/Generated Image October 29, 2026 - 2_12PM.jpg",
+    "new": "for promt/«Заокеанские братья»/brothers-hero.jpg",
+    "sha256": "0527c68c4f56540e70d8d4ec0bd7fb922748edc0c1e59e6f48b82518ee3376ce"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/Lexus IS200 (GXE10).jpg",
+    "new": "for promt/«Заокеанские братья»/is200-sprite.jpg",
+    "sha256": "8f12ca98c139847ce21efb45d871a8e81bc3bbde318da2d3b60f3a809b4e58d5"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/Lexus IS300 (JCE10).jpg",
+    "new": "for promt/«Заокеанские братья»/is300-sprite.jpg",
+    "sha256": "7bed23fb4c34851244c048d3960b082e2d2103c94b63eef5d59e4ab3a119866c"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/lexus_is300 для карточки.webp",
+    "new": "for promt/«Заокеанские братья»/is300-photo-02.webp",
+    "sha256": "5dfa222f6109414be2873cac83c432f33c40a057a0b526531b40aad19ed9aaba"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/для ии.txt",
+    "new": "for promt/«Заокеанские братья»/instructions.txt",
+    "sha256": "496485485e0c8cb67f56962c81475f706787fc6a163515c5c208c81c6f06ac67"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/для карточки.jpg",
+    "new": "for promt/«Заокеанские братья»/card.jpg",
+    "sha256": "29d20cbb73f0ca4e592a0e2cf8ed4d18f01a106c0c70102ea10da53d3aa56478"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/Закрытый ящик.jpg",
+    "new": "for promt/«Заокеанские братья»/case-closed.jpg",
+    "sha256": "dd3aaba3a8469490a87800fb45a123bbc4cd366b4b54307d6885ec86fbec1b9e"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/Открытый ящик.jpg",
+    "new": "for promt/«Заокеанские братья»/case-open.jpg",
+    "sha256": "19257e238e5813398ecfa2a9ec637f37833c4d7e0d6f7500e3d929cbb3aecbbd"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/ремодель для альтезы которая уже в игре.jpg",
+    "new": "for promt/«Заокеанские братья»/altezza-sprite.jpg",
+    "sha256": "9de5e0ae381864983b4c92ec8bfd1029f75f704a2edeca20d335b9caac223d1f"
+  },
+  {
+    "old": "for promt/«Заокеанские братья»/ХАРАКТЕРИСТИКИ.txt",
+    "new": "for promt/«Заокеанские братья»/specifications.txt",
+    "sha256": "b450ae1fa22b0ab78c6676c16d8607c20934cc03de864cbf83d17b60ca0bdecd"
+  },
+  {
+    "old": "for promt/Всегда правильный ответ/10 Reasons Why We Love The Mazda MX-5 Miata.jpg",
+    "new": "for promt/Всегда правильный ответ/roadster-hero.jpg",
+    "sha256": "139eaba0c953037687fc7b51c5352c66523ff33e4493a9ec93e40371518e2da2"
+  },
+  {
+    "old": "for promt/Всегда правильный ответ/Generated Image October 29, 2026 - 6_56PM.jpg",
+    "new": "for promt/Всегда правильный ответ/reference-01.jpg",
+    "sha256": "288042917b5d6b7914d23e2c655d117567fa269e1b1a6506dba90edc8e49b947"
+  },
+  {
+    "old": "for promt/Всегда правильный ответ/Generated Image October 29, 2026 - 6_59PM.jpg",
+    "new": "for promt/Всегда правильный ответ/reference-02.jpg",
+    "sha256": "6d09b83053458f44e04b1fb71467f7e08fc897bd59412a803825d643e9de3a5d"
+  },
+  {
+    "old": "for promt/Всегда правильный ответ/Generated Image October 29, 2026 - 7_00PM.jpg",
+    "new": "for promt/Всегда правильный ответ/reference-03.jpg",
+    "sha256": "6c3af9e255b6867ec483ee8dfcdb0ae45d5f2ed4aaf0bda98d796441c52babfd"
+  },
+  {
+    "old": "for promt/Всегда правильный ответ/Marketplace_ 7k-Mile 1990 Mazda MX-5 Miata 5-Speed.jpg",
+    "new": "for promt/Всегда правильный ответ/roadster-card.jpg",
+    "sha256": "434ceb6bcd42613fef3c148b6178d9f87ae42ca15f1d8dd44847f8e742672c4a"
+  },
+  {
+    "old": "for promt/Всегда правильный ответ/характеристики.txt",
+    "new": "for promt/Всегда правильный ответ/specifications.txt",
+    "sha256": "354337ca62e96016607d9fa80a21a867a0ab63cf507476b495aaf8abe6845f18"
+  },
+  {
+    "old": "for promt/гарант/Toyota Chaser GT Twin Turbo (JZX81)/Generated Image October 29, 2026 - 3_30PM.jpg",
+    "new": "for promt/гарант/Toyota Chaser GT Twin Turbo (JZX81)/jzx81-sprite.jpg",
+    "sha256": "ae16028799b679350dc55ea7f1123959b5484bd24ecb27eea82c41e54873f64e"
+  },
+  {
+    "old": "for promt/гарант/Toyota Chaser GT Twin Turbo (JZX81)/для карточки.jpg",
+    "new": "for promt/гарант/Toyota Chaser GT Twin Turbo (JZX81)/card.jpg",
+    "sha256": "4dbd852fbcdc542d1b10fc475631d36ebd8ef6ed2751eff42d8dbe8749cfdcf1"
+  },
+  {
+    "old": "for promt/гарант/Toyota Chaser GT Twin Turbo (JZX81)/характеристики.txt",
+    "new": "for promt/гарант/Toyota Chaser GT Twin Turbo (JZX81)/specifications.txt",
+    "sha256": "ef352009f48f7f080623ae0fbd138e8216bc6a97d84efdc7ffdda2c58b0f732a"
+  },
+  {
+    "old": "for promt/гарант/Toyota Mark II Tourer V (JZX90)/Generated Image October 29, 2026 - 3_33PM.jpg",
+    "new": "for promt/гарант/Toyota Mark II Tourer V (JZX90)/jzx90-sprite.jpg",
+    "sha256": "24fe48f2fb74d6ee2082f5c8f8d02d0beb481c85274c7dcd934e606f28cc9a20"
+  },
+  {
+    "old": "for promt/гарант/Toyota Mark II Tourer V (JZX90)/для карточки.jpg",
+    "new": "for promt/гарант/Toyota Mark II Tourer V (JZX90)/card.jpg",
+    "sha256": "5582b90a0d6948444b1a837a052e0616d5aa18c2f1842e67f296190a3f1e70c0"
+  },
+  {
+    "old": "for promt/гарант/Toyota Mark II Tourer V (JZX90)/характеристики.txt",
+    "new": "for promt/гарант/Toyota Mark II Tourer V (JZX90)/specifications.txt",
+    "sha256": "4fbe20ab32c029553dbe38215fa76aa09ba0177ad4bce21ae883494d47cdfc3c"
+  },
+  {
+    "old": "for promt/гарант/Toyota Soarer 2.5 GT-T (JZZ30)/ad578e8f2558509481474b86de0967a3.jpg",
+    "new": "for promt/гарант/Toyota Soarer 2.5 GT-T (JZZ30)/jzz30-card.jpg",
+    "sha256": "61ce40b4170e5f7c4234acd5b31331568598e983ef4900cd125536a5da7f1060"
+  },
+  {
+    "old": "for promt/гарант/Toyota Soarer 2.5 GT-T (JZZ30)/Generated Image October 29, 2026 - 3_38PM.jpg",
+    "new": "for promt/гарант/Toyota Soarer 2.5 GT-T (JZZ30)/jzz30-sprite.jpg",
+    "sha256": "aeeeb728f493c937e35320bc2f11c83319ada640b6a1604b162a1c5be60641fe"
+  },
+  {
+    "old": "for promt/гарант/Toyota Soarer 2.5 GT-T (JZZ30)/характеристики.txt",
+    "new": "for promt/гарант/Toyota Soarer 2.5 GT-T (JZZ30)/specifications.txt",
+    "sha256": "53a89bf8f7932ab059b81d8b5a730e41508886c52340a5dea195b1fed423705a"
+  },
+  {
+    "old": "for promt/гарант/для ии.txt",
+    "new": "for promt/гарант/instructions.txt",
+    "sha256": "ea17c63efb12463fc6cba0a6b6a55c69ee4f562594f07b327f30564b4777a135"
+  },
+  {
+    "old": "for promt/изменения баги последней версии для ии.txt",
+    "new": "for promt/changes-and-bugs.txt",
+    "sha256": "9d23108bcc36830185698b9e41a9468ecc40e73937f1e7d9e6e6e4f381ef12b8"
+  },
+  {
+    "old": "for promt/легенды интернета/Generated Image October 28, 2026 - 7_10PM.jpg",
+    "new": "for promt/легенды интернета/reference-01.jpg",
+    "sha256": "6faf2ed622adf3547a54e7bc8cf9f0bac37be70b7911cf908507e85477c6f2a2"
+  },
+  {
+    "old": "for promt/легенды интернета/Generated Image October 28, 2026 - 7_13PM.jpg",
+    "new": "for promt/легенды интернета/reference-02.jpg",
+    "sha256": "5222b94c175fd3d2c203da9119788632e09c43954400af67e50e7ce0556b109e"
+  },
+  {
+    "old": "for promt/легенды интернета/honda civic (fd2)/Honda Civic FD2 Type R для карточки.jpg",
+    "new": "for promt/легенды интернета/honda civic (fd2)/fd2-photo-02.jpg",
+    "sha256": "6b383755744f2af0c7535af6134ed918162b5b2289912412855e240b3a5ad62e"
+  },
+  {
+    "old": "for promt/легенды интернета/honda civic (fd2)/Honda Civic FD2 Type R.jpg",
+    "new": "for promt/легенды интернета/honda civic (fd2)/fd2-photo-01.jpg",
+    "sha256": "c3e2c63a6ea316ef632997d88f3963775050991cf68e7e6a71601a8c85f999f7"
+  },
+  {
+    "old": "for promt/легенды интернета/honda civic (fd2)/спрайт.jpg",
+    "new": "for promt/легенды интернета/honda civic (fd2)/sprite.jpg",
+    "sha256": "a64b37622fb06563497266621c685c2f9a50d45ecec28bf6e66a3a476bb5fffd"
+  },
+  {
+    "old": "for promt/легенды интернета/honda civic (fd2)/характеристика.txt",
+    "new": "for promt/легенды интернета/honda civic (fd2)/specifications.txt",
+    "sha256": "f1d750b355a6a20ed4b3b64d7b8ed34b3621d71b5b2493dbdf788579338f4f29"
+  },
+  {
+    "old": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/2003 Mazda MX-5 (NB2).jpg",
+    "new": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/nb8c-photo-01.jpg",
+    "sha256": "99747c592a7ef1a8c6ae99973b1ddcd0544494fb0f9c9d7f4a437fbe3aac559a"
+  },
+  {
+    "old": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/452752568772130371 для карточки.jpg",
+    "new": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/nb8c-photo-02.jpg",
+    "sha256": "0e9a20c963b6cece67b2418414a8ee66ab8e935e3faea8c7ee4a355f01640772"
+  },
+  {
+    "old": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/Generated Image October 28, 2026 - 7_03PM спрайт.jpg",
+    "new": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/nb8c-sprite.jpg",
+    "sha256": "a02887f02bcf9b475643f20d69cc7823640d5ff269d0a55776150ba477364c63"
+  },
+  {
+    "old": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/характеристики.txt",
+    "new": "for promt/легенды интернета/Mazda Roadster RS (NB8C)/specifications.txt",
+    "sha256": "15df3f355b921ac421ba2e8b04850122657b50f6b10c4e5d7e78d57e6af58975"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z (S30)/421157002666954304.jpg",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z (S30)/s30-photo-01.jpg",
+    "sha256": "689c06479c2bcd5d7fb497a1ecaa7bc29bf003b45e66e8af86330a5777ab34d3"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z (S30)/Generated Image October 28, 2026 - 7_05PM.jpg",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z (S30)/s30-sprite.jpg",
+    "sha256": "856e3eda4a6074d2f5c8c465f09dc8265bee11591eabbaa3a55f14718361203c"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z (S30)/Nissan S30 карточка.jpg",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z (S30)/s30-photo-02.jpg",
+    "sha256": "dc4530a506f6654b81083e5553d1375afdc79e5eb48ae9511c735a4aaa162e1f"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z (S30)/характеристики.txt",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z (S30)/specifications.txt",
+    "sha256": "c920130643b2a1f0dd57a87bab1fcce845686bba5c35c9fc2d2428cbeb0e5417"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/2002 Nissan 350Z для карточки.jpg",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/z33-photo-02.jpg",
+    "sha256": "589a8fd646108f73ede08dc4796b64bab519ad2671630a4857448dfb7e86fdb4"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/Instagram.jpg",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/z33-photo-01.jpg",
+    "sha256": "7732efccfd3a02e7fcf9cd44204fa0bbb1afc86892090831375907098c5d7e57"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/спрайт.jpg",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/sprite.jpg",
+    "sha256": "caa606e18bd73dcf82e41e2dd2fc9ea0525155c0c716d90631c83bf3a6d463c4"
+  },
+  {
+    "old": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/характеристики.txt",
+    "new": "for promt/легенды интернета/Nissan Fairlady Z Version S (Z33)/specifications.txt",
+    "sha256": "8dc254c22dba32e18e958bd11fec76c2b3d860a6eb03095f9c5dddfb3dbab682"
+  },
+  {
+    "old": "for promt/легенды интернета/цены и шансы.txt",
+    "new": "for promt/легенды интернета/prices-and-odds.txt",
+    "sha256": "1dd17362a478a3b915c1ea8dc6bf88964b24192567fcfb66d5d436d00e776bf6"
+  },
+  {
+    "old": "for promt/призрак акины/01b00ff67aee7a2adad850cf81c8b3b3.jpg",
+    "new": "for promt/призрак акины/ae86-project-d-card.jpg",
+    "sha256": "21419d3d142611587d45c8a272967107944959339b16339096b5b967baad48eb"
+  },
+  {
+    "old": "for promt/призрак акины/10 аниме, которые вы обязаны посмотреть.jpg",
+    "new": "for promt/призрак акины/ae86-akina-hero.jpg",
+    "sha256": "2d7755b27300826b9e0d75310b8c46cb2f39b786ed3a8d0502f6002001211473"
+  },
+  {
+    "old": "for promt/призрак акины/676173331564028137.jpg",
+    "new": "for promt/призрак акины/ae86-project-d-purchase.jpg",
+    "sha256": "19ee657252e173f639b66462620e3cbe859f93896966be2bc80be92789b61040"
+  },
+  {
+    "old": "for promt/призрак акины/AE86 AutoArt.jpg",
+    "new": "for promt/призрак акины/ae86-project-d-hero.jpg",
+    "sha256": "6638b3ba050baf108fdb3c737737829efc477e4f2490f1d0c2f6ae73e73f7ce8"
+  },
+  {
+    "old": "for promt/призрак акины/Initial D Vol_ 3.jpg",
+    "new": "for promt/призрак акины/ae86-akina-purchase.jpg",
+    "sha256": "793438674231e821e29e340f136b914b766e334b91131c5492077d972a18cd4b"
+  },
+  {
+    "old": "for promt/призрак акины/stage 1 case open.jpg",
+    "new": "for promt/призрак акины/stage-1-case-open.jpg",
+    "sha256": "896335ef39047221af046cd3b882a68fd673bc3e98f48ebd931f7d03391f8d53"
+  },
+  {
+    "old": "for promt/призрак акины/stage 1 case.jpg",
+    "new": "for promt/призрак акины/stage-1-case.jpg",
+    "sha256": "ffa17e09f4cd53e48ad8629ae56816c3fb2a0fcf453fbec2d1cb1d680c30422c"
+  },
+  {
+    "old": "for promt/призрак акины/stage 2 case open.jpg",
+    "new": "for promt/призрак акины/stage-2-case-open.jpg",
+    "sha256": "da25e7d9cb4b4b1224dce0355b18f8b593fd1ee58aae6a571183cffc41817174"
+  },
+  {
+    "old": "for promt/призрак акины/stage 2 case.jpg",
+    "new": "for promt/призрак акины/stage-2-case.jpg",
+    "sha256": "058309a52850c723bff93e8589ba07fa2df402a1b596547bd8ae04af1edd60ae"
+  },
+  {
+    "old": "for promt/призрак акины/Toyota Sprinter Trueno AE86 (Akina Spec.jpg",
+    "new": "for promt/призрак акины/ae86-akina-sprite.jpg",
+    "sha256": "e788b9f008ebebc15b6860f8c422391ff7191cf5bfb268663751016b3ea40a84"
+  },
+  {
+    "old": "for promt/призрак акины/Toyota Sprinter Trueno AE86 (Project D Spec .jpg",
+    "new": "for promt/призрак акины/ae86-project-d-sprite.jpg",
+    "sha256": "e83b8e1eb9e7c30328e80d0d72a10f0222ceff97449ca247afbe1522b6726158"
+  },
+  {
+    "old": "for promt/призрак акины/суть для ии.txt",
+    "new": "for promt/призрак акины/event-notes.txt",
+    "sha256": "af4dafd48ac81ce62ba25856af58a424e025b9fefdfc47d35f602f1f625003d9"
+  }
+]

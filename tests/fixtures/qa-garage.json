@@ -1,0 +1,515 @@
+{
+  "schema": "neon-drift",
+  "version": 3,
+  "credits": 1200,
+  "owned": [
+    "ae85"
+  ],
+  "selectedCar": "ae85",
+  "selectedTrack": "akina",
+  "upgrades": {
+    "ae85": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "ae86": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "mrs": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "mr2": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "altezza": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "s13": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "er34": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "180sx": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "sileighty": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "ek9": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "s14": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "eg6": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "bnr34": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "fd3s": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "dc2": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "supra": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "bnr32": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "bnr32-vspec": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "evo7": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "s15": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "evo6": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "nsx": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "evo3": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "evo4": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "evo5": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    },
+    "gc8": {
+      "turbo": 0,
+      "intake": 0,
+      "exhaust": 0,
+      "ecu": 0,
+      "tires": 0,
+      "suspension": 0,
+      "brakes": 0,
+      "weight": 0,
+      "gearbox": 0,
+      "differential": 0,
+      "nitro": 0
+    }
+  },
+  "selectedEngines": {
+    "ae85": "3au",
+    "ae86": "4age",
+    "mrs": "1zzfe",
+    "mr2": "3sge",
+    "altezza": "3sge-beams",
+    "s13": "ca18det",
+    "er34": "rb25det",
+    "180sx": "sr20det",
+    "sileighty": "sr20det",
+    "ek9": "b16b",
+    "s14": "sr20det",
+    "eg6": "b16b",
+    "bnr34": "rb26dett",
+    "fd3s": "13b-rew",
+    "dc2": "b18c",
+    "supra": "2jzgte",
+    "bnr32": "rb26dett",
+    "bnr32-vspec": "rb26dett",
+    "evo7": "4g63t",
+    "s15": "sr20det",
+    "evo6": "4g63t",
+    "nsx": "c30a",
+    "evo3": "4g63t",
+    "evo4": "4g63t",
+    "evo5": "4g63t",
+    "gc8": "ej207"
+  },
+  "ownedEngines": {
+    "ae85": [
+      "3au"
+    ],
+    "ae86": [
+      "4age"
+    ],
+    "mrs": [
+      "1zzfe"
+    ],
+    "mr2": [
+      "3sge"
+    ],
+    "altezza": [
+      "3sge-beams"
+    ],
+    "s13": [
+      "ca18det"
+    ],
+    "er34": [
+      "rb25det"
+    ],
+    "180sx": [
+      "sr20det"
+    ],
+    "sileighty": [
+      "sr20det"
+    ],
+    "ek9": [
+      "b16b"
+    ],
+    "s14": [
+      "sr20det"
+    ],
+    "eg6": [
+      "b16b"
+    ],
+    "bnr34": [
+      "rb26dett"
+    ],
+    "fd3s": [
+      "13b-rew"
+    ],
+    "dc2": [
+      "b18c"
+    ],
+    "supra": [
+      "2jzgte"
+    ],
+    "bnr32": [
+      "rb26dett"
+    ],
+    "bnr32-vspec": [
+      "rb26dett"
+    ],
+    "evo7": [
+      "4g63t"
+    ],
+    "s15": [
+      "sr20det"
+    ],
+    "evo6": [
+      "4g63t"
+    ],
+    "nsx": [
+      "c30a"
+    ],
+    "evo3": [
+      "4g63t"
+    ],
+    "evo4": [
+      "4g63t"
+    ],
+    "evo5": [
+      "4g63t"
+    ],
+    "gc8": [
+      "ej207"
+    ]
+  },
+  "equippedCards": {
+    "ae85": {},
+    "ae86": {},
+    "mrs": {},
+    "mr2": {},
+    "altezza": {},
+    "s13": {},
+    "er34": {},
+    "180sx": {},
+    "sileighty": {},
+    "ek9": {},
+    "s14": {},
+    "eg6": {},
+    "bnr34": {},
+    "fd3s": {},
+    "dc2": {},
+    "supra": {},
+    "bnr32": {},
+    "bnr32-vspec": {},
+    "evo7": {},
+    "s15": {},
+    "evo6": {},
+    "nsx": {},
+    "evo3": {},
+    "evo4": {},
+    "evo5": {},
+    "gc8": {}
+  },
+  "inventory": {
+    "cases": {
+      "street": 3
+    },
+    "cards": {
+      "turbo-blue": 1,
+      "intake-blue": 10,
+      "tires-yellow": 10,
+      "weight-red": 1
+    }
+  },
+  "lastDrop": null,
+  "records": {},
+  "career": {
+    "races": 0,
+    "wins": 0,
+    "totalDrift": 0,
+    "totalCredits": 0,
+    "totalCases": 0,
+    "openedCases": 0,
+    "craftedCards": 0
+  },
+  "settings": {
+    "sound": true,
+    "music": false,
+    "volume": 0.42,
+    "quality": "high",
+    "reducedMotion": false
+  }
+}

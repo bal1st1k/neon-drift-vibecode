@@ -1,0 +1,81 @@
+/*! NEON DRIFT | Made by bal1st1k */
+/* Smiles Per Hour: a warm red-and-cream roadster catalogue. */
+#menu-shell #roadster-showcase{--rd-paper:#f5e8cd;--rd-red:#a82e27;--rd-ink:#342d23;background:var(--rd-paper);color:var(--rd-ink);border:1px solid #bfa674;overflow:hidden}
+#roadster-showcase .rd-masthead{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 30px;background:#a82e27;color:#fff0cf;font:9px/1.7 var(--mono);letter-spacing:1.2px}
+#roadster-showcase .rd-masthead b{font:900 18px/1 var(--display);letter-spacing:-.5px}
+#roadster-showcase .rd-cover{display:grid;grid-template-columns:1fr 1.15fr;min-width:0}
+#roadster-showcase .rd-cover-copy{padding:38px 32px 30px;position:relative}
+#roadster-showcase .rd-kicker{display:block;font:9px/1.6 var(--mono);letter-spacing:1.1px;color:#94734c}
+#roadster-showcase .rd-cover-copy>.edition-badge{margin:15px 0 0}
+#roadster-showcase h2{font:900 clamp(39px,4.8vw,83px)/.98 var(--display);letter-spacing:-2.5px;margin:26px 0 22px;color:#352b21;overflow-wrap:anywhere}
+#roadster-showcase h2 em{color:#ad3028;font-style:normal}
+#roadster-showcase .rd-cover-copy>p{font:15px/1.8 var(--body);color:#836a4e}
+#roadster-showcase .rd-wink{display:flex;align-items:center;gap:15px;margin-top:26px;padding:0;text-align:left;color:#a82e27}
+#roadster-showcase .rd-wink>svg{width:115px;height:52px;stroke:#7c2822;stroke-width:2;fill:#c54835;overflow:visible}
+#roadster-showcase .rd-wink .rd-grille{fill:none;stroke:#602a24;stroke-width:3}
+#roadster-showcase .rd-eye{transform:translateY(19px) scaleY(.12);transform-box:fill-box;transform-origin:bottom;transition:transform .35s ease}
+#roadster-showcase .rd-eye circle{fill:#f8eacc;stroke:#3c2e24}
+#roadster-showcase .rd-wink[aria-pressed=true] .rd-eye{transform:translateY(0) scaleY(1)}
+#roadster-showcase .rd-wink>span{font:700 9px/1.8 var(--mono);letter-spacing:1px}
+#roadster-showcase .rd-photo{display:flex;flex-direction:column;position:relative;min-width:0;width:100%;padding:0;text-align:left;cursor:zoom-in;background:#e7d9bd;overflow:hidden;border:1px solid #b99d70;border-radius:0}
+#roadster-showcase .rd-photo>img{display:block;width:100%;height:auto;object-fit:contain;min-width:0;filter:saturate(.85)}
+#roadster-showcase .rd-photo>span{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:auto;padding:14px 18px;font:9px/1.6 var(--mono);letter-spacing:.4px;background:#e7d9bd;color:#725638;border-top:1px solid #bda77d}
+#roadster-showcase .rd-photo svg{width:15px;height:15px}
+#roadster-showcase .rd-cover-photo{border:0;border-left:1px solid #b99d70;align-self:stretch}
+#roadster-showcase .rd-cover-photo>img{height:100%;max-height:570px;flex:1;object-fit:contain;object-position:center}
+#roadster-showcase .rd-sticker{position:absolute;right:24px;top:24px;width:98px;height:98px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;transform:rotate(10deg);border-radius:50%;background:#f4d167;color:#8c3226;border:3px double #a4502e;font:900 27px/1 var(--display);font-style:normal;box-shadow:0 5px 15px #0002}
+#roadster-showcase .rd-sticker>small{font:700 8px/1.3 var(--mono);letter-spacing:1px;text-align:center}
+#roadster-showcase .rd-specs{display:grid;grid-template-columns:1fr 1.4fr 1fr .9fr;border-top:5px solid #ab3028;border-bottom:1px solid #b99d70;padding:0 30px}
+#roadster-showcase .rd-specs>div{padding:24px 20px;border-right:1px solid #bea77f;min-width:0}
+#roadster-showcase .rd-specs>div:first-child{padding-left:0}
+#roadster-showcase .rd-specs>div:last-child{border:0}
+#roadster-showcase .rd-specs b{display:block;font:800 clamp(23px,2.5vw,37px)/1 var(--display);letter-spacing:-1px;color:#8e3027}
+#roadster-showcase .rd-specs b small{font:10px var(--mono);letter-spacing:0}
+#roadster-showcase .rd-specs span{display:block;font:8px/1.6 var(--mono);letter-spacing:1px;color:#947753;margin-top:10px}
+#roadster-showcase .rd-story{display:grid;grid-template-columns:1fr 1.1fr;align-items:center;gap:38px;padding:42px 30px;border-bottom:1px solid #b99d70}
+#roadster-showcase h3{font:900 clamp(29px,3.1vw,48px)/1.02 var(--display);letter-spacing:-1.5px;margin:20px 0;color:#4b3024}
+#roadster-showcase .rd-story p{font:15px/1.85 var(--body);color:#82674a;max-width:65ch;margin:14px 0;columns:auto}
+#roadster-showcase .rd-story a{display:inline-block;font:9px/1.8 var(--mono);letter-spacing:.5px;color:#a23a2c;border-bottom:1px solid #c79368;margin-top:9px}
+#roadster-showcase .rd-story .rd-photo>img{max-height:420px}
+#roadster-showcase .rd-products{display:grid;grid-template-columns:1fr 1fr;padding:30px;gap:24px}
+#roadster-showcase .rd-car{padding:30px;border:1px solid #bda172;background:#eee0bf;display:flex;flex-direction:column;min-width:0}
+#roadster-showcase .rd-car-art{position:relative;isolation:isolate;background:repeating-linear-gradient(0deg,transparent,transparent 24px,#c2aa7a44 25px);display:flex;align-items:center;justify-content:center;height:210px;margin:18px 0 15px;overflow:hidden}
+#roadster-showcase .rd-car-art>span{position:absolute;font:900 155px/1 var(--display);letter-spacing:-10px;color:#d8c49c;z-index:-1}
+#roadster-showcase .rd-car-art>img{position:relative;display:block;max-width:90%;max-height:170px;object-fit:contain;filter:drop-shadow(8px 11px 6px #78422b44)}
+#roadster-showcase .rd-car>.edition-badge{align-self:flex-start}
+#roadster-showcase .rd-car h3{margin:12px 0 15px;font-size:clamp(27px,2.6vw,38px)}
+#roadster-showcase .rd-car h3 span{color:#b53e2b}
+#roadster-showcase .rd-car>p{font:12px/1.7 var(--mono);color:#7d6144;margin:0 0 14px}
+#roadster-showcase .rd-car>small{font:13px/1.8 var(--body);color:#8c7150;max-width:50ch}
+#roadster-showcase .rd-price{display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid #bca377;padding-top:20px;margin:25px 0 20px}
+#roadster-showcase .rd-price>span{font:9px/1.7 var(--mono);letter-spacing:.5px;max-width:160px}
+#roadster-showcase .rd-price>strong{font:700 30px/1 var(--mono);letter-spacing:-1.5px;white-space:nowrap}
+#menu-shell #roadster-showcase .button{border-radius:0;min-height:48px;font-size:10px;letter-spacing:.5px;gap:12px;white-space:normal;text-align:center;padding:0 14px}
+#roadster-showcase .rd-car .rd-price{margin-top:auto}
+#menu-shell #roadster-showcase .rd-buy{background:#ac3027;border:1px solid #ac3027;color:#fff0d2;margin-top:0}
+#menu-shell #roadster-showcase .rd-buy:hover{background:#c44432}
+#menu-shell #roadster-showcase .custom-car-card-link{color:#943c2a;font-size:9px;justify-content:center;margin-top:17px}
+#roadster-showcase .rd-case{background:#a82e27;padding:30px;color:#ffe9c9;min-width:0;display:flex;flex-direction:column}
+#roadster-showcase .rd-case>.rd-kicker{color:#ebbb93}
+#roadster-showcase .rd-case h3{color:#ffe8c5;font-size:clamp(29px,3vw,43px);margin:17px 0 12px}
+#roadster-showcase .rd-case-art{width:100%;height:215px;object-fit:contain;display:block;margin:8px 0 20px;filter:drop-shadow(0 12px 10px #471a1b55)}
+#roadster-showcase .rd-odds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:18px 0;border-top:1px solid #f6b48266;border-bottom:1px solid #f6b48266}
+#roadster-showcase .rd-odds b{display:block;font:700 26px/1 var(--mono);letter-spacing:-1px;margin-bottom:8px;color:#ffe4b5}
+#roadster-showcase .rd-odds span{font:8px/1.6 var(--mono);color:#efbba0}
+#roadster-showcase .rd-case>p{font:12px/1.8 var(--body);color:#efc6a8;margin:17px 0 0;max-width:60ch}
+#roadster-showcase .rd-case .rd-price{border-color:#f6b48266}
+#menu-shell #roadster-showcase .rd-case-buy{background:#f5dfae;color:#843226;border:1px solid #f5dfae;margin-top:auto}
+#menu-shell #roadster-showcase .rd-case-buy:hover{background:#fff0cb}
+#menu-shell #roadster-showcase .rd-case .button-outline{background:transparent;border:1px solid #eeae8288;color:#f5d6b5;margin-top:10px}
+#menu-shell #roadster-showcase .pity-meter{background:#7c1f2244;border-color:#e6a27d77;border-radius:0}
+#roadster-showcase .pity-meter>div:first-child,#roadster-showcase .pity-meter strong{color:#f0d0a9;font-size:10px}
+#menu-shell #roadster-showcase .pity-meter p{color:#e6b595!important;font-size:11px!important}
+#menu-shell #roadster-showcase .pity-track{background:#682a25}
+#menu-shell #roadster-showcase .pity-track i{background:#f0cc89}
+#roadster-showcase .rd-footer{display:flex;justify-content:space-between;align-items:end;gap:25px;margin:10px 30px 0;padding:28px 0 30px;border-top:4px double #b18c5c}
+#roadster-showcase .rd-footer strong{font:900 clamp(22px,2.5vw,38px)/1.05 var(--display);letter-spacing:-1px;color:#9f3328}
+#roadster-showcase .rd-footer>span{font:9px/1.8 var(--mono);color:#997849;letter-spacing:.6px;text-align:right}
+#roadster-showcase :is(a,button):focus-visible{outline:3px solid #e0ad49;outline-offset:-4px}
+@media(max-width:1050px){#roadster-showcase .rd-cover-copy{padding:30px 25px}#roadster-showcase h2{font-size:clamp(35px,4.9vw,55px);letter-spacing:-1.5px}#roadster-showcase .rd-story{gap:24px}#roadster-showcase .rd-products{gap:18px;padding:24px}#roadster-showcase .rd-car,#roadster-showcase .rd-case{padding:24px}#roadster-showcase .rd-price{display:block}#roadster-showcase .rd-price>span{display:block;margin-bottom:12px}#roadster-showcase .rd-sticker{width:80px;height:80px;font-size:23px;right:17px;top:17px}#roadster-showcase .rd-odds{gap:7px}#roadster-showcase .rd-odds b{font-size:22px}}
+@media(max-width:760px){#roadster-showcase .rd-cover{grid-template-columns:1fr}#roadster-showcase h2{font-size:clamp(43px,8vw,64px)}#roadster-showcase .rd-cover-photo{border-left:0;border-top:1px solid #b99d70}#roadster-showcase .rd-cover-photo>img{height:auto;max-height:480px;flex:none;object-fit:contain}#roadster-showcase .rd-story{grid-template-columns:1fr;padding:30px 24px;gap:24px}#roadster-showcase .rd-specs{grid-template-columns:1fr 1fr;padding:0 24px}#roadster-showcase .rd-specs>div{padding:22px 15px}#roadster-showcase .rd-specs>div:nth-child(2n){border-right:0}#roadster-showcase .rd-specs>div:nth-child(3){padding-left:0}#roadster-showcase .rd-specs>div:nth-child(-n+2){border-bottom:1px solid #bea77f}#roadster-showcase .rd-products{grid-template-columns:1fr}#roadster-showcase .rd-price{display:flex}#roadster-showcase .rd-price>span{margin:0}#roadster-showcase .rd-case-art{height:230px}#roadster-showcase .rd-footer{margin:0 24px}}
+@media(max-width:480px){#roadster-showcase .rd-masthead{padding:16px 18px;gap:15px}#roadster-showcase .rd-masthead b{font-size:14px;max-width:120px;line-height:1.1}#roadster-showcase .rd-masthead>span{font-size:7px;max-width:125px;text-align:right;letter-spacing:.3px}#roadster-showcase .rd-cover-copy{padding:27px 20px}#roadster-showcase .rd-kicker{font-size:8px;letter-spacing:.5px}#roadster-showcase h2{font-size:clamp(35px,10.6vw,48px);letter-spacing:-1.4px;margin:23px 0}#roadster-showcase .rd-cover-copy>p{font-size:14px}#roadster-showcase .rd-wink>svg{width:100px}#roadster-showcase .rd-wink>span{font-size:8px}#roadster-showcase .rd-sticker{width:65px;height:65px;font-size:19px;right:12px;top:12px}#roadster-showcase .rd-sticker>small{font-size:6px}#roadster-showcase .rd-photo>span{font-size:7px;padding:12px;letter-spacing:.2px;gap:10px}#roadster-showcase .rd-specs{padding:0 20px}#roadster-showcase .rd-specs span{font-size:7px;letter-spacing:.5px}#roadster-showcase .rd-story{padding:27px 20px}#roadster-showcase h3{font-size:31px;letter-spacing:-1px}#roadster-showcase .rd-story p{font-size:14px}#roadster-showcase .rd-products{padding:16px;gap:18px}#roadster-showcase .rd-car,#roadster-showcase .rd-case{padding:22px 17px}#roadster-showcase .rd-car-art{height:170px}#roadster-showcase .rd-car-art>img{max-height:125px}#roadster-showcase .rd-car-art>span{font-size:135px}#roadster-showcase .rd-price{display:block}#roadster-showcase .rd-price>span{display:block;margin-bottom:12px}#roadster-showcase .rd-price>strong{font-size:29px}#roadster-showcase .rd-odds{gap:7px}#roadster-showcase .rd-odds span{font-size:7px}#roadster-showcase .rd-odds b{font-size:22px}#roadster-showcase .rd-case-art{height:160px}#roadster-showcase .rd-footer{display:block;margin:0 20px;padding:25px 0}#roadster-showcase .rd-footer>span{display:block;margin-top:20px;text-align:left}}

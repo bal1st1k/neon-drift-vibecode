@@ -1,0 +1,68 @@
+/*! NEON DRIFT | Made by bal1st1k */
+/* The reward is already committed; this state machine only presents it. */
+#modal-backdrop>#modal-loot{--loot-color:#70afff;--loot-soft:#70afff26;border-color:var(--loot-color);box-shadow:0 28px 100px #0009,0 0 42px var(--loot-soft);overflow-anchor:none}
+#modal-backdrop>#modal-loot[data-reward-kind=currency]{--loot-color:#b78af1;--loot-soft:#b78af12b}
+#modal-backdrop>#modal-loot[data-reward-kind=car]{--loot-color:#f0c667;--loot-soft:#f0c66733}
+#modal-loot[data-reveal-phase] #loot-title>span{color:var(--loot-color)}
+#modal-loot #loot-stage{display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:17px;min-height:0;padding:10px 0 0}
+#modal-loot #loot-stage>.opening-case{display:block;position:relative;isolation:isolate;width:100%;height:clamp(220px,32svh,320px);padding:0;overflow:hidden;border:2px solid var(--loot-color);border-radius:8px;background:radial-gradient(ellipse at 50% 48%,var(--loot-soft),transparent 70%),#1a1917;box-shadow:inset 0 0 35px var(--loot-soft),0 0 26px var(--loot-soft);animation:none;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+#modal-loot[data-reveal-phase=sealed] #loot-stage>.opening-case{animation:loot-breathe 2.8s ease-in-out infinite}
+#modal-loot #loot-stage>.opening-case:hover{box-shadow:inset 0 0 55px var(--loot-soft),0 0 38px var(--loot-soft)}
+#modal-loot #loot-stage>.opening-case:focus-visible{outline:3px solid var(--loot-color);outline-offset:5px}
+#modal-loot #loot-stage>.opening-case:disabled{opacity:1;cursor:default}
+#modal-loot #loot-stage>.opening-case>img{position:absolute;inset:12px 15px 43px;width:calc(100% - 30px);height:calc(100% - 55px);object-fit:contain;mix-blend-mode:normal;pointer-events:none;animation:none}
+#modal-loot #loot-stage .case-closed{opacity:1;transform:none}
+#modal-loot #loot-stage .case-open{opacity:0;transform:scale(.94)}
+#modal-loot #loot-stage .case-light{position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse,var(--loot-soft),transparent 70%);mix-blend-mode:normal;opacity:0;animation:none}
+#modal-loot .case-tap-hint{position:absolute;bottom:17px;left:15px;right:15px;display:flex;justify-content:center;align-items:center;gap:13px;font:700 10px/1.5 var(--mono);letter-spacing:1.8px;color:var(--loot-color);pointer-events:none}
+#modal-loot .case-tap-hint svg{width:17px;height:17px}
+#modal-loot .loot-signal{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--loot-color);font:10px/1.6 var(--mono);letter-spacing:1.4px;text-align:center;margin:0}
+#modal-loot .loot-signal>i{display:block;width:6px;height:6px;border-radius:50%;background:var(--loot-color);box-shadow:0 0 12px var(--loot-color)}
+#modal-loot[data-reveal-phase=opening] #loot-stage>.opening-case{animation:loot-unlock .65s ease-in-out both}
+#modal-loot[data-reveal-phase=opening] #loot-stage .case-closed{animation:loot-closed-out .25s .27s both}
+#modal-loot[data-reveal-phase=opening] #loot-stage .case-open{animation:loot-open-in .3s .3s both}
+#modal-loot[data-reveal-phase=opening] #loot-stage .case-light{animation:loot-light .55s .18s both}
+#modal-loot[data-reveal-phase=opening] .case-tap-hint{opacity:0}
+#modal-loot[data-reveal-phase=sealed] #loot-next,#modal-loot[data-reveal-phase=opening] #loot-next{background:var(--loot-color);color:#211b14;border:1px solid var(--loot-color)}
+#modal-loot[data-reveal-phase=opening] #loot-next:disabled{opacity:.7}
+#modal-loot #loot-reveal-grid .special-prize.rarity-purple .card-rarity{color:#b78af1}
+#modal-loot #loot-reveal-grid .special-prize.rarity-purple{--rarity:#b78af1}
+@keyframes loot-breathe{0%,100%{box-shadow:inset 0 0 30px var(--loot-soft),0 0 20px var(--loot-soft)}50%{box-shadow:inset 0 0 55px var(--loot-soft),0 0 38px var(--loot-soft)}}
+@keyframes loot-unlock{0%{transform:translateX(0)}15%{transform:translateX(-4px) rotate(-.6deg)}30%{transform:translateX(4px) rotate(.6deg)}45%{transform:translateX(-3px)}60%{transform:translateX(2px)}100%{transform:none}}
+@keyframes loot-closed-out{to{opacity:0;transform:translateY(-7px) scale(1.02)}}
+@keyframes loot-open-in{to{opacity:1;transform:scale(1)}}
+@keyframes loot-light{0%{opacity:0;transform:scale(.5)}55%{opacity:1;transform:scale(1.15)}100%{opacity:.35;transform:scale(1.4)}}
+@media(max-width:480px){#modal-loot #loot-stage>.opening-case{height:225px}#modal-loot .case-tap-hint{font-size:9px;letter-spacing:1px}#modal-loot .loot-signal{font-size:9px}#modal-loot #loot-stage{gap:14px}}
+@media(prefers-reduced-motion:reduce){#modal-loot #loot-stage>.opening-case,#modal-loot #loot-stage>.opening-case>img,#modal-loot #loot-stage .case-light{animation:none!important;transition:none!important}}
+.reduce-motion #modal-loot #loot-stage>.opening-case,.reduce-motion #modal-loot #loot-stage>.opening-case>img,.reduce-motion #modal-loot #loot-stage .case-light{animation:none!important;transition:none!important}
+.bulk-case-open{margin-top:10px}
+.legends-case-actions>.bulk-case-open{grid-column:1/-1}
+#modal-loot #loot-progress{flex-wrap:wrap;row-gap:8px}
+#modal-loot #loot-progress :is(.seen,.current){color:var(--loot-color);border-color:var(--loot-color);background:var(--loot-soft)}
+#modal-backdrop>#modal-loot.loot-batch{width:min(100%,1080px)}
+#modal-loot.loot-batch #loot-title{font-size:clamp(28px,3.5vw,42px);line-height:1.08}
+#modal-loot.loot-sequence:not(.loot-batch) #loot-title{font-size:clamp(28px,3.5vw,38px);line-height:1.08}
+#modal-loot .case-batch-count{position:absolute;top:18px;right:20px;z-index:2;padding:8px 12px;border:1px solid var(--loot-color);border-radius:4px;background:#171714d9;font:700 24px/1 var(--mono);color:var(--loot-color);pointer-events:none}
+#modal-loot #loot-reveal-grid.is-batch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 16px;align-items:start;margin-top:18px}
+#modal-loot .batch-summary{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid #76644366;background:#33291955;gap:12px;padding:16px;margin-bottom:3px}
+#modal-loot .batch-summary>span{font:9px/1.6 var(--mono);color:#bba88a}
+#modal-loot .batch-summary b{display:block;font:600 23px/1.2 var(--mono);color:#edce8c;letter-spacing:-.6px;margin-top:6px}
+#modal-loot .batch-reward{min-width:0}
+#modal-loot .batch-reward>.tuning-card{width:100%;animation:none}
+#modal-loot .batch-reward-label{display:block;font:8px/1.7 var(--mono);letter-spacing:.6px;color:#b8a386;margin-bottom:8px;min-height:27px}
+#modal-loot.loot-batch .tuning-card-art{height:190px}
+#modal-loot.loot-batch .tuning-card-art>img{max-height:170px;height:100%;object-fit:contain}
+#modal-loot.loot-batch .special-prize-art{height:190px;min-height:0}
+#modal-loot.loot-batch .special-prize-art>img{height:100%;width:100%;object-fit:contain}
+#modal-loot.loot-batch .currency-reward-art{height:100%;min-height:0;padding:15px}
+#modal-loot.loot-batch .currency-reward-art>strong{font-size:30px}
+#modal-loot.loot-batch .currency-reward-art>span{font-size:42px}
+#modal-loot.loot-batch .tuning-card-data{padding:15px}
+#modal-loot.loot-batch .tuning-card-data>h3{font-size:14px;overflow-wrap:anywhere}
+#modal-backdrop>#modal-loot.loot-batch[data-reveal-phase=summary]{display:flex;flex-direction:column;height:min(900px,95svh);overflow:hidden}
+#modal-loot.loot-batch[data-reveal-phase=summary]>:not(#loot-reveal-grid){flex-shrink:0}
+#modal-loot.loot-batch[data-reveal-phase=summary] #loot-reveal-grid.is-batch{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-anchor:none;padding:2px 7px 12px 0;scrollbar-width:thin;scrollbar-color:#90764e #211a13}
+#modal-loot.loot-batch[data-reveal-phase=summary] #loot-caption{margin:13px 0;font-size:10px}
+#modal-loot.loot-batch .batch-summary{position:sticky;top:0;z-index:1;background:#302719;box-shadow:0 8px 16px #1b150dcc}
+@media(max-width:760px){#modal-loot #loot-reveal-grid.is-batch{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}#modal-loot .batch-summary{gap:8px;padding:13px}#modal-loot .batch-summary b{font-size:20px}#modal-loot .batch-reward-label{font-size:7px;letter-spacing:.2px}#modal-loot.loot-batch .tuning-card-art,#modal-loot.loot-batch .special-prize-art{height:155px}#modal-loot.loot-batch .tuning-card-art>img{max-height:140px}#modal-loot.loot-batch .tuning-card-data{padding:12px}#modal-loot.loot-batch .tuning-card-data>h3{font-size:12px}}
+@media(max-width:380px){#modal-loot #loot-reveal-grid.is-batch{gap:16px 8px}#modal-loot .batch-summary>span{font-size:7px}#modal-loot .batch-summary b{font-size:16px}#modal-loot.loot-batch .tuning-card-art,#modal-loot.loot-batch .special-prize-art{height:125px}#modal-loot.loot-batch .tuning-card-art>img{max-height:110px}#modal-loot.loot-batch .tuning-card-data{padding:10px}#modal-loot.loot-batch .currency-reward-art>strong{font-size:22px}}

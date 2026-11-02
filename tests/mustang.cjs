@@ -1,0 +1,14 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('fs'),catalog=require('../catalog.js'),cards=require('../tuning-cards.js'),shop=require('../shop.js'),loot=require('../loot.js'),progress=require('../progress.js'),audio=require('../audio.js'),{Engine}=require('../engine.js');
+const id='mustang-gt',car=catalog.cars.find(c=>c.id===id),motor=catalog.engines.find(e=>e.id===car.stockEngineId),fresh=()=>progress.defaults(),seq=(...v)=>()=>v.shift()??0;
+assert.deepEqual([car.stockPowerHp,car.weightKg,car.drivetrain,car.price,car.tuningLocked,car.swapLocked],[300,1570,'FR',32000,true,true]);assert.deepEqual([motor.powerHp,motor.weightKg,motor.swapAllowed],[300,205,false]);
+assert.equal(cards.computeBuild(id,{turbo:3},'k20a',{'turbo':'turbo-red'}).powerHp,300);assert.equal(cards.computeBuild(id,{},'k20a').engineId,motor.id);assert.equal(cards.computeBuild('ae85',{},motor.id).engineId,'3au');
+for(const file of [car.sprite,car.raceSprite,...Object.values(shop.mustang.assets)])assert.ok(fs.existsSync(file),file);
+const s=fresh();s.credits=33500;assert.ok(shop.purchaseExclusiveCar(s,id).ok);assert.equal(s.credits,1500);assert.ok(!shop.purchaseExclusiveCar(s,id).ok);assert.ok(shop.purchaseCase(s,'mustang').ok);assert.equal(s.credits,0);s.selectedCar=id;s.inventory.cards['turbo-blue']=1;assert.ok(!loot.equipCard(s,id,'turbo-blue').ok);
+for(const [chance,type] of [[.79999,'blue'],[.8,'yellow'],[.89999,'yellow'],[.9,'currency'],[.98999,'currency'],[.99,'car']]){const v=fresh();v.inventory.cases.mustang=1;const r=loot.openCase(v,seq(0,chance,0),'mustang').rewards[0];assert.equal(r.type==='card'?cards.getCard(r.cardId).rarity:r.type,type);}
+const g=fresh();g.inventory.cases.mustang=2;g.pity.mustang=29;const win=loot.openCase(g,seq(0,0),'mustang');assert.equal(win.rewards[0].carId,id);assert.ok(win.rewards[0].guaranteed);const dup=loot.openCase(g,seq(0,.999,0),'mustang').rewards[0];assert.ok(dup.duplicate);assert.equal(cards.getCard(dup.cardId).rarity,'red');
+const old=fresh();delete old.inventory.cases.mustang;delete old.pity.mustang;old.credits=12345;const clean=progress.sanitize(old);assert.equal(clean.inventory.cases.mustang,0);assert.equal(clean.pity.mustang,0);assert.equal(clean.credits,12345);
+const bulk=fresh();bulk.inventory.cases.mustang=10;assert.ok(loot.openCases(bulk,()=>0,'mustang',10).ok);
+assert.equal(audio.getEngineProfile({engineId:motor.id}).pulses.length,8);assert.equal(audio.getEngineProfile({engineId:motor.id}).gears,5);
+const race=new Engine({carId:id,trackId:'wangan-east',seed:42});assert.equal(race.performance.stockZeroToHundred,5.2);let frame=0;while(race.state!=='finished'&&frame++<36000)race.update(1/60,race.getAutopilotInput());assert.equal(race.state,'finished');
+console.log('PASS Mustang specifications, tuning/swap locks, purchases, probability boundaries, pity, duplicates, migration, bulk, V8 profile and full Wangan race');

@@ -1,0 +1,250 @@
+<!doctype html>
+<!-- NEON DRIFT | Made by bal1st1k -->
+<html lang="ru">
+<head>
+  <meta name="author" content="bal1st1k">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0c1013">
+  <meta name="description" content="Neon Drift — ночная гоночная аркада. Горные серпантины, японские машины, свапы моторов и твоя идеальная сборка.">
+  <title>NEON DRIFT — Touge Garage</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d7ff3f'/%3E%3Cpath d='M15 47V17h8l18 20V17h8v30h-8L23 27v20z' fill='%230c1013'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=4.4.4">
+  <link rel="stylesheet" href="autumn.css?v=3.14.1">
+  <link rel="stylesheet" href="legends-newspaper.css?v=3.10.3">
+  <link rel="stylesheet" href="akina-archive.css?v=3.11.0">
+  <link rel="stylesheet" href="roadster.css?v=3.12.0">
+  <link rel="stylesheet" href="mustang.css?v=4.3.1">
+  <link rel="stylesheet" href="bmw.css?v=4.4.2">
+  <link rel="stylesheet" href="italy.css?v=4.2.0">
+  <link rel="stylesheet" href="blackbird.css?v=4.1.0">
+  <link rel="stylesheet" href="mercedes.css?v=4.0.2">
+  <link rel="stylesheet" href="loot-opening.css?v=3.14.0">
+  <script src="catalog.js?v=4.4.0" defer></script>
+  <script src="tuning-cards.js?v=4.0.3" defer></script>
+  <script src="tracks.js?v=4.0.3" defer></script>
+  <script src="traffic.js" defer></script>
+  <script src="engine.js?v=4.4.0" defer></script>
+  <script src="shop.js?v=4.4.2" defer></script>
+  <script src="radio.js?v=3.10.1" defer></script>
+  <script src="autumn.js?v=3.10.1" defer></script>
+  <script src="progress.js?v=4.0.2" defer></script>
+  <script src="loot.js?v=3.14.0" defer></script>
+  <script src="renderer.js?v=4.0.2" defer></script>
+  <script src="audio.js?v=4.4.0" defer></script>
+  <script src="bmw-archive.js?v=4.4.1" defer></script>
+  <script src="bmw.js?v=4.4.1" defer></script>
+  <script src="garage.js?v=4.4.3" defer></script>
+  <script src="app.js?v=4.4.3" defer></script>
+</head>
+<body>
+  <svg class="svg-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4m0 0c5-5 9 5 14 0v10c-5 5-9-5-14 0"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="m5 8 2-4h10l2 4m-16 3 2-3h14l2 3v7H3zm2 7v3m14-3v3M6 13h2m8 0h2M3 15h18"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M8 3h8v8a4 4 0 0 1-8 0zm0 2H4v4a4 4 0 0 0 4 4m8-8h4v4a4 4 0 0 1-4 4m-4 2v6m-5 0h10"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 1 1 4 3c-1 .5-1 1-1 2m0 3h.01"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 4 6 8H3v8h3l5 4zm4 4a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></symbol>
+    <symbol id="i-muted" viewBox="0 0 24 24"><path d="M11 4 6 8H3v8h3l5 4zm5 5 6 6m0-6-6 6"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 17h16M8 4v6m8 4v6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="m14 2-9 12h6l-1 8 9-12h-6z"/></symbol>
+    <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5zm7 4v3"/></symbol>
+    <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 8h16l1 13H3L4 8zm4 0V6a4 4 0 0 1 8 0v2m-8 5h8"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </defs></svg>
+
+  <div id="menu-shell" class="shell">
+    <div id="autumn-leaves" class="autumn-leaves" aria-hidden="true" inert hidden></div>
+    <aside class="rail" aria-label="Навигация">
+      <button class="brand" data-nav="home" aria-label="Neon Drift — главная">N<span>/</span>D</button>
+      <span class="rail-line"></span>
+      <nav class="rail-nav">
+        <button class="rail-button active" data-nav="home" aria-label="Заезд" title="Заезд"><svg><use href="#i-flag"/></svg><span>Заезд</span></button>
+        <button class="rail-button" data-nav="garage" aria-label="Гараж" title="Гараж"><svg><use href="#i-car"/></svg><span>Гараж</span></button>
+        <button class="rail-button" data-nav="shop" aria-label="Магазин" title="Магазин"><svg><use href="#i-shop"/></svg><span>Магазин</span></button>
+        <button class="rail-button" data-nav="records" aria-label="Рекорды" title="Рекорды"><svg><use href="#i-cup"/></svg><span>Рекорды</span></button>
+        <button class="rail-button" data-action="help" aria-label="Как играть" title="Как играть"><svg><use href="#i-help"/></svg><span>Помощь</span></button>
+      </nav>
+      <div class="rail-bottom">
+        <span class="vertical-label">НАЙДИ СВОЮ ЛИНИЮ</span>
+        <button class="rail-button" data-action="sound" id="sound-button" aria-label="Выключить звук" title="Звук"><svg><use href="#i-volume"/></svg></button>
+        <button class="rail-button" data-action="settings" aria-label="Настройки" title="Настройки"><svg><use href="#i-settings"/></svg></button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <a class="wordmark" href="#home" aria-label="На главную">NEON<span>DRIFT</span><sup>®</sup></a>
+        <span class="season-badge"><svg aria-hidden="true" viewBox="0 0 32 34"><path d="M16 3l3 8 5-4-1 8 6 1-9 8-3-1-1 7-1-7-3 1-9-8 6-1-1-8 5 4z"/></svg>ОСЕННИЙ СЕЗОН</span>
+        <div class="topbar-right"><span class="status"><i></i> НОЧНАЯ СМЕНА</span><span class="topbar-divider"></span><span class="wallet"><span class="coin">₡</span><span data-wallet>1 200</span></span></div>
+      </header>
+
+      <section id="view-home" class="page active" aria-labelledby="home-title">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="tiny-square"></span> ГОРОД ТВОЙ. ПОСЛЕ ПОЛУНОЧИ.</div>
+            <h1 id="home-title">ДЕРЖИ<br><span>УГОЛ.</span><svg class="hero-arrow"><use href="#i-arrow"/></svg></h1>
+            <p class="hero-description">Горный воздух. Горячие шины.<br>Твой мотор. Твой следующий поворот.</p>
+            <div class="hero-actions"><button class="button button-lime" id="start-race">НА СТАРТ <svg><use href="#i-arrow"/></svg></button><button class="button button-outline" data-nav="garage">ГАРАЖ <span data-car-count>49</span></button></div>
+            <div class="hero-facts"><div><strong data-touge-count>16</strong><span>ТОГЕ</span></div><div><strong data-car-count>49</strong><span>МАШИН</span></div><div><strong data-engine-count>37</strong><span>МОТОРОВ</span></div></div>
+            <button class="text-button hero-shop-link" data-nav="shop"><svg><use href="#i-shop"/></svg> МАГАЗИН / КЕЙСЫ И ДЕТАЛИ <svg><use href="#i-arrow"/></svg></button>
+          </div>
+          <div class="hero-visual" id="hero-visual">
+            <canvas id="preview-canvas" aria-label="Живой вид ночной трассы"></canvas>
+            <div class="visual-grain"></div>
+            <div class="visual-top"><span class="live-tag"><i></i> LIVE / NIGHT RUN</span><span class="visual-coords">JAPAN / TOUGE SERIES</span></div>
+            <div class="visual-title"><span id="preview-district">01 / ПОРТОВЫЙ РАЙОН</span><strong id="preview-track-name">MIDNIGHT DOCKS</strong></div>
+            <div class="visual-bottom"><span class="telemetry"><i></i> СИГНАЛ УСТОЙЧИВ</span><span class="preview-speed"><b id="preview-speed">128</b><small>КМ/Ч</small></span></div>
+            <span class="visual-corner tl"></span><span class="visual-corner br"></span>
+          </div>
+        </div>
+
+        <div class="section-heading"><div><span class="eyebrow">ВЫБЕРИ СВОЙ МАРШРУТ</span><h2>Ночь начинается здесь<span>.</span></h2></div><span class="section-note" id="track-format-note">ТОГЕ <span>/</span> 4 ГОНЩИКА <span>/</span> СТАРТ → ФИНИШ</span></div>
+        <div class="catalog-toolbar track-toolbar"><div class="segmented" role="group" aria-label="Категория трасс"><button data-track-family="touge" class="active" aria-pressed="true">ТОГЕ <span data-touge-count>16</span></button><button data-track-family="city" aria-pressed="false">ГОРОД <span>03</span></button><button data-track-family="wangan" aria-pressed="false">WANGAN <span>02</span></button></div><label class="search-box"><span class="sr-only">Найти трассу</span><input id="track-search" type="search" placeholder="Найти перевал…" autocomplete="off"></label></div><div id="track-grid" class="track-grid route-grid"></div><div class="route-summary" id="route-summary"></div>
+        <div class="ready-strip"><div class="ready-car"><span class="ready-icon"><svg><use href="#i-car"/></svg></span><div><span class="eyebrow">НА ЛИНИИ СТАРТА</span><strong id="ready-car-name">VECTOR V01</strong></div></div><div class="ready-hint"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>руль и газ</span><i></i><kbd>SPACE</kbd><span>дрифт</span><i></i><kbd>SHIFT</kbd><span>нитро</span></div><button class="text-button" data-action="help">ВСЁ УПРАВЛЕНИЕ <svg><use href="#i-arrow"/></svg></button></div>
+        <footer class="footer"><span>NEON DRIFT © 2026</span><span>ПОКА ГОРОД СПИТ — МЫ ЕДЕМ.</span><span><i></i> ПРОГРЕСС СОХРАНЯЕТСЯ</span></footer>
+      </section>
+
+      <section id="view-shop" class="page" aria-labelledby="shop-title" hidden>
+        <div class="page-heading shop-heading"><div><span class="eyebrow">TOUGE SUPPLY / НОЧНОЙ МАГАЗИН</span><h1 id="shop-title">СЛЕДУЮЩИЙ<br><span>УРОВЕНЬ.</span></h1></div><p>Железо для следующего поворота.<br>Кейсы и детали за заработанные монеты.</p></div>
+        <div class="shop-tabs" id="shop-tabs">
+          <label for="shop-section">Раздел магазина</label>
+          <select id="shop-section" aria-label="Раздел магазина">
+            <option value="cases">Кейсы</option>
+            <option value="parts">Детали</option>
+            <option value="shadow">Purple Shadow</option>
+            <option value="akina">Акина</option>
+            <option value="legends">Легенды</option>
+            <option value="brothers">Братья</option>
+            <option value="roadster">Miata</option>
+            <option value="mercedes">Evo II</option>
+            <option value="bmw">BMW Motorsport</option>
+            <option value="mustang">Американская лошадка</option>
+            <option value="italy">И вам привет из Италии</option>
+            <option value="blackbird">Blackbird</option>
+            <option value="pity">Гарант</option>
+          </select>
+        </div>
+        <div id="shop-panel-cases" data-shop-panel="cases" role="region" aria-label="Кейсы">
+        <section class="shop-case-product shop-jump-target" id="shop-case-standard" tabindex="-1" aria-labelledby="shop-case-title">
+          <div class="shop-case-visual"><span class="shop-product-number">01 / TOUGE TUNED</span><img id="shop-case-image" alt="Кейс Touge Tuned"><span class="shop-product-tag">1–3 КАРТОЧКИ В КАЖДОМ КЕЙСЕ</span></div>
+          <div class="shop-case-info"><span class="eyebrow">КЕЙС / TOUGE TUNED</span><h2 id="shop-case-title">Под капотом<br>есть потенциал<span>.</span></h2><p>От одной до трёх случайных деталей для твоей сборки. Каждая карточка раскрывается отдельно.</p><div class="case-odds"><span class="rarity-blue"><b>88%</b>СИНИЕ / LV1</span><span class="rarity-yellow"><b>11%</b>ЖЁЛТЫЕ / LV2</span><span class="rarity-red"><b>1%</b>КРАСНЫЕ / LV3</span></div><span class="shop-odds-note">Шансы указаны для каждой карточки.</span><div class="shop-price"><span>ЦЕНА КЕЙСА</span><strong>₡ 500</strong></div><button class="button button-lime full-width" id="shop-case-buy" data-action="buy-case">КУПИТЬ КЕЙС <svg><use href="#i-arrow"/></svg></button><button class="button button-outline full-width" id="shop-open-case" data-action="open-case">ОТКРЫТЬ СВОЙ КЕЙС <span>×<b id="shop-case-count">0</b></span></button></div>
+        </section>
+        </div>
+        <div id="shop-panel-parts" data-shop-panel="parts" role="region" aria-label="Детали" hidden>
+        <div class="shop-stock-heading"><div><span class="eyebrow">ПОЛКА ДЕТАЛЕЙ / ПОСТАВКА <b id="shop-cycle">01</b></span><h2>Пять поводов заехать<span>.</span></h2><p>Пять разных карточек. Каждую можно купить один раз до следующей поставки.</p></div><div class="shop-refresh"><span>НОВАЯ ПОСТАВКА ЧЕРЕЗ</span><strong><b id="shop-refresh-count">5</b> ЗАВЕРШЁННЫХ ГОНОК</strong><i><b id="shop-race-progress"></b></i></div></div>
+        <div class="shop-card-grid" id="shop-card-grid"></div>
+        </div>
+        <section class="s2000-showcase" id="s2000-showcase" data-shop-panel="shadow" role="region" aria-label="Purple Shadow" hidden>
+          <div class="s2000-intro"><div class="s2000-intro-copy"><span class="eyebrow">神の手 / PURPLE SHADOW</span><h2 id="s2000-title">Honda<br><span>S2000.</span></h2><p class="s2000-driver">Тосии Дзёсима</p><span class="edition-badge">[Purple Shadow]</span><div class="s2000-specs"><span><b>250</b> PS</span><span><b>1240</b> КГ</span><span><b>F20C</b> FR</span></div><p class="s2000-stock-note">AP1. Заводская сборка с характером.<br>Тюнинг и замена двигателя отключены.</p></div><img id="s2000-hero" alt="Синяя Honda S2000 на горной трассе"></div>
+          <div class="s2000-products"><article class="s2000-case-product shop-jump-target" id="shop-exclusive-s2000" tabindex="-1"><div class="s2000-case-art"><span class="eyebrow">КЕЙС / PURPLE SHADOW</span><img id="s2000-case-image" alt="Кейс Purple Shadow с Honda S2000"></div><div class="s2000-case-description"><h3>Одна попытка.<br>Три возможности<span>.</span></h3><div class="s2000-case-odds"><span class="rarity-blue"><b>90%</b>СИНЯЯ КАРТА</span><span class="rarity-yellow"><b>8%</b>₡ 500–2 000</span><span class="rarity-purple"><b>2%</b>HONDA S2000</span></div><p>Один кейс — одна награда. Деньги выпадают с шагом 100. Если S2000 уже есть, вместо машины выпадает случайная красная деталь.</p><div class="s2000-case-price"><span>КЕЙС HONDA S2000</span><b>₡ 1 000</b></div><button class="button button-purple full-width" id="s2000-case-buy" data-action="buy-case" data-case="s2000">КУПИТЬ КЕЙС <svg><use href="#i-arrow"/></svg></button><button class="button button-outline full-width" id="s2000-case-open" data-action="open-case" data-case="s2000">ОТКРЫТЬ СВОЙ КЕЙС <span>×<b id="s2000-case-count">0</b></span></button></div></article>
+          <article class="s2000-car-product"><img id="s2000-car-image" alt="Honda S2000 проходит ночной поворот"><div class="s2000-car-overlay"><span class="eyebrow" id="s2000-car-status">ЭКСКЛЮЗИВ МАГАЗИНА</span><span class="edition-badge">[Purple Shadow]</span><h3>Твоя правая<br>рука<span>.</span></h3><p>Honda S2000 (AP1)<br>250 PS · 1240 кг · F20C</p><strong class="s2000-direct-price">₡ 43 000</strong><button class="button button-purple" id="s2000-car-buy" data-action="buy-s2000">КУПИТЬ МАШИНУ <svg><use href="#i-arrow"/></svg></button><button class="text-button custom-car-card-link" data-car-card="s2000">ПОСМОТРЕТЬ КАРТОЧКУ <svg><use href="#i-arrow"/></svg></button></div><span class="s2000-car-signature">S2000 / AP1 / FACTORY SPEC</span></article></div>
+        </section>
+
+        <section class="legends-showcase shop-jump-target" id="legends-showcase" data-shop-panel="legends" role="region" aria-label="Легенды" tabindex="-1" hidden></section>
+        <section id="brothers-showcase" class="brothers-showcase" data-shop-panel="brothers" role="region" aria-label="Братья" hidden></section>
+        <section id="roadster-showcase" data-shop-panel="roadster" role="region" aria-label="Miata" hidden></section>
+        <section id="mercedes-showcase" data-shop-panel="mercedes" role="region" aria-label="Evo II" hidden></section>
+        <section id="bmw-showcase" data-shop-panel="bmw" role="region" aria-label="BMW Motorsport Magazin" hidden></section>
+        <section id="mustang-showcase" data-shop-panel="mustang" role="region" aria-label="Американская лошадка" hidden></section>
+        <section id="italy-showcase" data-shop-panel="italy" role="region" aria-label="Salone Italiano" hidden></section>
+        <section id="blackbird-showcase" data-shop-panel="blackbird" role="region" aria-label="Porsche Blackbird" hidden></section>
+        <section id="pity-showcase" class="pity-showcase" data-shop-panel="pity" role="region" aria-label="Гарант" hidden></section>
+        <section class="takumi-showcase" id="takumi-showcase" data-shop-panel="akina" role="region" aria-label="Акина" hidden></section>
+        <div class="garage-bottom"><span>Купленные карточки и кейсы сохраняются в твоём инвентаре.</span><button class="button button-outline" data-action="inventory">В ИНВЕНТАРЬ <svg><use href="#i-arrow"/></svg></button></div>
+      </section>
+
+      <section id="view-garage" class="page" aria-labelledby="garage-title" hidden>
+        <div class="page-heading"><div><span class="eyebrow">ТВОЙ ГАРАЖ / <span data-car-count>49</span> МОДЕЛЕЙ</span><h1 id="garage-title">ЖЕЛЕЗО С<br><span>ХАРАКТЕРОМ.</span></h1></div><p>Мощность решает. Масса имеет значение.<br>Собери свою идеальную машину для тоге.</p></div>
+        <section class="owned-garage" aria-labelledby="owned-garage-title"><div class="owned-garage-heading"><h2 id="owned-garage-title">МОИ МАШИНЫ <span id="owned-car-count">1</span></h2><p>Выбери машину для заезда</p></div><div id="owned-car-list" class="owned-car-list" role="group" aria-label="Машины игрока"></div></section>
+        <div id="build-summary" class="build-summary"></div>
+        <div class="garage-tabs" role="group" aria-label="Раздел гаража"><button data-garage-tab="cars" class="active" aria-pressed="true">АВТОСАЛОН <span data-car-count>49</span></button><button data-garage-tab="workshop" aria-pressed="false">МАСТЕРСКАЯ <span>11</span></button><button data-garage-tab="engines" aria-pressed="false">СВАП МОТОРА <span data-engine-count>37</span></button><button data-garage-tab="inventory" aria-pressed="false">ИНВЕНТАРЬ <span data-case-count>0</span></button></div>
+        <div id="garage-pane-cars" class="garage-pane"><div class="catalog-toolbar"><label class="search-box"><span class="sr-only">Поиск машины</span><input type="search" id="car-search" placeholder="Модель или кузов…" autocomplete="off"></label><label><span class="sr-only">Марка</span><select id="car-brand"><option value="all">Все марки</option></select></label><label><span class="sr-only">Сортировать машины</span><select id="car-sort"><option value="ratio">По л.с./кг ↑</option><option value="ratio-desc">По л.с./кг ↓</option><option value="name">По названию</option></select></label><button class="filter-button" id="owned-filter" aria-pressed="false">МОИ МАШИНЫ</button></div><div class="catalog-caption"><span id="car-results-count"></span><span>ЦЕНА РАСТЁТ ВМЕСТЕ С Л.С./КГ · ХАРАКТЕРИСТИКИ В СТОКЕ</span></div><div id="car-grid" class="car-grid"></div><div class="pagination" id="car-pagination"></div></div>
+        <div id="garage-pane-workshop" class="garage-pane" hidden><div class="section-heading"><div><span class="eyebrow">ТЮНИНГ / <span id="upgrade-car-name"></span></span><h2>Каждая деталь решает<span>.</span></h2></div><span class="section-note">УЛУЧШЕНИЯ СОХРАНЯЮТСЯ ПРИ СВАПЕ</span></div><p class="economy-note">Детали устанавливаются карточками из кейсов. Синяя — уровень 1, жёлтая — 2, красная — 3. Уровни одного слота не суммируются. Прежние оплаченные улучшения остаются базой сборки.</p><div id="upgrade-grid" class="card-slot-grid"></div></div>
+        <div id="garage-pane-engines" class="garage-pane" hidden><div class="section-heading"><div><span class="eyebrow">ДРУГОЙ МОТОР. ДРУГОЙ ХАРАКТЕР.</span><h2>Сердце твоей сборки<span>.</span></h2></div><span class="section-note">ВСЕ МОТОРЫ ДОСТУПНЫ ДЛЯ КАЖДОГО КУЗОВА</span></div><p class="economy-note">Ориентиры в долларах — цены моторов у продавцов или оценка по семейству. Игровая цена снижена для баланса и ограничена 75% цены машины. Купленный мотор остаётся в гараже этой машины; повторная установка бесплатна.</p><div id="engine-grid" class="engine-grid"></div><a class="text-button source-document" href="ECONOMY.md" target="_blank" rel="noopener">ФОРМУЛЫ И ИСТОЧНИКИ ЦЕН ↗</a></div>
+        <div id="garage-pane-inventory" class="garage-pane" hidden><div class="inventory-heading"><div><span class="eyebrow">ТВОИ ТРОФЕИ / ЛОКАЛЬНЫЙ ГАРАЖ</span><h2>Железо приходит с финишем<span>.</span></h2></div><span class="inventory-total"><b data-spare-count>0</b> СВОБОДНЫХ КАРТОЧЕК</span></div><div id="case-panel" class="case-panel owned-case-panel"></div><div class="case-panel owned-case-panel s2000-owned-case" id="s2000-owned-case" hidden><div class="owned-case-image"><img id="s2000-owned-image" alt="Кейс Purple Shadow"></div><div><span class="eyebrow">PURPLE SHADOW / ×<b id="s2000-owned-count">0</b></span><h3>Honda S2000<span>.</span></h3><p>Синяя карта, монеты или Honda S2000. Шанс машины — 2%. Если она уже есть — случайная красная деталь.</p></div><div class="owned-case-actions"><button class="button button-purple" data-action="open-case" data-case="s2000">ОТКРЫТЬ КЕЙС <svg><use href="#i-arrow"/></svg></button><button class="text-button" data-nav="shop">В МАГАЗИН <svg><use href="#i-arrow"/></svg></button></div></div><div id="takumi-owned-cases"></div><div id="legends-owned-case"></div><div id="brothers-owned-case"></div><div id="roadster-owned-case"></div><div id="bmw-owned-case"></div><div id="mustang-owned-case"></div><div id="italy-owned-case"></div><div id="blackbird-owned-case"></div><section id="inventory-car-cards" class="inventory-car-cards" aria-label="Карточки особых машин"></section><div id="craft-panel" class="craft-grid"></div><div class="catalog-toolbar inventory-toolbar"><label><span class="sr-only">Редкость карточек</span><select id="inventory-rarity"><option value="all">Все редкости</option><option value="blue">Синие · уровень 1</option><option value="yellow">Жёлтые · уровень 2</option><option value="red">Красные · уровень 3</option></select></label><label><span class="sr-only">Тип карточки</span><select id="inventory-slot"><option value="all">Все детали</option></select></label><span class="inventory-equip-note">УСТАНОВКА НА <b id="inventory-car-name"></b></span></div><div id="inventory-grid" class="inventory-grid"></div></div>
+        <div class="garage-bottom"><span>₡ Кредиты за финиш и дрифт. Тюнинг меняет мощность, массу и поведение машины.</span><button class="button button-lime" data-action="race">ИСПЫТАТЬ НА ТРАССЕ <svg><use href="#i-arrow"/></svg></button></div>
+      </section>
+
+      <section id="view-records" class="page" aria-labelledby="records-title" hidden>
+        <div class="page-heading"><div><span class="eyebrow">ЛИЧНЫЙ АРХИВ / ЛОКАЛЬНО</span><h1 id="records-title">ОСТАВЬ<br><span>СВОЙ СЛЕД.</span></h1></div><p>Каждый поворот — новая попытка.<br>Твой главный соперник — прошлый ты.</p></div>
+        <div id="career-stats" class="career-stats"></div>
+        <div class="records-panel"><div class="records-table-head"><h2>Лучшие заезды</h2><span class="eyebrow">ПО КАЖДОМУ РАЙОНУ</span></div><div id="records-list"></div></div>
+        <div class="garage-bottom"><span>Рекорды и гараж хранятся в этом браузере.</span><button class="button button-outline" id="export-save">ЭКСПОРТ ПРОГРЕССА <svg><use href="#i-arrow"/></svg></button><label class="button button-outline import-label" for="import-save">ИМПОРТ<input type="file" accept="application/json,.json" id="import-save" hidden></label></div>
+      </section>
+    </main>
+  </div>
+
+  <section id="race-screen" class="race-screen" aria-label="Гонка" hidden>
+    <canvas id="race-canvas" aria-label="Ночная гоночная трасса"></canvas>
+    <div class="race-vignette"></div>
+    <div class="race-top"><div class="race-top-left"><button class="icon-button glass" id="pause-race" aria-label="Пауза"><svg><use href="#i-pause"/></svg></button><div class="race-location"><span id="race-track-label">ПОРТОВЫЙ РАЙОН</span><small>НОЧНАЯ СМЕНА / NEON DRIFT</small></div></div><div class="race-position"><b id="hud-position">01</b><span>/ 04<small>ПОЗИЦИЯ</small></span></div><div class="race-timing"><span class="eyebrow">ВРЕМЯ ЗАЕЗДА</span><strong id="hud-time">00:00.000</strong><div><span id="hud-format">СПРИНТ</span> <b id="hud-lap">0</b><span id="hud-lap-total">%</span></div></div></div>
+    <div class="race-progress"><i id="hud-progress"></i></div>
+    <div class="race-minimap glass"><canvas id="minimap-canvas" width="220" height="145" aria-label="Миникарта трассы"></canvas><div><span id="hud-best-label">ЛУЧШИЙ ЗАЕЗД</span><b id="hud-best">—</b></div></div>
+    <div class="drift-feedback" id="drift-feedback"><span id="hud-combo">×1.0</span><strong>ДЕРЖИ УГОЛ</strong><b id="hud-drift">0</b><small>ОЧКИ ДРИФТА</small></div>
+    <div class="speedometer"><div class="speed-value"><strong id="hud-speed">000</strong><span>КМ<br>/Ч</span></div><div class="nitro-track"><i id="hud-nitro"></i></div><div class="speed-label"><span><svg><use href="#i-bolt"/></svg> НИТРО</span><kbd>SHIFT</kbd></div><div class="integrity-track"><i id="hud-integrity"></i></div></div>
+    <div class="race-key-hint"><kbd>ESC</kbd> пауза <span>·</span> <kbd>SPACE</kbd> дрифт <span>·</span> <kbd>SHIFT</kbd> нитро</div>
+    <div id="countdown" class="countdown" aria-live="assertive"><span>ГОТОВ К СТАРТУ?</span><b>3</b></div>
+    <div id="lap-notice" class="lap-notice" aria-live="polite"></div>
+    <div class="touch-controls" id="touch-controls" aria-label="Сенсорное управление"><div class="touch-steering"><button data-control="left" aria-label="Налево">←</button><button data-control="right" aria-label="Направо">→</button></div><div class="touch-pedals"><button data-control="boost" class="touch-boost" aria-label="Нитро">N₂O</button><button data-control="drift" aria-label="Дрифт">ДРИФТ</button><button data-control="brake" aria-label="Тормоз">Т<span class="sr-only">ормоз</span></button><button data-control="throttle" class="touch-gas" aria-label="Газ">ГАЗ</button></div></div>
+  </section>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <section class="modal admin-modal" id="modal-admin" role="dialog" aria-modal="true" aria-labelledby="admin-title" hidden>
+      <button class="modal-close icon-button" data-action="close-modal" aria-label="Закрыть"><svg><use href="#i-close"/></svg></button>
+      <span class="eyebrow">УПРАВЛЕНИЕ ГАРАЖОМ / NUM5 + NUM6</span><h2 id="admin-title">Админ-панель<span>.</span></h2>
+      <p id="admin-status" aria-live="polite"></p>
+      <div class="admin-grid">
+        <label>Кредиты<input id="admin-credits" type="number" min="1" max="1000000000" step="1" value="100000" inputmode="numeric"></label>
+        <button class="button button-lime" data-admin="credits">НАЧИСЛИТЬ КРЕДИТЫ</button>
+        <label>Кейсы<input id="admin-cases" type="number" min="1" max="99999" step="1" value="10" inputmode="numeric"></label>
+        <button class="button button-outline" data-admin="cases">ДОБАВИТЬ КЕЙСЫ</button>
+        <button class="button button-outline" data-admin="cars">ОТКРЫТЬ ВСЕ МАШИНЫ</button>
+        <button class="button button-outline" data-admin="engines">ОТКРЫТЬ ВСЕ МОТОРЫ</button>
+        <button class="button button-outline" data-admin="blue">СИНИЕ КАРТЫ ×10 КАЖДОЙ</button>
+        <button class="button button-outline" data-admin="yellow">ЖЁЛТЫЕ КАРТЫ ×10 КАЖДОЙ</button>
+        <button class="button button-outline" data-admin="red">КРАСНЫЕ КАРТЫ ×10 КАЖДОЙ</button>
+        <button class="button button-outline" data-admin="repair">РЕМОНТ И ПОЛНОЕ НИТРО</button>
+      </div>
+      <p class="admin-note">Изменения сразу сохраняются в текущем гараже. Закрыть: Esc или Num5 + Num6.</p>
+    </section>
+    <section class="modal" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+      <button class="modal-close icon-button" data-action="close-modal" aria-label="Закрыть"><svg><use href="#i-close"/></svg></button><span class="eyebrow">ПОД СВОЙ РИТМ</span><h2 id="settings-title">Настройки<span>.</span></h2>
+      <div class="settings-list">
+        <label class="setting-row"><span><b>Звук</b><small>Мотор, шины, музыка и радио</small></span><input type="checkbox" id="setting-sound" class="toggle"></label>
+        <label class="setting-row"><span><b>Встроенная музыка</b><small>Синтвейв · работает без интернета</small></span><input type="checkbox" id="setting-music" class="toggle"></label>
+        <section class="radio-settings" aria-labelledby="radio-heading">
+          <label class="setting-row radio-toggle"><span><b id="radio-heading">Интернет-радио</b><small>Нужен интернет · прямой эфир</small></span><input type="checkbox" id="setting-radio" class="toggle"></label>
+          <label class="radio-station-label" for="setting-radio-station">РАДИОСТАНЦИЯ</label><select id="setting-radio-station" aria-label="Радиостанция"></select>
+          <p id="radio-station-description"></p>
+          <label class="setting-row volume-setting"><span><b>Громкость радио</b><small id="radio-volume-label">65%</small></span><input type="range" id="setting-radio-volume" min="0" max="100" step="1" aria-label="Громкость радио"></label>
+          <p id="radio-status" role="status" aria-live="polite">Радио выключено</p>
+          <button class="button button-outline full-width" id="radio-retry" hidden>ПОВТОРИТЬ ПОДКЛЮЧЕНИЕ</button>
+          <a id="radio-source" href="https://laut.fm/eurobeat" target="_blank" rel="noopener noreferrer">Сайт станции ↗</a>
+        </section>
+        <label class="setting-row volume-setting"><span><b>Общая громкость</b><small id="volume-label">42%</small></span><input type="range" id="setting-volume" min="0" max="100" step="1" aria-label="Громкость"></label>
+        <label class="setting-row"><span><b>Графика</b><small>Детали, свечение и частицы</small></span><select id="setting-quality"><option value="high">Высокая</option><option value="low">Лёгкая</option></select></label>
+        <label class="setting-row"><span><b>Меньше движения</b><small>Спокойная камера и эффекты</small></span><input type="checkbox" id="setting-motion" class="toggle"></label>
+      </div><button class="button button-outline full-width" id="fullscreen"><svg><use href="#i-full"/></svg> ПОЛНЫЙ ЭКРАН</button>
+    </section>
+
+    <section class="modal modal-help" id="modal-help" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden><button class="modal-close icon-button" data-action="close-modal" aria-label="Закрыть"><svg><use href="#i-close"/></svg></button><span class="eyebrow">СНАЧАЛА ЧУВСТВУЙ. ПОТОМ ЖМИ.</span><h2 id="help-title">Твоя первая ночь<span>.</span></h2><div class="control-table"><div><span><kbd>W</kbd> / <kbd>↑</kbd></span><b>Газ</b></div><div><span><kbd>S</kbd> / <kbd>↓</kbd></span><b>Тормоз / задний ход</b></div><div><span><kbd>A</kbd><kbd>D</kbd> / <kbd>←</kbd><kbd>→</kbd></span><b>Руль</b></div><div><span><kbd>SPACE</kbd></span><b>Дрифт — держи в повороте</b></div><div><span><kbd>SHIFT</kbd></span><b>Нитро — пополняется само</b></div><div><span><kbd>ESC</kbd> / <kbd>P</kbd></span><b>Пауза</b></div></div><div class="help-tip"><span>01</span><p>Сбрось газ перед крутым поворотом. Зажми дрифт, поверни и добавь газ на выходе. Красивый угол приносит очки и кредиты.</p></div><div class="help-tip"><span>02</span><p>На тоге пройди маршрут от старта до финиша, в городе — три круга. Контрольные точки идут по порядку. Столкновения замедляют, но заезд продолжается. Вся трасса видна на миникарте.</p></div><p class="mobile-help">На телефоне используй кнопки внизу экрана. Удобнее держать его горизонтально.</p><button class="button button-lime full-width" data-action="close-modal">ПОЕХАЛИ <svg><use href="#i-arrow"/></svg></button></section>
+
+    <section class="modal pause-modal" id="modal-pause" role="dialog" aria-modal="true" aria-labelledby="pause-title" hidden><span class="eyebrow">ГОРОД ПОДОЖДЁТ</span><h2 id="pause-title">Пауза<span>.</span></h2><p>Твоя линия никуда не исчезла.</p><label class="setting-row volume-setting"><span><b>Громкость</b><small id="pause-volume-label">42%</small></span><input type="range" id="pause-volume" min="0" max="100" step="1" aria-label="Громкость в паузе"></label><div class="pause-actions"><button class="button button-lime full-width" id="resume-race">ПРОДОЛЖИТЬ <span>ESC ↵</span></button><button class="button button-outline full-width" id="restart-race">НАЧАТЬ ЗАНОВО</button><button class="text-button full-width" id="exit-race">ВЕРНУТЬСЯ В ГОРОД <svg><use href="#i-arrow"/></svg></button></div></section>
+
+    <section class="modal results-modal" id="modal-results" role="dialog" aria-modal="true" aria-labelledby="results-title" hidden><span class="eyebrow" id="result-eyebrow">НОЧЬ ЗАПОМНИТ ЭТОТ ЗАЕЗД</span><div class="result-title-row"><h2 id="results-title">Финиш<span>.</span></h2><span id="result-medal" class="result-medal">01</span></div><div class="result-main-time"><span>ВРЕМЯ ЗАЕЗДА</span><strong id="result-time">00:00.000</strong><span class="new-record" id="new-record" hidden>НОВЫЙ РЕКОРД ↗</span></div><div class="result-stats"><div><span>ПОЗИЦИЯ</span><strong id="result-position">1 / 4</strong></div><div><span id="result-lap-label">ЛУЧШИЙ КРУГ</span><strong id="result-lap">00:00.000</strong></div><div><span>ДРИФТ</span><strong id="result-drift">0</strong></div><div><span>ЗАРАБОТАНО</span><strong class="lime" id="result-credits">+ ₡ 1 150</strong></div></div><div id="result-laps" class="result-laps"></div><div class="result-case"><span>КЕЙС «TOUGE TUNED» <b>+1</b></span><button class="text-button" data-action="inventory">В ИНВЕНТАРЬ ↗</button></div><div class="result-actions"><button class="button button-lime" id="race-again">ЕЩЁ ЗАЕЗД <svg><use href="#i-arrow"/></svg></button><button class="button button-outline" id="results-home">В ГОРОД</button></div></section>
+
+    <section class="modal loot-modal" id="modal-loot" role="dialog" aria-modal="true" aria-labelledby="loot-title" hidden><button class="modal-close icon-button" data-action="close-modal" aria-label="Закрыть"><svg><use href="#i-close"/></svg></button><span class="eyebrow" id="loot-eyebrow">НОЧНАЯ СМЕНА / НАГРАДА</span><h2 id="loot-title">Новая деталь<span>.</span></h2><div id="loot-progress" class="loot-progress" aria-label="Карточки награды"></div><div id="loot-stage" class="loot-stage" hidden></div><div id="loot-reveal-grid" class="loot-reveal-grid" aria-live="polite"></div><button class="button button-lime full-width loot-next" id="loot-next" data-action="next-loot" hidden>СЛЕДУЮЩАЯ КАРТОЧКА</button><p id="loot-caption">Карточка уже в инвентаре.</p><button class="button button-lime full-width" data-action="inventory">В ИНВЕНТАРЬ <svg><use href="#i-arrow"/></svg></button></section>
+    <section class="modal car-card-modal" id="modal-car-card" role="dialog" aria-modal="true" aria-labelledby="car-card-title" hidden><button class="modal-close icon-button" data-action="close-modal" aria-label="Закрыть карточку"><svg><use href="#i-close"/></svg></button><span class="eyebrow">КОЛЛЕКЦИЯ / ОСОБАЯ МАШИНА</span><h2 id="car-card-title">Карточка машины<span>.</span></h2><div id="car-card-content" class="loot-reveal-grid"></div></section>
+    <section class="modal photo-modal" id="modal-photo" role="dialog" aria-modal="true" aria-labelledby="photo-title" hidden><header class="photo-modal-header"><h2 id="photo-title">Фото AE86</h2><button class="photo-modal-close" data-action="close-modal" aria-label="Закрыть фотографию">ЗАКРЫТЬ <span>ESC</span><svg><use href="#i-close"/></svg></button></header><img id="photo-image" alt="Фотография AE86"></section>
+    <section class="modal route-modal" id="modal-map" role="dialog" aria-modal="true" aria-labelledby="map-title" hidden><button class="modal-close icon-button" data-action="close-modal" aria-label="Закрыть"><svg><use href="#i-close"/></svg></button><span class="eyebrow">СХЕМА МАРШРУТА</span><h2 id="map-title">Тоге</h2><img id="map-reference" alt="Схема трассы"><p>Схематичная адаптация маршрута для игры. Масштаб поворотов и ширина дороги настроены для управления с клавиатуры.</p></section>
+    <section class="modal" id="modal-import" role="dialog" aria-modal="true" aria-labelledby="import-title" hidden><span class="eyebrow">ПЕРЕНОС ПРОГРЕССА</span><h2 id="import-title">Загрузить гараж<span>?</span></h2><p>Импорт заменит текущие машины, кредиты и рекорды содержимым выбранного файла. Сначала можно сохранить свою копию кнопкой «Экспорт».</p><div class="result-actions"><button class="button button-lime" id="confirm-import">ЗАМЕНИТЬ ПРОГРЕСС</button><button class="button button-outline" data-action="close-modal">ОТМЕНА</button></div></section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"><svg><use href="#i-check"/></svg><span></span></div>
+  <noscript><div class="noscript">Для игры нужен JavaScript. Включи его в настройках браузера и открой страницу снова.</div></noscript>
+</body>
+</html>

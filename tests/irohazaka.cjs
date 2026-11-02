@@ -1,0 +1,14 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),core=require('../engine.js');
+const gradient=()=>({addColorStop(){}}),context=()=>new Proxy({createLinearGradient:gradient,createRadialGradient:gradient},{get:(o,k)=>k in o?o[k]:()=>{}}),canvas=()=>({width:1280,height:800,getContext:context,getBoundingClientRect:()=>({width:1280,height:800})});
+const sandbox={window:{devicePixelRatio:1,addEventListener(){},removeEventListener(){}},document:{createElement:canvas}};vm.createContext(sandbox);vm.runInContext(fs.readFileSync('renderer.js','utf8'),sandbox);
+const track=core.createTrack('irohazaka'),high=new sandbox.NDRenderer.Renderer(canvas()),low=new sandbox.NDRenderer.Renderer(canvas(),{quality:'low'});high._buildEnvironment(track);low._buildEnvironment(track);
+assert.equal(track.sceneryTheme,'iroha-autumn-night');assert.equal(track.closed,false);assert.equal(track.width,110);assert.equal(track.points.length,1600);assert.equal(track.checkpoints.length,31);assert.ok(Math.abs(track.length-45195.68257608033)<.000001);
+assert.deepEqual(JSON.parse(JSON.stringify(high.sceneryProps)),JSON.parse(JSON.stringify(low.sceneryProps)));
+const count=type=>high.sceneryProps.filter(p=>p.type===type).length;console.log(JSON.stringify({trees:count('iroha-tree'),walls:count('iroha-wall'),rails:count('guardrail'),road:count('iroha-road'),signs:count('mountain-sign')}));
+assert.ok(count('iroha-tree')>1500);assert.ok(count('iroha-wall')>800);assert.ok(count('guardrail')>800);assert.ok(count('mountain-sign')>20);assert.ok(!high.sceneryProps.some(p=>['tree','building'].includes(p.type)));
+function distanceToRoad(x,y){let best=Infinity;for(let i=1;i<track.points.length;i++){const a=track.points[i-1],b=track.points[i],dx=b.x-a.x,dy=b.y-a.y,t=Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/(dx*dx+dy*dy||1)));best=Math.min(best,Math.hypot(x-a.x-t*dx,y-a.y-t*dy));}return best;}
+for(const prop of high.sceneryProps){if(prop.type==='iroha-tree')assert.ok(distanceToRoad(prop.x,prop.y)>track.width/2+prop.radius+9.9);if(prop.type==='iroha-wall'||prop.type==='guardrail')for(const p of [prop.a,prop.b,prop])assert.ok(distanceToRoad(p.x,p.y)>track.width/2+10.9);}
+for(let sector=0;sector<10;sector++){const p=track.points[Math.floor((sector+.5)/10*(track.points.length-1))];assert.ok(high.sceneryProps.some(q=>q.type==='iroha-tree'&&Math.hypot(p.x-q.x,p.y-q.y)<700));}
+for(const r of [high,low]){assert.ok(r.cache.canvas.width*r.cache.canvas.height<6510000);for(const fraction of [0,.19,.43,.68,.98]){const p=track.points[Math.floor(fraction*(track.points.length-1))];r._paintHighwayTile(context(),Math.floor(p.x/512),Math.floor(p.y/512));}r.destroy();assert.equal(r.sceneryTiles.size,0);}
+console.log('PASS Irohazaka route geometry, deterministic autumn forest, clear hairpins, walls and rails, all sectors, both quality modes and tile painting');

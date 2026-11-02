@@ -1,0 +1,105 @@
+/*! NEON DRIFT | Made by bal1st1k */
+/* Autumn applies to menu and modal scopes. The live race and its HUD keep their palette. */
+:is(#menu-shell,#modal-backdrop,.toast){
+  --bg:#16120f;--surface:#201b16;--panel:#261f18;--line:#44382a;
+  --text:#f4ead6;--muted:#ae9d83;--lime:#edc25f;--teal:#d6a46a;--pink:#c57b62;
+  color:var(--text);
+}
+body{background:#16120f}
+#menu-shell{position:relative;isolation:isolate;background:radial-gradient(ellipse at 95% 0%,#b7771920,transparent 42%),radial-gradient(ellipse at 0% 70%,#8e3f1814,transparent 38%),#16120f}
+#menu-shell>.main-content{position:relative;z-index:1}
+#menu-shell .rail{background:#17130ff5;border-color:#493923}
+#menu-shell .rail-button{color:#9b8c75}
+#menu-shell .rail-button:hover{background:#30271a;color:#ffe0a0}
+#menu-shell .rail-button.active{background:#48391d;color:#f6ce72}
+#menu-shell .rail-line,#menu-shell .topbar-divider{background:#4a3b27}
+#menu-shell .vertical-label{color:#877250}
+#menu-shell .topbar{border-color:#493b28}
+#menu-shell .wordmark span{color:#c9b895}
+.season-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;margin-right:auto;margin-left:22px;border:1px solid #725328;border-radius:3px;color:#e9bd62;background:#72501c18;font:8px var(--mono);letter-spacing:1.5px;white-space:nowrap}
+.season-badge svg{width:15px;height:15px;fill:#d6a344;stroke:none}
+#menu-shell .eyebrow,#menu-shell .status,#menu-shell .hero-description,#menu-shell .page-heading>p{color:#b4a68e}
+#menu-shell .tiny-square,#menu-shell .status i{background:#edc25f;box-shadow:0 0 12px #d99a3433}
+#menu-shell .hero-copy:after{content:'';position:absolute;right:12px;bottom:10px;width:110px;height:1px;background:linear-gradient(90deg,transparent,#b77a2d77);pointer-events:none}
+#menu-shell .hero-visual{border-color:#69502f;background:#211a12}
+#menu-shell .live-tag{color:#e2ca93;background:#211b13cc;border-color:#8b6a3f66}
+#menu-shell .visual-coords,#menu-shell .telemetry,#menu-shell .preview-speed small{color:#baaa89}
+#menu-shell .hero-facts span,#menu-shell .footer,#menu-shell .section-note{color:#9e8d70}
+#menu-shell .footer{border-color:#44382a}
+:is(#menu-shell,#modal-backdrop) .button-lime{background:#edc25f;color:#21190b;box-shadow:0 3px 18px #d59a2210}
+:is(#menu-shell,#modal-backdrop) .button-lime:hover{background:#ffda83}
+:is(#menu-shell,#modal-backdrop) .button-outline{border-color:#615039;background:#211c16;color:#e8dcc0}
+:is(#menu-shell,#modal-backdrop) .button-outline:hover{border-color:#cba45e;background:#342a1c}
+:is(#menu-shell,#modal-backdrop) .text-button{color:#d2b47e}
+:is(#menu-shell,#modal-backdrop) :is(input:not([type=checkbox]):not([type=range]),select){background:#241e16;border-color:#665134;color:#eadab8}
+:is(#menu-shell,#modal-backdrop) input::placeholder{color:#8e7e62}
+:is(#menu-shell,#modal-backdrop) input[type=range]{accent-color:#edc25f}
+:is(#menu-shell,#modal-backdrop) .toggle{background:#352b1e;border-color:#756142}
+:is(#menu-shell,#modal-backdrop) .toggle:after{background:#ad9672}
+:is(#menu-shell,#modal-backdrop) .toggle:checked{background:#614920;border-color:#be9144}
+:is(#menu-shell,#modal-backdrop) .toggle:checked:after{background:#f5cf71}
+#menu-shell :is(.track-card,.car-card,.upgrade-card,.engine-card,.record-row,.career-stat){border-color:#44382a;background:#201b16}
+#menu-shell :is(.track-card,.car-card,.engine-card):hover{border-color:#9d783e}
+#menu-shell :is(.track-card.selected,.car-card.selected,.engine-card.installed){border-color:#d9ad55}
+#menu-shell .track-art{background:radial-gradient(ellipse at 50% 90%,#7f591f44,transparent 75%),linear-gradient(125deg,#30261a,#191612)}
+#menu-shell .track-card:nth-child(2n) .track-art{background:radial-gradient(ellipse at 70% 90%,#93503430,transparent 70%),linear-gradient(125deg,#2d211a,#191612)}
+#menu-shell .track-number{color:#bd9e60}
+#menu-shell .track-badge{color:#d0bc95;background:#241d14d9;border-color:#765d354f}
+#menu-shell .track-info p,#menu-shell .track-record{color:#ae9a74}
+#menu-shell .track-card.reworked{background:#211b14}
+#menu-shell .ready-strip{background:#211b14;border-color:#4b3c29}
+#menu-shell .ready-icon{background:#332919;border-color:#675133;color:#d8b674}
+#menu-shell :is(.catalog-toolbar,.garage-tabs,.shop-tabs){border-color:#57452b}
+#menu-shell :is(.garage-tabs,.shop-tabs){background:#211b14f5}
+#menu-shell :is(.garage-tabs button,.shop-tabs button){color:#baa98b}
+#menu-shell :is(.garage-tabs button.active,.shop-tabs button[aria-selected=true]){background:#edc25f;color:#241b0b}
+#menu-shell :is(.build-summary,.owned-garage,.owned-car,.case-panel,.shop-case-product,.shop-stock-heading,.craft-card,.engine-card,.empty-state){background-color:#211c16;border-color:#55432b}
+#menu-shell :is(.build-data,.car-content,.upgrade-card,.owned-case-panel,.inventory-car-card>span){background-color:#211c16}
+#menu-shell .build-engine{color:#d1ba8b}
+#menu-shell .owned-car{background:#241e16;border-color:#58452c}
+#menu-shell .owned-car.selected{background:#3b2f1c;border-color:#d3a64b}
+#menu-shell :is(.stock-build-badge,.inventory-total,.shop-refresh){border-color:#665031}
+#menu-shell :is(.takumi-showcase,.legends-showcase,.s2000-showcase,.pity-showcase){background-color:#1f1a15;border-color:#6a5030}
+#menu-shell :is(.takumi-stage,.takumi-products,.legends-case,.legends-stage-product,.s2000-case-product,.s2000-car-product){border-color:#59452c;background-color:#251e16}
+#menu-shell .takumi-heading p,#menu-shell .takumi-stage-heading p{color:#b6a98f}
+#menu-shell .pity-car{background:#271f16;border-color:#6b5232}
+#menu-shell .pity-meter{background:#302719;border-color:#8c6735}
+#menu-shell .pity-track{background:#504026}
+#menu-shell .pity-track i{background:#f0c669}
+#menu-shell .pity-rules>div{background:linear-gradient(135deg,#3b2c19,#241c15);border-color:#745832}
+#menu-shell .dealer-case{background:#2b2116;border-color:#8c683c}
+#menu-shell .dealer-masthead,#menu-shell .dealer-colophon{border-color:#8c683c}
+#menu-shell .brothers-showcase{background:#e8d6ad;border-color:#a77e46;color:#302315}
+#menu-shell .brothers-showcase .dealer-photo{background:transparent;border-color:#a77e46}
+@media(max-width:680px){#menu-shell .brothers-showcase .dealer-cover h2{font-size:clamp(26px,8vw,48px);letter-spacing:-.04em}}
+#menu-shell .dealer-cover h2 em{color:#a56331}
+#modal-backdrop{isolation:isolate;background:radial-gradient(ellipse at 50% 0%,#9b63241a,transparent 70%),#100c08d9}
+#modal-backdrop>.modal{z-index:1;background:linear-gradient(145deg,#282017,#1a1612);border-color:#8b683d;box-shadow:0 35px 100px #0009,0 0 70px #b07b1210}
+#modal-backdrop .modal>.eyebrow,#modal-backdrop .setting-row small{color:#b09b75}
+#modal-backdrop .setting-row,#modal-backdrop .control-table>div{border-color:#54422a}
+#modal-backdrop .radio-settings{background:#9a6a1710;border-color:#826238}
+#modal-backdrop .radio-settings>select{background:#241d14;color:#f0dfb8;border-color:#94733e}
+#modal-backdrop :is(#radio-station-description,#radio-source,.radio-station-label){color:#c0aa80}
+#modal-backdrop #radio-status[data-state=playing]{color:#f6cc69}
+#modal-backdrop .map-legend{color:#b6a486}
+#modal-backdrop .pause-modal{border-top-color:#edc25f}
+#modal-backdrop .pause-modal>p{color:#bfac89}
+.toast{background:#332819f5;border-color:#a17a3e;color:#f1dfb8}
+.toast.error{background:#38201cf5;border-color:#b96f57}
+#modal-backdrop>#modal-car-card[data-car-rarity=purple]{border-color:#9166be;box-shadow:0 25px 100px #0008,0 0 32px #9c67cf18}
+#modal-backdrop>#modal-car-card[data-car-rarity=gold]{border-color:#d4ad59;box-shadow:0 25px 100px #0008,0 0 32px #d4ad591c}
+.special-prize.rarity-gold{border-color:#d4ad59;box-shadow:0 0 28px #c89c4224}
+.special-prize.rarity-gold .card-rarity{color:#dfb962}
+.special-prize.rarity-gold h3,.special-prize.rarity-gold .tuning-card-data>p{color:#efdfb9}
+#menu-shell .inventory-car-card.rarity-purple{border-color:#9166be}
+#menu-shell .inventory-car-card.rarity-gold{border-color:#c9a252}
+.autumn-leaves{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;user-select:none;contain:strict;opacity:.85;mask-image:linear-gradient(90deg,#000c,#0005 30%,#0005 70%,#000c)}
+.autumn-leaves[data-mode=modal]{z-index:2;opacity:.8;mask-image:radial-gradient(ellipse at center,#0004 10%,#0006 50%,#000 90%)}
+.autumn-leaf{position:absolute;top:-50px;width:var(--leaf-size);height:calc(var(--leaf-size)*1.1);color:var(--leaf-color);opacity:var(--leaf-opacity);will-change:transform;animation:autumn-fall var(--leaf-duration) var(--leaf-delay) linear infinite}
+.autumn-leaf>svg{display:block;width:100%;height:100%;fill:currentColor;stroke:none;animation:autumn-flutter 7s var(--leaf-delay) ease-in-out infinite alternate;transform-origin:50% 60%}
+@keyframes autumn-fall{0%{transform:translate3d(0,-3vh,0) rotate(var(--leaf-spin))}30%{transform:translate3d(var(--leaf-wind),33vh,0) rotate(calc(var(--leaf-spin) + 55deg))}65%{transform:translate3d(calc(var(--leaf-wind)*-.3),73vh,0) rotate(calc(var(--leaf-spin) + 155deg))}100%{transform:translate3d(calc(var(--leaf-wind)*.65),115vh,0) rotate(calc(var(--leaf-spin) + 250deg))}}
+@keyframes autumn-flutter{0%{transform:rotateY(-52deg) rotateZ(-15deg)}50%{transform:rotateY(25deg) rotateZ(8deg)}100%{transform:rotateY(60deg) rotateZ(-12deg)}}
+@media(max-width:980px){.season-badge{margin-left:12px;margin-right:14px;font-size:7px;letter-spacing:1px}}
+@media(max-width:680px){.season-badge{display:none}.autumn-leaf:nth-child(n+17){display:none}#menu-shell .hero-copy:after{display:none}#menu-shell .rail{background:#17130ff5}#modal-backdrop>.modal{border-color:#806238}}
+@media(prefers-reduced-motion:reduce){.autumn-leaves{display:none!important}}
+body.reduce-motion .autumn-leaves{display:none!important}

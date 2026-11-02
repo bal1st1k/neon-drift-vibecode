@@ -1,0 +1,96 @@
+/*! NEON DRIFT | Made by bal1st1k */
+/* Panda paint, archive photography and a red racing stripe. Scoped to the AE86 shop. */
+#menu-shell #takumi-showcase{--archive-paper:#ede8da;--archive-ink:#202323;--archive-red:#bd4a37;margin:28px 0 30px;padding:0;border:1px solid #57564d;background:#15191a;color:var(--archive-paper)}
+#takumi-showcase .akina-masthead{display:flex;justify-content:space-between;gap:20px;padding:18px 28px;border-bottom:1px solid #57564d;font:10px/1.5 var(--mono);letter-spacing:1.4px;color:#bebaa9}
+#takumi-showcase .akina-masthead b{color:#e48568}
+#takumi-showcase .akina-cover{display:grid;grid-template-columns:1fr 1.15fr;min-width:0}
+#takumi-showcase .akina-cover-copy{padding:44px 36px 30px;background:var(--archive-paper);color:var(--archive-ink);position:relative;overflow:hidden}
+#takumi-showcase .akina-kicker{font:10px/1.6 var(--mono);letter-spacing:1.3px;color:#65665e}
+#takumi-showcase .akina-cover h2{font:900 clamp(55px,6.3vw,110px)/.92 var(--display);letter-spacing:-4px;margin:35px 0 24px;color:#222627}
+#takumi-showcase .akina-cover h2 em{font-style:normal;color:#a63d2f}
+#takumi-showcase .akina-cover-copy>p{font:17px/1.65 var(--body);color:#63665e}
+#takumi-showcase .akina-cover-bottom{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:38px;padding-top:20px;border-top:1px solid #b3b3a6}
+#takumi-showcase .akina-cover-bottom>strong{font:900 clamp(40px,4.4vw,70px)/1 var(--display);letter-spacing:-3px}
+#takumi-showcase .akina-cover-bottom>span{font:9px/1.8 var(--mono);letter-spacing:1px;color:#6b6a60}
+#takumi-showcase .akina-cover-art{display:flex;flex-direction:column;position:relative;min-width:0;padding:0;background:#252d2b;cursor:zoom-in;overflow:hidden;text-align:left}
+#takumi-showcase .akina-cover-art>img{display:block;width:100%;height:100%;min-height:0;flex:1;object-fit:cover;object-position:60% center;filter:saturate(.7)}
+#takumi-showcase .akina-cover-art>span{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:16px 22px;background:#171e1c;color:#d3cbb6;font:9px/1.5 var(--mono);letter-spacing:1px}
+#takumi-showcase .akina-cover-art svg{width:15px;height:15px;flex-shrink:0}
+#takumi-showcase .akina-chapters{display:grid;grid-template-columns:1fr 1fr;border-top:4px solid var(--archive-red);border-bottom:1px solid #57564d}
+#takumi-showcase .akina-chapters>button{display:flex;align-items:center;gap:22px;padding:23px 30px;color:#e3ddca;min-width:0;text-align:left;transition:background .2s}
+#takumi-showcase .akina-chapters>button+a{border-left:1px solid #57564d}
+#takumi-showcase .akina-chapters>button:hover{background:#30302a}
+#takumi-showcase .akina-chapters b{font:500 34px/1 var(--mono);color:#d37960}
+#takumi-showcase .akina-chapters span{font:700 11px/1.5 var(--body);letter-spacing:1px}
+#takumi-showcase .akina-chapters small{display:block;font:9px/1.5 var(--mono);color:#92998f;margin-top:6px;letter-spacing:.7px}
+#takumi-showcase .akina-chapters svg{width:23px;height:23px;margin-left:auto;flex-shrink:0;color:#b6b6a3}
+#takumi-showcase .akina-editorial{display:grid;grid-template-columns:1fr 1.7fr .7fr;align-items:center;gap:30px;padding:34px 30px}
+#takumi-showcase .akina-editorial>span{font:900 18px/1.2 var(--display);max-width:170px;letter-spacing:-.3px;color:#ddd4bb}
+#takumi-showcase .akina-editorial>p{font:14px/1.85 var(--body);max-width:65ch;color:#9da599}
+#takumi-showcase .akina-editorial>svg{width:100%;height:65px;fill:none;stroke:#c1ae7e;stroke-width:2;opacity:.7}
+#menu-shell #takumi-showcase .takumi-stage{background:#1a2020;border:0;border-top:1px solid #5d5c50;border-radius:0;overflow:hidden;margin:0;padding:0;scroll-margin-top:90px}
+#takumi-showcase .akina-chapter-label{display:flex;justify-content:space-between;gap:15px;margin:0 30px;padding:19px 0;border-bottom:1px solid #4e554c;font:10px var(--mono);letter-spacing:1.4px;color:#a8ad9e}
+#takumi-showcase .akina-chapter-label>span:first-child{color:#d38067}
+#takumi-showcase .takumi-stage-heading{display:grid;grid-template-columns:72px minmax(0,1fr) 180px;align-items:start;gap:25px;padding:36px 30px;border:0}
+#takumi-showcase .takumi-stage-number{font:400 40px/1.1 var(--mono);color:#d48469;padding-top:10px}
+#takumi-showcase .takumi-stage-heading .edition-badge{font-size:9px;margin:0 0 18px}
+#takumi-showcase .takumi-stage-heading h3{font:900 clamp(35px,3.9vw,66px)/.98 var(--display);letter-spacing:-2px;color:#eee9da;margin:0 0 22px}
+#menu-shell #takumi-showcase .takumi-stage-heading p{font:15px/1.85 var(--body);color:#aab1a2;max-width:70ch;columns:auto;margin:0}
+#takumi-showcase .akina-chapter-mark{font:900 130px/.9 var(--display);letter-spacing:-8px;color:#d5c9a5;opacity:.12;align-self:center;text-align:right;user-select:none}
+#takumi-showcase .akina-spec-strip{display:grid;grid-template-columns:1fr 1fr 1.8fr .8fr;margin:0 30px 27px;border-top:1px solid #4e554c;border-bottom:1px solid #4e554c}
+#takumi-showcase .akina-spec-strip>div{padding:21px 18px;min-width:0;border-right:1px solid #4e554c}
+#takumi-showcase .akina-spec-strip>div:first-child{padding-left:0}
+#takumi-showcase .akina-spec-strip>div:last-child{border-right:0}
+#takumi-showcase .akina-spec-strip b{display:block;font:600 clamp(18px,2vw,30px)/1.2 var(--mono);letter-spacing:-1px;color:#e7e0cb;overflow-wrap:anywhere}
+#takumi-showcase .akina-spec-strip b small{font:10px var(--mono);letter-spacing:0;color:#bfb79e}
+#takumi-showcase .akina-spec-strip span{display:block;font:9px/1.5 var(--mono);letter-spacing:1px;color:#929e90;margin-top:8px}
+#takumi-showcase .takumi-photos{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;height:auto;align-items:stretch;background:transparent;padding:0 30px 30px}
+#takumi-showcase .takumi-photo{border:1px solid #5a6053;border-radius:0;background:#111817;padding:0;display:flex;flex-direction:column;transition:border-color .2s}
+#takumi-showcase .takumi-photo:hover{border-color:#d78d6b}
+#takumi-showcase .takumi-photos .takumi-photo img{width:100%;height:clamp(230px,23vw,360px);max-height:none;object-fit:contain;object-position:center;background:#111817;filter:saturate(.7)}
+#takumi-showcase .takumi-photo>span{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid #4e554c;color:#a5ae9c;font:9px/1.5 var(--mono);letter-spacing:.4px;margin-top:auto}
+#takumi-showcase .takumi-photo>span b{font-weight:400;color:#e0d8c0;margin-right:auto}
+#takumi-showcase .takumi-photo svg{width:14px;height:14px;flex-shrink:0}
+#menu-shell #takumi-showcase .takumi-products{display:grid;grid-template-columns:1.35fr 1fr;margin:0 30px 36px;border:1px solid #656650;background:transparent;align-items:stretch}
+#takumi-showcase .takumi-case{display:grid;grid-template-columns:minmax(140px,.75fr) minmax(0,1.2fr);background:#e2dfcd;color:#262d29;align-items:center;min-width:0;border:0}
+#takumi-showcase .akina-case-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px 16px;height:100%;background:linear-gradient(150deg,#cbcbb44d,transparent 70%);gap:20px}
+#takumi-showcase .akina-case-visual>span{font:8px/1.6 var(--mono);letter-spacing:.8px;text-align:center;color:#74785e}
+#takumi-showcase .akina-case-visual>b{font:10px/1.5 var(--mono);letter-spacing:1px;color:#596047}
+#takumi-showcase .takumi-case-art{display:block;width:100%;height:200px;min-height:0;object-fit:contain;background:transparent;filter:saturate(.65)}
+#takumi-showcase .takumi-case-info{padding:28px 24px 28px 12px;min-width:0}
+#menu-shell #takumi-showcase .takumi-case-info>.eyebrow{font:9px/1.7 var(--mono);letter-spacing:1px;color:#697054}
+#takumi-showcase .takumi-case-info h4{font:800 29px/1.03 var(--display);letter-spacing:-.8px;color:#2f352c;margin:16px 0 24px}
+#takumi-showcase .takumi-case-info .s2000-case-odds{gap:9px}
+#takumi-showcase .takumi-case-info .s2000-case-odds b{font:600 23px/1 var(--mono);letter-spacing:-1px;color:#6c5430}
+#takumi-showcase .takumi-case-info .s2000-case-odds span{font:8px/1.7 var(--mono);letter-spacing:0;color:#6a6242!important}
+#takumi-showcase .takumi-case-info .s2000-case-odds .rarity-blue{color:#466879!important}
+#takumi-showcase .takumi-case-info .s2000-case-odds .rarity-blue b{color:#365e70}
+#takumi-showcase .takumi-case-info p{font:11px/1.75 var(--body);color:#70745e;margin:18px 0}
+#takumi-showcase .takumi-case-price{font:700 27px/1 var(--mono);color:#3c4532;border-top:1px solid #b3b69b;margin:18px 0;padding-top:18px;letter-spacing:-1px}
+#menu-shell #takumi-showcase .button{border-radius:0;min-height:47px;font-size:10px;letter-spacing:.2px;padding:0 14px;gap:12px;white-space:normal;text-align:center}
+#menu-shell #takumi-showcase .button-gold{background:#c3533e;color:#fff1da;border:1px solid #c3533e}
+#menu-shell #takumi-showcase .button-gold:hover{background:#de7054;border-color:#de7054}
+#menu-shell #takumi-showcase .takumi-case-info .button-outline{background:transparent;border-color:#9ba387;color:#47533d}
+#menu-shell #takumi-showcase .takumi-case-info .pity-meter{border-color:#a1aa89;background:#bcc3a633;border-radius:0;padding:12px;margin-top:13px}
+#takumi-showcase .takumi-case-info .pity-meter>div:first-child,#takumi-showcase .takumi-case-info .pity-meter strong{font-size:9px;color:#576745;letter-spacing:0}
+#menu-shell #takumi-showcase .takumi-case-info .pity-meter p{font:11px/1.6 var(--body)!important;color:#657051!important;margin:0!important}
+#menu-shell #takumi-showcase .takumi-case-info .pity-track{background:#c2c9ad}
+#menu-shell #takumi-showcase .takumi-case-info .pity-track i{background:#737f52}
+#takumi-showcase .takumi-car{padding:28px;background:#161c1b;border-left:1px solid #656650;align-items:flex-start;min-width:0}
+#menu-shell #takumi-showcase .takumi-car>.eyebrow{font-size:9px;color:#a7ad96;letter-spacing:1px}
+#takumi-showcase .takumi-car-sprite{margin:20px 0;background:repeating-linear-gradient(0deg,transparent,transparent 25px,#7d8c6320 26px),#28302755;border:1px solid #4a5941;border-radius:0;min-height:160px}
+#takumi-showcase .takumi-car-sprite img{height:130px;width:85%;max-width:290px;object-fit:contain;filter:drop-shadow(8px 10px 7px #0008)}
+#takumi-showcase .takumi-car h4{font:700 24px/1.13 var(--display);letter-spacing:-.6px;color:#e7e6d5;margin:10px 0 4px}
+#takumi-showcase .takumi-car>p{font:11px/1.7 var(--mono);color:#b9c3a7;margin:12px 0}
+#takumi-showcase .takumi-car>small{font:12px/1.7 var(--body);color:#8d9d87;max-width:45ch}
+#takumi-showcase .takumi-direct-price{font:600 32px/1 var(--mono);color:#e6ce9f;margin:22px 0}
+#takumi-showcase .takumi-car>.button{margin-top:auto}
+#menu-shell #takumi-showcase .custom-car-card-link{font-size:9px;color:#d9bba0;margin-top:16px;padding:10px 0}
+#takumi-showcase .akina-colophon{display:flex;align-items:end;justify-content:space-between;gap:25px;background:#dfdccb;color:#31372e;padding:35px 30px;border-top:5px solid #b84835}
+#takumi-showcase .akina-colophon strong{font:900 clamp(24px,3vw,42px)/.98 var(--display);letter-spacing:-1px}
+#takumi-showcase .akina-colophon>span{font:9px/1.8 var(--mono);letter-spacing:1px;color:#6d725f;text-align:right}
+#takumi-showcase :is(a,button):focus-visible{outline:3px solid #e3a46d;outline-offset:-4px}
+@media(min-width:1800px){#takumi-showcase .akina-cover-copy{padding:55px 45px 40px}#takumi-showcase .akina-cover h2{margin:45px 0 30px}#takumi-showcase .akina-cover-bottom{margin-top:55px}}
+@media(max-width:1150px){#takumi-showcase .akina-cover h2{font-size:clamp(50px,6.5vw,78px);letter-spacing:-3px}#takumi-showcase .akina-cover-copy{padding:30px 25px}#takumi-showcase .akina-cover-bottom>span{font-size:8px}#takumi-showcase .akina-editorial{grid-template-columns:.8fr 1.6fr}#takumi-showcase .akina-editorial>svg{display:none}#takumi-showcase .takumi-stage-heading{grid-template-columns:55px minmax(0,1fr) 100px}#takumi-showcase .akina-chapter-mark{font-size:95px}#menu-shell #takumi-showcase .takumi-products{grid-template-columns:1fr 1fr}#takumi-showcase .takumi-case{grid-template-columns:1fr;align-content:start}#takumi-showcase .akina-case-visual{padding:22px;gap:10px}#takumi-showcase .takumi-case-art{height:155px}#takumi-showcase .takumi-case-info{padding:0 22px 25px}}
+@media(max-width:760px){#takumi-showcase .akina-cover{grid-template-columns:1fr}#takumi-showcase .akina-cover-copy{padding:28px}#takumi-showcase .akina-cover h2{font-size:clamp(60px,12vw,90px);margin:24px 0}#takumi-showcase .akina-cover-bottom{margin-top:25px}#takumi-showcase .akina-cover-art>img{height:auto;aspect-ratio:16/9;object-fit:contain;flex:none}#takumi-showcase .akina-chapters>button{padding:20px;gap:14px}#takumi-showcase .akina-chapters b{font-size:27px}#takumi-showcase .akina-chapters span{font-size:10px}#takumi-showcase .akina-chapters small{font-size:8px}#takumi-showcase .akina-chapters svg{display:none}#takumi-showcase .akina-spec-strip{grid-template-columns:1fr 1fr}#takumi-showcase .akina-spec-strip>div{padding:18px 0}#takumi-showcase .akina-spec-strip>div:nth-child(2n){border-right:0;padding-left:15px}#takumi-showcase .akina-spec-strip>div:nth-child(-n+2){border-bottom:1px solid #4e554c}#takumi-showcase .takumi-stage-heading{grid-template-columns:40px minmax(0,1fr);gap:16px}#takumi-showcase .akina-chapter-mark{display:none}#takumi-showcase .takumi-photos{grid-template-columns:1fr}#takumi-showcase .takumi-photos .takumi-photo img{height:auto;max-height:420px}#menu-shell #takumi-showcase .takumi-products{grid-template-columns:1fr}#takumi-showcase .takumi-case{grid-template-columns:.75fr 1.2fr;align-content:normal}#takumi-showcase .akina-case-visual{height:100%;padding:20px 12px}#takumi-showcase .takumi-case-info{padding:25px 20px 25px 5px}#takumi-showcase .takumi-car{border-left:0;border-top:1px solid #656650}}
+@media(max-width:480px){#menu-shell #takumi-showcase{margin-top:22px}#takumi-showcase .akina-masthead{padding:15px 18px;font-size:8px;letter-spacing:.5px;gap:12px}#takumi-showcase .akina-masthead>span:last-child{max-width:125px;text-align:right}#takumi-showcase .akina-cover-copy{padding:27px 20px}#takumi-showcase .akina-kicker{font-size:8px;letter-spacing:.5px}#takumi-showcase .akina-cover h2{font-size:clamp(47px,13.5vw,65px);letter-spacing:-2.5px}#takumi-showcase .akina-cover-copy>p{font-size:15px}#takumi-showcase .akina-cover-bottom>strong{font-size:47px}#takumi-showcase .akina-cover-bottom>span{font-size:8px}#takumi-showcase .akina-cover-art>span{padding:13px 16px;font-size:8px;letter-spacing:.3px}#takumi-showcase .akina-chapters{grid-template-columns:1fr}#takumi-showcase .akina-chapters>button+a{border-left:0;border-top:1px solid #57564d}#takumi-showcase .akina-chapters svg{display:block}#takumi-showcase .akina-editorial{grid-template-columns:1fr;gap:14px;padding:26px 20px}#takumi-showcase .akina-editorial>span{max-width:none;font-size:19px}#takumi-showcase .akina-editorial>p{font-size:14px}#takumi-showcase .akina-chapter-label{margin:0 20px;font-size:8px;letter-spacing:.7px}#takumi-showcase .takumi-stage-heading{padding:27px 20px;grid-template-columns:1fr;gap:13px}#takumi-showcase .takumi-stage-number{font-size:29px;padding:0}#takumi-showcase .takumi-stage-heading h3{font-size:36px;letter-spacing:-1.2px}#menu-shell #takumi-showcase .takumi-stage-heading p{font-size:14px}#takumi-showcase .akina-spec-strip{margin:0 20px 22px}#takumi-showcase .akina-spec-strip b{font-size:19px;letter-spacing:-.5px}#takumi-showcase .akina-spec-strip span{font-size:8px;letter-spacing:.4px}#takumi-showcase .takumi-photos{padding:0 15px 22px;gap:15px}#takumi-showcase .takumi-photo>span{padding:12px 10px;font-size:7px;gap:7px}#menu-shell #takumi-showcase .takumi-products{margin:0 15px 26px}#takumi-showcase .takumi-case{grid-template-columns:1fr}#takumi-showcase .akina-case-visual{padding:22px;gap:9px}#takumi-showcase .takumi-case-art{height:155px}#takumi-showcase .takumi-case-info{padding:0 20px 24px}#takumi-showcase .takumi-case-info h4{font-size:30px}#takumi-showcase .takumi-car{padding:25px 20px}#takumi-showcase .akina-colophon{display:block;padding:28px 20px}#takumi-showcase .akina-colophon>span{display:block;text-align:left;margin-top:22px}}

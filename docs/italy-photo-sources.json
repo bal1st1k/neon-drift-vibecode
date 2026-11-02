@@ -1,0 +1,38 @@
+[
+  {
+    "id": "fiat-coupe",
+    "file": "assets/source/italy-hq/fiat-coupe-hero.jpg",
+    "imageUrl": "https://media.classicandsportscar.com/sites/default/files/2024-08/Classic%20%26%20Sports%20Car%20-%20Buyer%E2%80%99s%20Guide%20Fiat%20Coupe%20%E2%80%93%2004.jpg",
+    "pageUrl": "https://www.classicandsportscar.com/features/buyers-guide-fiat-coupe",
+    "credit": "Classic & Sports Car",
+    "width": 1600,
+    "height": 1060
+  },
+  {
+    "id": "alfa-155",
+    "file": "assets/source/italy-hq/alfa-155-hero.jpg",
+    "imageUrl": "http://img.retro-rides.org/i/v/abcarpix/a7b8311c1bbf.jpg",
+    "pageUrl": "https://forum.retro-rides.org/thread/213260/1994-alfa-romeo-cloverleaf-integrale",
+    "credit": "AB car pix / Retro Rides",
+    "width": 1024,
+    "height": 681
+  },
+  {
+    "id": "alfa-gtv",
+    "file": "assets/source/italy-hq/alfa-gtv-hero.jpg",
+    "imageUrl": "https://www.bozhdynsky.com/wp-content/uploads/2025/06/DSC_6705-scaled.jpg",
+    "pageUrl": "https://www.bozhdynsky.com/for-sale-alfa-romeo-gtv-3-0-v6-24v-red-style/",
+    "credit": "Bozhdynsky / GTV Red Style",
+    "width": 2560,
+    "height": 1709
+  },
+  {
+    "id": "delta-evo2",
+    "file": "assets/source/italy-hq/delta-evo2-hero.jpg",
+    "imageUrl": "https://assets.basta.app/accounts/005fe31d-e133-4f0b-ac58-2c2cd5f3301c/images/5be5f980-5265-4ce4-9207-b1ee95582bbb?width=2000&quality=75&format=webp",
+    "pageUrl": "https://www.pcarmarket.com/results/1994-lancia-delta-integrale-evo2",
+    "credit": "PCARMARKET / Dealers Collection",
+    "width": 2000,
+    "height": 1333
+  }
+]

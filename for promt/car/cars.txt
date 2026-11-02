@@ -1,0 +1,72 @@
+
+# для всех моторов есть возможность поставить турбину и прочее(тоесть улучшиние детали)
+# для всех машин есть возможность свапнуть мотор
+
+
+
+
+
+
+### NISSAN ###
+*Nissan 180SX (RPS13):
+мотор SR20DET, в стоке 205пс, вес 1190кг
+*Nissan Silvia K's (S13):
+мотор CA18DET, в стоке 175пс, вес 1120кг
+*Nissan Silvia K's Aero (S14):
+мотор SR20DET, в стоке 220пс, вес 1250кг
+*Nissan Silvia Spec-R (S15):
+мотор SR20DET, в стоке 250пс, вес 1240кг
+*Nissan SilEighty (RPS13):
+мотор SR20DET, в стоке 205пс, вес ~1190кг (оценка по кузову 180SX)
+*Nissan Skyline 25GT Turbo (ER34):
+мотор RB25DET, в стоке 225пс, вес 1410кг (купе; седан 1450кг)
+*Nissan Skyline GT-R (BNR32):
+мотор RB26DETT, в стоке 280пс, вес 1480кг
+*Nissan Skyline GT-R V-Spec II (BNR32):
+мотор RB26DETT, в стоке 290пс, вес 1500кг
+*Nissan Skyline GT-R V-Spec II Nür (BNR34):
+мотор RB26DETT, в стоке 280пс, вес 1560кг
+
+### TOYOTA ###
+*Toyota MR2 (SW20):
+мотор 3S-GE, в стоке 175пс, вес 1190кг (у других версий до 1230кг)
+*Toyota Supra RZ (JZA80):
+мотор 2JZ-GTE, в стоке 280пс, вес 1510кг
+*Toyota Corolla Levin SR (AE85):
+мотор 3A-U, в стоке 80пс, вес ~900кг (все AE85: 855-910кг)
+*Toyota Sprinter Trueno GT-APEX (AE86):
+мотор 4A-GE, в стоке 130пс, вес 960кг (3-дверка; 2-дверное купе 940кг)
+*Toyota MR-S S-Edition (ZZW30):
+мотор 1ZZ-FE, в стоке 140пс, вес 970кг
+*Toyota Altezza (SXE10):
+мотор 3S-GE, в стоке 209пс, вес 1340кг (в разных комплектациях 1330-1370кг)
+
+### HONDA ###
+*Honda Civic Type R (EK9):
+мотор B16B, в стоке 185пс, вес 1070кг (в зависимости от комплектации 1040-1090кг)
+*Honda Civic SiR-II (EG6):
+мотор B16B, в стоке 185пс, вес 1050кг
+*Honda Integra Type R (DC2):
+мотор B18C, в стоке 200пс, вес 1100кг (ранняя версия 1060кг)
+*Honda NSX (NA1):
+мотор C30A, в стоке 274пс, вес 1350кг
+
+### MITSUBISHI ###
+*Mitsubishi Lancer Evolution III GSR (CE9A):
+мотор 4G63T, в стоке 275пс, вес 1260кг
+*Mitsubishi Lancer Evolution IV RS (CN9A):
+мотор 4G63T, в стоке 275пс, вес 1260кг
+*Mitsubishi Lancer Evolution V RS (CP9A):
+мотор 4G63T, в стоке 275пс, вес 1260кг
+*Mitsubishi Lancer Evolution VI GSR Tommi Mäkinen Edition (CP9A):
+мотор 4G63T, в стоке 275пс, вес 1360кг
+*Mitsubishi Lancer Evolution VII GSR (CT9A):
+мотор 4G63T, в стоке 275пс, вес ~1400кг (в других источниках до 1440кг)
+
+### SUBARU ###
+*Subaru Impreza WRX STi Coupe Type R Version V (GC8F):
+мотор EJ207, в стоке 280пс, вес 1260кг
+
+### MAZDA ###
+*Mazda RX-7 Type R (FD3S):
+мотор 13B-REW, в стоке 230пс, вес ~1280кг (у ранних версий меньше)
