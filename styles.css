@@ -195,3 +195,7 @@ body.reduce-motion *,body.reduce-motion *:before,body.reduce-motion *:after{anim
 }
 
 @media(max-width:680px){.ready-strip{flex-wrap:wrap}.ready-strip>.text-button{margin-left:auto}}
+/* Balance the guarantee cards and keep scrolling copy behind an opaque tab bar. */
+.pity-counters{display:flex;flex-wrap:wrap;justify-content:center}
+.pity-counters>section{flex:1 1 220px;min-width:220px;max-width:calc((100% - 56px)/5)}
+.shop-tabs{background:#111b1e;backdrop-filter:none;box-shadow:0 8px 22px #0009}
