@@ -5,6 +5,13 @@
   const { cars, tracks, upgrades, engines, computeBuild, getSwapPrice, getUpgradePrice } = root.NDCore;
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
+  const trackSearchAliases = {
+    akagi:'акаги',akina:'акина', 'enna-skyline':'энна энна скайлайн',hakone:'хаконе',happogahara:'хаппогахара',irohazaka:'ирохазака ироха',
+    'momiji-line':'момидзи момидзилайн',myogi:'мёги моги',nagao:'нагао',nanamagari:'нанамагари',sadamine:'садаминэ',tsubaki:'цубаки тсубаки',
+    tsukuba:'цукуба',usui:'усуи усуй',yabitsu:'ябица',tsuchisaka:'тсучисака цутисака',harbor:'неоновый порт',ridge:'горный сигнал',downtown:'после полуночи',
+    'wangan-east':'ванган восток ист', 'wangan-west':'ванган запад вест'
+  };
+  const normalizeTrackSearch = value => String(value ?? '').toLocaleLowerCase('ru-RU').replaceAll('ё','е');
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const n = (value, digits = 0) => Number(value || 0).toLocaleString('ru-RU', { maximumFractionDigits: digits });
   const icon = name => `<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
@@ -465,10 +472,14 @@
       }).join('');
     }
     renderTracks() {
-      const save=this.getSave(),query=this.trackQuery.toLowerCase().trim();
-      $('#track-format-note').textContent=this.trackFamily==='wangan'?'WANGAN / 3 ПОЛОСЫ / ПОПУТНЫЙ ПОТОК':this.trackFamily==='city'?'ГОРОД / 4 ГОНЩИКА / 3 КРУГА':'ТОГЕ / 4 ГОНЩИКА / СТАРТ → ФИНИШ';
-      const filtered=tracks.filter(track=>(this.trackFamily==='wangan'?track.family==='wangan':this.trackFamily==='touge'?track.closed===false&&track.family!=='wangan':track.closed!==false)&&(!query||`${track.name} ${track.id}`.toLowerCase().includes(query)));
-      for(const button of $$('[data-track-family]')){const active=button.dataset.trackFamily===this.trackFamily;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));}
+      const save=this.getSave(),query=normalizeTrackSearch(this.trackQuery.trim()),searchAll=!!query;
+      $('#track-format-note').textContent=searchAll?'ПОИСК ПО ВСЕМ МАРШРУТАМ':this.trackFamily==='wangan'?'WANGAN / 3 ПОЛОСЫ / ПОПУТНЫЙ ПОТОК':this.trackFamily==='city'?'ГОРОД / 4 ГОНЩИКА / 3 КРУГА':'ТОГЕ / 4 ГОНЩИКА / СТАРТ → ФИНИШ';
+      const filtered=tracks.filter(track=>{
+        const inFamily=searchAll||(this.trackFamily==='wangan'?track.family==='wangan':this.trackFamily==='touge'?track.closed===false&&track.family!=='wangan':track.closed!==false);
+        const searchable=normalizeTrackSearch(`${track.name} ${track.id} ${track.subtitle||''} ${track.description||''} ${trackSearchAliases[track.id]||''}`);
+        return inFamily&&(!query||searchable.includes(query));
+      });
+      for(const button of $$('[data-track-family]')){const active=!searchAll&&button.dataset.trackFamily===this.trackFamily;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));}
       $('#track-grid').innerHTML=filtered.length?filtered.map(track=>{
         const course=this.trackCache[track.id],record=save.records[track.id],index=tracks.indexOf(track),open=course.closed===false;
         const {minX,minY,maxX,maxY}=course.bounds,scale=Math.min(185/(maxX-minX),84/(maxY-minY)),ox=110-(minX+maxX)/2*scale,oy=50-(minY+maxY)/2*scale;
