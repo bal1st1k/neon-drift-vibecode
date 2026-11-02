@@ -9,7 +9,7 @@
   <meta name="description" content="Neon Drift — ночная гоночная аркада. Горные серпантины, японские машины, свапы моторов и твоя идеальная сборка.">
   <title>NEON DRIFT — Touge Garage</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d7ff3f'/%3E%3Cpath d='M15 47V17h8l18 20V17h8v30h-8L23 27v20z' fill='%230c1013'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css?v=4.4.5">
+  <link rel="stylesheet" href="styles.css?v=4.4.6">
   <link rel="stylesheet" href="autumn.css?v=3.14.1">
   <link rel="stylesheet" href="legends-newspaper.css?v=3.10.3">
   <link rel="stylesheet" href="akina-archive.css?v=3.11.0">
@@ -34,7 +34,7 @@
   <script src="audio.js?v=4.4.0" defer></script>
   <script src="bmw-archive.js?v=4.4.1" defer></script>
   <script src="bmw.js?v=4.4.1" defer></script>
-  <script src="garage.js?v=4.4.5" defer></script>
+  <script src="garage.js?v=4.4.6" defer></script>
   <script src="app.js?v=4.4.3" defer></script>
 </head>
 <body>
@@ -110,23 +110,20 @@
 
       <section id="view-shop" class="page" aria-labelledby="shop-title" hidden>
         <div class="page-heading shop-heading"><div><span class="eyebrow">TOUGE SUPPLY / НОЧНОЙ МАГАЗИН</span><h1 id="shop-title">СЛЕДУЮЩИЙ<br><span>УРОВЕНЬ.</span></h1></div><p>Железо для следующего поворота.<br>Кейсы и детали за заработанные монеты.</p></div>
-        <div class="shop-tabs" id="shop-tabs">
-          <label for="shop-section">Раздел магазина</label>
-          <select id="shop-section" aria-label="Раздел магазина">
-            <option value="cases">Кейсы</option>
-            <option value="parts">Детали</option>
-            <option value="shadow">Purple Shadow</option>
-            <option value="akina">Акина</option>
-            <option value="legends">Легенды</option>
-            <option value="brothers">Братья</option>
-            <option value="roadster">Miata</option>
-            <option value="mercedes">Evo II</option>
-            <option value="bmw">BMW Motorsport</option>
-            <option value="mustang">Американская лошадка</option>
-            <option value="italy">И вам привет из Италии</option>
-            <option value="blackbird">Blackbird</option>
-            <option value="pity">Гарант</option>
-          </select>
+        <div class="shop-tabs" id="shop-tabs" role="group" aria-label="Разделы магазина">
+          <button class="shop-tab" type="button" data-shop-tab="cases" aria-controls="shop-panel-cases" aria-pressed="true"><span class="shop-tab-mark">TT</span><span>Кейсы</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="parts" aria-controls="shop-panel-parts" aria-pressed="false"><span class="shop-tab-mark">⚙</span><span>Детали</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="shadow" aria-controls="s2000-showcase" aria-pressed="false"><span class="shop-tab-mark">PS</span><span>Purple Shadow</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="akina" aria-controls="takumi-showcase" aria-pressed="false"><span class="shop-tab-mark">86</span><span>Призрак Акины</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="legends" aria-controls="legends-showcase" aria-pressed="false"><span class="shop-tab-mark">LEG</span><span>Легенды</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="brothers" aria-controls="brothers-showcase" aria-pressed="false"><span class="shop-tab-mark">USDM</span><span>Братья</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="roadster" aria-controls="roadster-showcase" aria-pressed="false"><span class="shop-tab-mark">NA</span><span>Miata</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="mercedes" aria-controls="mercedes-showcase" aria-pressed="false"><span class="shop-tab-mark">502</span><span>Mercedes Evo II</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="bmw" aria-controls="bmw-showcase" aria-pressed="false"><span class="shop-tab-mark">M</span><span>BMW Motorsport</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="mustang" aria-controls="mustang-showcase" aria-pressed="false"><span class="shop-tab-mark">PONY</span><span>Mustang</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="italy" aria-controls="italy-showcase" aria-pressed="false"><span class="shop-tab-mark">IT</span><span>Salone Italiano</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="blackbird" aria-controls="blackbird-showcase" aria-pressed="false"><span class="shop-tab-mark">911</span><span>Blackbird</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="pity" aria-controls="pity-showcase" aria-pressed="false"><span class="shop-tab-mark">50/50</span><span>Гарант</span></button>
         </div>
         <div id="shop-panel-cases" data-shop-panel="cases" role="region" aria-label="Кейсы">
         <section class="shop-case-product shop-jump-target" id="shop-case-standard" tabindex="-1" aria-labelledby="shop-case-title">

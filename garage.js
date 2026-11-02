@@ -60,7 +60,7 @@
         if(button.dataset.trackFamily){this.trackFamily=button.dataset.trackFamily;this.renderTracks();}
         if(button.dataset.carPage){this.carPage=Math.max(0,this.carPage+Number(button.dataset.carPage));this.renderCars();$('#car-search').scrollIntoView({block:'center',behavior:'instant'});}
       });
-      $('#shop-section').addEventListener('change',event=>{this.setShopTab(event.target.value);$('#shop-tabs').scrollIntoView({block:'start',behavior:'instant'});});
+      $('#shop-tabs').addEventListener('click',event=>{const button=event.target.closest('[data-shop-tab]');if(!button)return;this.setShopTab(button.dataset.shopTab);});
       for(const el of $$('[data-car-count]'))el.textContent=String(cars.length);
       for(const el of $$('[data-engine-count]'))el.textContent=String(engines.length);
       for(const el of $$('[data-touge-count]'))el.textContent=String(tracks.filter(track=>track.closed===false&&track.family!=='wangan').length);
@@ -186,12 +186,12 @@
       }).join('')+`<footer class="akina-colophon"><strong>НЕ КОНЕЦ.<br>СЛЕДУЮЩИЙ ПОВОРОТ.</strong><span>TOUGE ARCHIVE / 086<br>AKINA → PROJECT D</span></footer>`;
     }
     setShopTab(tab) {
-      if(!Array.from($('#shop-section').options).some(option=>option.value===tab))return;
+      if(!$$('[data-shop-tab]').some(button=>button.dataset.shopTab===tab))return;
       this.shopTab=tab;this.renderShopTabs();
     }
     renderShopTabs() {
       const tab=this.shopTab||'cases';
-      $('#shop-section').value=tab;
+      for(const button of $$('[data-shop-tab]')){const active=button.dataset.shopTab===tab;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));}
       for(const panel of $$('[data-shop-panel]'))panel.hidden=panel.dataset.shopPanel!==tab;
     }
     renderShop() {
