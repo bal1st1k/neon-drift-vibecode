@@ -33,12 +33,20 @@
     if (spritePadded.has(car.id)) return ' sprite-padded';
     return '';
   };
+  const engineCategory = engine => {
+    const text = `${engine.id} ${engine.name} ${engine.description}`.toLowerCase();
+    if (/\bv8\b|modular-46|1uz-fe/.test(text)) return 'v8';
+    if (/rotary|wankel|renesis|13b|20b/.test(text)) return 'rotary';
+    if (/turbo/.test(text)||/(?:gte|det|dett)$/.test(engine.id.toLowerCase())) return 'turbo';
+    return 'na';
+  };
   class Interface {
     constructor({ getSave, trackCache, onReveal = () => {} }) {
       this.getSave = getSave; this.trackCache = trackCache;
       this.onReveal = onReveal; this.reveal = null; this.revealTimer = null;
       this.shopTab='cases';this.italyModel='fiat-coupe';this.bmwModel='m3-e30';
       this.tab = 'cars'; this.carPage = 0; this.query = ''; this.brand = 'all'; this.sort = 'ratio'; this.onlyOwned = false;
+      this.engineCompatibility='compatible';this.engineType='all';this.engineSort='name';
       this.trackFamily = tracks.find(track=>track.id===getSave().selectedTrack)?.family==='wangan'?'wangan':tracks.find(track=>track.id===getSave().selectedTrack)?.closed === false ? 'touge' : 'city';
       this.trackQuery = ''; this.inventoryRarity='all'; this.inventorySlot='all';
       $('#inventory-slot').innerHTML='<option value="all">Все детали</option>'+NDCards.slots.map(slot=>`<option value="${slot.id}">${esc(slot.name)}</option>`).join('');
@@ -49,6 +57,9 @@
       $('#car-brand').addEventListener('change',event=>{this.brand=event.target.value;this.carPage=0;this.renderCars();});
       $('#car-sort').addEventListener('change',event=>{this.sort=event.target.value;this.carPage=0;this.renderCars();});
       $('#owned-filter').addEventListener('click',()=>{this.onlyOwned=!this.onlyOwned;this.carPage=0;this.renderCars();});
+      $('#engine-compatibility').addEventListener('change',event=>{this.engineCompatibility=event.target.value;this.renderEngines();});
+      $('#engine-type').addEventListener('change',event=>{this.engineType=event.target.value;this.renderEngines();});
+      $('#engine-sort').addEventListener('change',event=>{this.engineSort=event.target.value;this.renderEngines();});
       $('#track-search').addEventListener('input',event=>{this.trackQuery=event.target.value;this.renderTracks();});
       document.addEventListener('click',event=>{
         const button=event.target.closest('button');if(!button)return;
@@ -460,16 +471,22 @@
       const save=this.getSave(),carId=save.selectedCar,build=this.currentBuild();
       $('#garage-pane-engines .economy-note').hidden=build.car.tuningLocked;
       $('#garage-pane-engines .section-note').hidden=build.car.tuningLocked;
-      if(build.car.tuningLocked||build.car.swapLocked){$('#engine-grid').innerHTML=`<div class="empty-state stock-lock"><strong>Штатный ${esc(build.engine.name)}.</strong><p>${n(build.powerHp)} PS · масса мотора ${n(build.engine.weightKg)} кг. Эта версия сохраняет штатный мотор. ${build.engine.swapAllowed!==false?'Этот двигатель доступен для свапа в другие машины.':'Этот двигатель недоступен для свапа в другие машины.'}</p></div>`;return;}
-      $('#engine-grid').innerHTML=engines.filter(engine=>engine.swapAllowed!==false||engine.id===build.car.stockEngineId).sort((a,b)=>a.name.localeCompare(b.name,'en',{numeric:true})).map(engine=>{
-        const current=save.selectedEngines[carId]===engine.id,owned=save.ownedEngines[carId].includes(engine.id),price=getSwapPrice(carId,engine.id);
-        const next=NDCards.computeBuild(carId,save.upgrades[carId],engine.id,save.equippedCards[carId]),dp=next.powerHp-build.powerHp,dw=next.weightKg-build.weightKg;
+      const toolbar=$('#engine-toolbar');
+      if(build.car.tuningLocked||build.car.swapLocked){toolbar.hidden=true;$('#engine-grid').innerHTML=`<div class="empty-state stock-lock"><strong>Штатный ${esc(build.engine.name)}.</strong><p>${n(build.powerHp)} PS · масса мотора ${n(build.engine.weightKg)} кг. Эта версия сохраняет штатный мотор. ${build.engine.swapAllowed!==false?'Этот двигатель доступен для свапа в другие машины.':'Этот двигатель недоступен для свапа в другие машины.'}</p></div>`;return;}
+      toolbar.hidden=false;
+      const available=engine=>engine.swapAllowed!==false||engine.id===build.car.stockEngineId;
+      const sorters={name:(a,b)=>a.name.localeCompare(b.name,'en',{numeric:true}),'weight-asc':(a,b)=>a.weightKg-b.weightKg||a.name.localeCompare(b.name,'en',{numeric:true}),'weight-desc':(a,b)=>b.weightKg-a.weightKg||a.name.localeCompare(b.name,'en',{numeric:true}),'power-asc':(a,b)=>a.powerHp-b.powerHp||a.name.localeCompare(b.name,'en',{numeric:true}),'power-desc':(a,b)=>b.powerHp-a.powerHp||a.name.localeCompare(b.name,'en',{numeric:true})};
+      const visibleEngines=engines.filter(engine=>(this.engineCompatibility==='all'||available(engine))&&(this.engineType==='all'||engineCategory(engine)===this.engineType)).sort(sorters[this.engineSort]||sorters.name);
+      $('#engine-results-count').textContent=`${visibleEngines.length} / ${engines.length} МОТОРОВ`;
+      $('#engine-grid').innerHTML=visibleEngines.length?visibleEngines.map(engine=>{
+        const canInstall=available(engine),current=save.selectedEngines[carId]===engine.id,owned=save.ownedEngines[carId].includes(engine.id),price=getSwapPrice(carId,engine.id);
+        const next=canInstall?NDCards.computeBuild(carId,save.upgrades[carId],engine.id,save.equippedCards[carId]):null,dp=next?next.powerHp-build.powerHp:0,dw=next?next.weightKg-build.weightKg:0;
         const basePower=engine.id===build.car.stockEngineId?build.car.stockPowerHp:engine.powerHp;
-        const action=current?`${icon('check')} УСТАНОВЛЕН`:owned?'УСТАНОВИТЬ БЕСПЛАТНО':`КУПИТЬ / ₡ ${n(price)}`;
+        const action=!canInstall?'НЕДОСТУПЕН ДЛЯ СВАПА':current?`${icon('check')} УСТАНОВЛЕН`:owned?'УСТАНОВИТЬ БЕСПЛАТНО':`КУПИТЬ / ₡ ${n(price)}`;
         const priceReference=['fixed','game'].includes(engine.priceBasis)?'₡ '+n(engine.gamePrice):String.fromCharCode(36)+n(engine.referenceUsd[0])+'–'+String.fromCharCode(36)+n(engine.referenceUsd[1]);
         const discount=price<engine.gamePrice;
-        return `<article class="engine-card${current?' installed':''}"><div class="engine-card-top"><span class="eyebrow">${engine.id===build.car.stockEngineId?'ШТАТНЫЙ ДЛЯ КУЗОВА':owned?'КУПЛЕН ДЛЯ КУЗОВА':'СВАП / ЛЮБОЙ КУЗОВ'}</span>${icon('settings')}</div><h3>${esc(engine.name)}</h3><div class="engine-base-specs"><span>${n(basePower)} <small>л.с. в базе</small></span><span>≈${n(engine.weightKg)} <small>кг</small></span></div><p>${esc(engine.description)}</p><div class="engine-build-delta"><div><span>МОЩНОСТЬ С ТЮНИНГОМ</span><strong>${n(next.powerHp)} л.с. <small class="${dp>=0?'positive':'negative'}">${dp>=0?'+':''}${n(dp)}</small></strong></div><div><span>МАССА СБОРКИ</span><strong>${n(next.weightKg)} кг <small class="${dw<=0?'positive':'negative'}">${dw>=0?'+':''}${n(dw)}</small></strong></div></div><div class="engine-reference"><span>${engine.priceBasis==='game'?'ИГРОВАЯ ЦЕНА':engine.priceBasis==='fixed'?'ЦЕНА МОТОРА':engine.priceBasis==='offer'?'ОРИЕНТИР ПРОДАВЦА':'ОЦЕНКА ПО СЕМЕЙСТВУ'}</span><b>${priceReference}</b>${engine.sourceUrl?'<a href="'+esc(engine.sourceUrl)+'" target="_blank" rel="noopener">Источник ↗</a>':''}</div><div class="engine-game-price">${discount&&!owned?'ЦЕНА СНИЖЕНА ПОД ЭТОТ КУЗОВ':owned?'ПОВТОРНАЯ УСТАНОВКА БЕСПЛАТНА':engine.priceBasis==='fixed'?'ГОНОЧНЫЙ МОТОР ДЛЯ СВАПА':'ИГРОВАЯ ЦЕНА СО СКИДКОЙ ДЛЯ БАЛАНСА'}</div><button class="button ${current?'button-outline':'button-lime'} full-width" data-engine="${engine.id}" ${current?'disabled':''}>${action}</button></article>`;
-      }).join('');
+        return `<article class="engine-card${current?' installed':''}"><div class="engine-card-top"><span class="eyebrow">${!canInstall?'ШТАТНЫЙ / БЕЗ СВАПА':engine.id===build.car.stockEngineId?'ШТАТНЫЙ ДЛЯ КУЗОВА':owned?'КУПЛЕН ДЛЯ КУЗОВА':'СВАП / ЛЮБОЙ КУЗОВ'}</span>${icon('settings')}</div><h3>${esc(engine.name)}</h3><div class="engine-base-specs"><span>${n(basePower)} <small>л.с. в базе</small></span><span>≈${n(engine.weightKg)} <small>кг</small></span></div><p>${esc(engine.description)}</p>${next?`<div class="engine-build-delta"><div><span>МОЩНОСТЬ С ТЮНИНГОМ</span><strong>${n(next.powerHp)} л.с. <small class="${dp>=0?'positive':'negative'}">${dp>=0?'+':''}${n(dp)}</small></strong></div><div><span>МАССА СБОРКИ</span><strong>${n(next.weightKg)} кг <small class="${dw<=0?'positive':'negative'}">${dw>=0?'+':''}${n(dw)}</small></strong></div></div>`:'<div class="engine-game-price">ДОСТУПЕН ТОЛЬКО В ШТАТНОЙ СБОРКЕ</div>'}<div class="engine-reference"><span>${engine.priceBasis==='game'?'ИГРОВАЯ ЦЕНА':engine.priceBasis==='fixed'?'ЦЕНА МОТОРА':engine.priceBasis==='offer'?'ОРИЕНТИР ПРОДАВЦА':'ОЦЕНКА ПО СЕМЕЙСТВУ'}</span><b>${priceReference}</b>${engine.sourceUrl?'<a href="'+esc(engine.sourceUrl)+'" target="_blank" rel="noopener">Источник ↗</a>':''}</div>${canInstall?`<div class="engine-game-price">${discount&&!owned?'ЦЕНА СНИЖЕНА ПОД ЭТОТ КУЗОВ':owned?'ПОВТОРНАЯ УСТАНОВКА БЕСПЛАТНА':engine.priceBasis==='fixed'?'ГОНОЧНЫЙ МОТОР ДЛЯ СВАПА':'ИГРОВАЯ ЦЕНА СО СКИДКОЙ ДЛЯ БАЛАНСА'}</div>`:''}<button class="button ${current||!canInstall?'button-outline':'button-lime'} full-width" data-engine="${engine.id}" ${current||!canInstall?'disabled':''}>${action}</button></article>`;
+      }).join(''):'<div class="empty-state">Под эти фильтры моторы не найдены.</div>';
     }
     renderTracks() {
       const save=this.getSave(),query=normalizeTrackSearch(this.trackQuery.trim()),searchAll=!!query;

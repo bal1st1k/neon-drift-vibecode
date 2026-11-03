@@ -78,7 +78,7 @@
   const garageUI = new NDUX.Interface({ getSave: () => save, trackCache, onReveal: () => audio.play('buy') });
   const autumn=new NDAutumn.Leaves($('#autumn-leaves'),$('#menu-shell'),$('#modal-backdrop'));
   function syncAutumn(){autumn.setContext({racing,modal:currentModal,reducedMotion:save.settings.reducedMotion,hidden:document.hidden});}
-  function unlockAudio() { Promise.resolve(audio.unlock()).catch(() => {});radio.unlock(); }
+  function unlockAudio() { Promise.resolve(audio.unlock()).catch(() => {});if(['error','offline'].includes(radio.phase))radio.retry();else radio.unlock(); }
   function applySettings() {
     audio.setEnabled(save.settings.sound);
     audio.setVolume(save.settings.volume);
