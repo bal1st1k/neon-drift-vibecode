@@ -196,6 +196,65 @@ body.reduce-motion *,body.reduce-motion *:before,body.reduce-motion *:after{anim
   transform: scale(1.1);
 }
 
+/* Design audit: keep choices and help text readable. */
+.mobile-settings,.mobile-help-link,.hero-route-link{display:none}
+.footer{color:#a0b0b2;font-size:10px}
+.section-note,.track-info p,.record-route small{color:#a8b8b9;font-size:10px}
+.build-specs>div>span{color:#a9c3bf;font-size:10px}
+.build-specs small{color:#b1c6bf;font-size:10px}
+.economy-note{font-size:13px;color:#b0c2bd;line-height:1.6}
+.engine-price-details{margin-top:8px;font-size:12px}
+.engine-price-details summary{cursor:pointer;color:var(--lime)}
+.engine-price-details p{margin-top:7px}
+.engine-toolbar label{display:flex;flex-direction:column;gap:5px}
+.engine-toolbar .filter-label{font:11px var(--body);color:#c5d4cf}
+.engine-toolbar select{font-size:12px;min-height:44px}
+.engine-results-count{font-size:11px}
+.shop-tabs-hint{font:11px var(--body);color:#b9ccc5;margin:-11px 0 15px}
+.shop-product-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:10px;border:1px solid #465b52;border-radius:4px;background:#111b1e}
+.shop-product-nav button{min-height:40px;padding:8px 12px;border:1px solid #52675f;border-radius:3px;color:#edf4ed;font:12px var(--body)}
+.shop-product-nav button:hover{border-color:var(--lime);color:var(--lime)}
+#view-shop [id^="shop-"][id*="-target-"],#view-shop [id^="shop-exclusive-"]{scroll-margin-top:90px}
+.purchase-block-reason{display:block;margin:7px 0 10px;color:#f0be9e;font:12px/1.4 var(--body)}
+.records-empty{padding:32px 26px;display:grid;gap:13px;justify-items:start}
+.records-empty strong{font-size:20px}
+.records-empty p,.records-next{font-size:13px;line-height:1.5;color:#b6c8c0}
+.records-next{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 26px}
+.control-table>div{font-size:13px}
+.control-table b{color:#dae6df}
+.help-tip>p,.modal-help>.mobile-help{font-size:13px;color:#b6ccc5;line-height:1.6}
+.race-key-hint{font-size:11px;color:#c5dad1}
+.speed-value>span{white-space:nowrap;font-size:12px}
+@media(min-width:1200px){.race-top{left:max(30px,calc((100vw - 900px)/2));right:max(30px,calc((100vw - 900px)/2))}.race-minimap{left:max(30px,calc((100vw - 900px)/2))}.speedometer{right:max(36px,calc((100vw - 900px)/2))}}
+@media(max-width:680px){
+  .rail-nav>.rail-button[data-action="help"],.rail-bottom{display:none}
+  .rail-nav>.mobile-settings{display:flex}
+  .rail-nav .rail-button{min-width:44px;min-height:56px}
+  .rail-button span{font-size:10px}
+  .mobile-help-link{display:flex;margin-top:10px}
+  .hero-route-link{display:inline-flex}
+  .hero-actions{flex-wrap:wrap}
+  #track-grid{scroll-margin-top:20px}
+  .garage-tabs>button{font-size:11px;min-height:48px;gap:7px}
+  .garage-tabs>button>span{font-size:9px}
+  .owned-car-name strong{font-size:12px}
+  .owned-car-name small{font-size:10px}
+  .build-specs>div>span{font-size:10px}
+  .track-info p,.track-record,.track-badge{font-size:10px}
+  .race-position small,.race-timing>.eyebrow,.race-minimap>div{font-size:9px}
+  .race-key-hint{display:none}
+  .modal-help{padding-top:24px}
+  .control-table>div{font-size:13px}
+  .control-table kbd{font-size:10px}
+  .help-tip>p{font-size:13px}
+  .footer{font-size:10px}
+}
+@media(max-width:380px){
+  #garage-title{font-size:clamp(30px,10vw,36px);letter-spacing:-2px;overflow-wrap:anywhere}
+  .rail-nav .rail-button{min-width:0}
+  .rail-button span{font-size:9px}
+}
+
 @media(max-width:680px){.ready-strip{flex-wrap:wrap}.ready-strip>.text-button{margin-left:auto}}
 /* Balance the guarantee cards and keep scrolling copy behind an opaque tab bar. */
 .pity-counters{display:flex;flex-wrap:wrap;justify-content:center}
@@ -203,3 +262,16 @@ body.reduce-motion *,body.reduce-motion *:before,body.reduce-motion *:after{anim
 .shop-tabs{background:#111b1e;backdrop-filter:none;box-shadow:0 8px 22px #0009}
 
 .engine-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 18px}.engine-toolbar label{flex:1;min-width:175px}.engine-toolbar select{width:100%;height:40px;padding:0 11px;border:1px solid #35474b;border-radius:3px;background:#131e22;color:#a8bfad;font:9px var(--mono)}.engine-results-count{font:8px var(--mono);letter-spacing:.5px;color:#77968b;white-space:nowrap}
+
+.engine-toolbar select{font-size:12px;height:44px}
+.engine-results-count{font-size:11px;color:#b0c5bb}
+@media(min-width:681px){
+  .owned-garage:has(.owned-car:only-child){display:flex;align-items:center;gap:22px;padding:12px 20px}
+  .owned-garage:has(.owned-car:only-child) .owned-garage-heading{margin:0;min-width:170px}
+  .owned-garage:has(.owned-car:only-child) .owned-car-list{flex:1;padding:0}
+}
+@media(max-width:680px){
+  #view-home .track-info p,#view-home .track-record,#view-home .track-badge{font-size:10px}
+  .race-location>small,.race-timing>div,.speed-label{font-size:10px}
+  .rail-button span{font-size:10px}
+}

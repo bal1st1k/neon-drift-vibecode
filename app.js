@@ -110,10 +110,12 @@
   function renderRecords() {
     const career = save.career;
     $('#career-stats').innerHTML = [['ЗАВЕРШЕНО ЗАЕЗДОВ',number(career.races)],['ПОБЕД',number(career.wins)],['ОЧКОВ ДРИФТА',number(career.totalDrift)],['ЗАРАБОТАНО КРЕДИТОВ',`<small>₡</small> ${number(career.totalCredits)}`]].map(([label,value]) => `<div class="career-stat"><span>${label}</span><strong>${value}</strong></div>`).join('');
-    $('#records-list').innerHTML = tracks.map((track,index) => {
+    const completed = tracks.filter(track => save.records[track.id]);
+    $('#records-list').innerHTML = completed.length ? completed.map((track,index) => {
       const record = save.records[track.id];
-      return `<div class="record-row"><div class="record-route"><span>${String(index + 1).padStart(2,'0')}</span><div><b>${track.name}</b><small>${record ? cars.find(car=>car.id===record.carId).name : 'ТВОЯ ПЕРВАЯ НОЧЬ ЕЩЁ ВПЕРЕДИ'}</small></div></div><div class="record-time"><span>ВРЕМЯ ЗАЕЗДА</span><b>${record ? time(record.bestTime) : '— : — . —'}</b></div><div class="record-time"><span>${track.closed === false ? 'ЛУЧШИЙ ДРИФТ' : 'ЛУЧШИЙ КРУГ'}</span><b>${record ? (track.closed === false ? number(record.bestDrift) : time(record.bestLap)) : '—'}</b></div><button class="button button-outline" data-race-track="${track.id}">НА СТАРТ ${icon('arrow')}</button></div>`;
-    }).join('');
+      const car = cars.find(item => item.id === record.carId);
+      return `<div class="record-row"><div class="record-route"><span>${String(index + 1).padStart(2,'0')}</span><div><b>${track.name}</b><small>${car ? car.name : 'МАШИНА ИЗ ПРОШЛОГО ЗАЕЗДА'}</small></div></div><div class="record-time"><span>ВРЕМЯ ЗАЕЗДА</span><b>${time(record.bestTime)}</b></div><div class="record-time"><span>${track.closed === false ? 'ЛУЧШИЙ ДРИФТ' : 'ЛУЧШИЙ КРУГ'}</span><b>${track.closed === false ? number(record.bestDrift) : time(record.bestLap)}</b></div><button class="button button-outline" data-race-track="${track.id}">НА СТАРТ ${icon('arrow')}</button></div>`;
+    }).join('') + `<div class="records-next">${completed.length} из ${tracks.length} маршрутов в архиве. <button class="text-button" data-nav="home">ВЫБРАТЬ СЛЕДУЮЩИЙ МАРШРУТ ${icon('arrow')}</button></div>` : `<div class="records-empty"><strong>Здесь появится твой первый рекорд.</strong><p>Выбери маршрут и заверши заезд — время, лучший круг и машина сохранятся здесь.</p><button class="button button-lime" data-nav="home">ВЫБРАТЬ МАРШРУТ ${icon('arrow')}</button></div>`;
   }
   function updateReady() {
     $('#ready-car-name').textContent = cars.find(car=>car.id===save.selectedCar).name;

@@ -91,7 +91,7 @@
         const selected=item.id===save.selectedCar;
         return `<button class="owned-car${selected?' selected':''}" data-car="${item.id}" aria-pressed="${selected}" ${selected?'disabled':''}><span class="owned-car-photo"><img class="${carSpriteClass(item)}" src="${esc(encodeURI(item.sprite))}" alt="" loading="lazy"></span><span class="owned-car-name"><strong>${esc(item.name)}</strong>${editionBadge(item)}<small>${selected?'НА СТАРТЕ':'ВЫБРАТЬ'} · ${item.drivetrain}</small></span>${selected?icon('check'):icon('arrow')}</button>`;
       }).join('');
-      $('#build-summary').innerHTML=`<div class="build-photo"><img class="${carSpriteClass(car)}" src="${esc(encodeURI(car.sprite))}" alt="${esc(car.name)}"><span>${esc(car.tag)}</span></div><div class="build-data"><span class="eyebrow">НА ЛИНИИ СТАРТА / ТВОЯ СБОРКА</span><h2>${esc(car.name)}</h2>${editionBadge(car)}<div class="build-engine">${icon('settings')} ${esc(build.engine.name)} <span>${build.engineId===car.stockEngineId?'ШТАТНЫЙ':'СВАП'}</span></div><div class="build-specs">${spec('МОЩНОСТЬ',n(build.powerHp),'л.с.')}${spec('МАССА',n(build.weightKg),'кг')}${spec('УДЕЛЬНАЯ МОЩНОСТЬ',n(build.hpPerTonne),'л.с./т')}${spec('Л.С. / КГ',n(build.powerToWeight,3))}</div><div class="build-actions"><button class="text-button" data-garage-tab="workshop">В МАСТЕРСКУЮ ${icon('arrow')}</button><button class="text-button" data-garage-tab="engines">ЗАМЕНИТЬ МОТОР ${icon('arrow')}</button></div></div>`;
+      $('#build-summary').innerHTML=`<div class="build-photo"><img class="${carSpriteClass(car)}" src="${esc(encodeURI(car.sprite))}" alt="${esc(car.name)}"><span>${esc(car.tag)}</span></div><div class="build-data"><span class="eyebrow">НА ЛИНИИ СТАРТА / ТВОЯ СБОРКА</span><h2>${esc(car.name)}</h2>${editionBadge(car)}<div class="build-engine">${icon('settings')} ${esc(build.engine.name)} <span>${build.engineId===car.stockEngineId?'ШТАТНЫЙ':'СВАП'}</span></div><div class="build-specs">${spec('МОЩНОСТЬ',n(build.powerHp),'л.с.')}${spec('МАССА',n(build.weightKg),'кг')}${spec('УДЕЛЬНАЯ МОЩНОСТЬ',n(build.hpPerTonne),'л.с./т')}</div><div class="build-actions"><button class="text-button" data-garage-tab="workshop">В МАСТЕРСКУЮ ${icon('arrow')}</button><button class="text-button" data-garage-tab="engines">ЗАМЕНИТЬ МОТОР ${icon('arrow')}</button></div></div>`;
       if(car.tuningLocked)$('#build-summary .build-actions').innerHTML='<span class="stock-build-badge">ФИКСИРОВАННАЯ СБОРКА / ТЮНИНГ ОТКЛЮЧЁН</span>'+carCardLink(car);
       else if(car.shopExclusive)$('#build-summary .build-actions').insertAdjacentHTML('beforeend',carCardLink(car));
       this.renderCars();this.renderUpgrades();this.renderEngines();this.renderInventory();this.renderTabs();
@@ -199,6 +199,8 @@
     setShopTab(tab) {
       if(!$$('[data-shop-tab]').some(button=>button.dataset.shopTab===tab))return;
       this.shopTab=tab;this.renderShopTabs();
+      const button=$(`[data-shop-tab="${tab}"]`),strip=$('#shop-tabs');
+      strip.scrollTo({left:button.offsetLeft-strip.offsetLeft-12,behavior:'smooth'});
     }
     renderShopTabs() {
       const tab=this.shopTab||'cases';
@@ -233,7 +235,44 @@
       this.renderItalyShop();this.renderMustangShop();this.renderBMWShop();
       this.renderPityShop();
       this.renderPityMeters();
+      this.renderShopShortcuts();
+      this.explainDisabledPurchases(stock);
       this.renderShopTabs();
+    }
+    renderShopShortcuts(){
+      for(const panel of $$('#view-shop [data-shop-panel]')){
+        panel.querySelector('.shop-product-nav')?.remove();
+        if(['cases','parts','akina','pity'].includes(panel.dataset.shopPanel))continue;
+        const targets=[['Машина',panel.querySelector('[data-exclusive-car]')],['Характеристики',panel.querySelector('[class*="specs"],[class*="spec-strip"]')],['Кейс',panel.querySelector('[data-action="buy-case"]')]].filter(([,target])=>target);
+        if(targets.length<2)continue;
+        const links=targets.map(([label,target],index)=>{
+          target.id ||= `shop-${panel.dataset.shopPanel}-target-${index}`;
+          if(!target.matches('button,a'))target.tabIndex=-1;
+          return `<button type="button" data-shop-jump="${target.id}">${label}</button>`;
+        }).join('');
+        panel.insertAdjacentHTML('afterbegin',`<nav class="shop-product-nav" aria-label="Быстрый переход по витрине">${links}</nav>`);
+      }
+    }
+    explainDisabledPurchases(stock){
+      const save=this.getSave();
+      for(const note of $$('#view-shop .purchase-block-reason'))note.remove();
+      for(const button of $$('#view-shop [data-action="buy-case"]')){
+        const caseId=button.dataset.case||'street',price=caseId==='street'?NDShop.prices.case:NDShop.specialCases[caseId].casePrice;
+        const reason=(save.inventory.cases[caseId]||0)>=99999?'Достигнут предел: 99 999 кейсов.':save.credits<price?`Не хватает ₡ ${n(price-save.credits)}.`:'';
+        button.disabled=!!reason;
+        if(reason)button.insertAdjacentHTML('afterend',`<span class="purchase-block-reason">${reason}</span>`);
+      }
+      for(const button of $$('#view-shop [data-exclusive-car]')){
+        const car=cars.find(item=>item.id===button.dataset.exclusiveCar),reason=!save.owned.includes(car.id)&&save.credits<car.price?`Не хватает ₡ ${n(car.price-save.credits)}.`:'';
+        button.disabled=!!reason;
+        if(reason)button.insertAdjacentHTML('afterend',`<span class="purchase-block-reason">${reason}</span>`);
+      }
+      for(const button of $$('#shop-card-grid [data-buy-card]')){
+        const offer=stock.find(item=>item.id===button.dataset.buyCard);
+        const reason=offer.purchased?'Эта деталь уже куплена.':(save.inventory.cards[offer.card.id]||0)>=99999?'Инвентарь этой детали заполнен.':save.credits<NDShop.prices.card?`Не хватает ₡ ${n(NDShop.prices.card-save.credits)}.`:'';
+        button.disabled=!!reason;
+        if(reason)button.insertAdjacentHTML('afterend',`<span class="purchase-block-reason">${reason}</span>`);
+      }
     }
     pityMarkup(caseId,inline=false){
       const state=NDShop.getPity(this.getSave(),caseId);if(!state)return '';
