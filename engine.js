@@ -23,6 +23,7 @@
   // Manufacturer reference figures. Other models use a declared hp/tonne estimate.
   // The supplied catalogue's exact power and weight remain authoritative for builds.
   const performanceReferences={
+    ...Object.fromEntries(Object.entries(catalog.vwModels).map(([id, model]) => [id, {zeroToHundred:model.seconds,source:'for promt/Народный калибр/СТРОКИ ДЛЯ ТЕХБАЗЫ.txt'}])),
     'm3-e30':{zeroToHundred:6.5,source:'for promt/BMW Motorsport/общие ттх.txt',note:'User balance specification.'},
     'm3-e36':{zeroToHundred:5.5,source:'for promt/BMW Motorsport/общие ттх.txt',note:'User balance specification.'},
     'm3-e46':{zeroToHundred:5.1,source:'for promt/BMW Motorsport/общие ттх.txt',note:'User balance specification.'},
@@ -183,7 +184,7 @@
 
   class Engine {
     constructor(options={}) {
-      this.options={trackId:options.trackId||'akina',carId:options.carId||'ae85',engineId:options.engineId,upgrades:{...options.upgrades},cards:{...options.cards},mode:options.mode||'race',seed:options.seed===undefined?42:options.seed};
+      this.options={trackId:options.trackId||'akina',carId:options.carId||'ae85',engineId:options.engineId,paint:options.paint,upgrades:{...options.upgrades},cards:{...options.cards},mode:options.mode||'race',seed:options.seed===undefined?42:options.seed};
       this.reset();
     }
 
@@ -205,7 +206,7 @@
       this._nextCheckpoint=1;this._lapStart=0;this._driftTime=0;this._driftGrace=0;this._particleClock=0;this._collisionCooldown=0;this._raceDistance=0;
       const start=this.track.start;
       this._nearest=nearestPoint(this.track,start.x,start.y);
-      this.player={x:start.x,y:start.y,px:start.x,py:start.y,angle:start.angle,vx:0,vy:0,speed:0,steer:0,yawRate:0,drifting:false,boosting:false,braking:false,throttle:0,nitro:1,integrity:1,color:this.car.color,progress:0,lap:1,offroad:false,collision:false,name:'ТЫ',sprite:this.car.raceSprite||this.car.sprite,spriteAngle:this.car.raceSprite?0:this.car.spriteAngle||0,carId:this.car.id};
+      this.player={x:start.x,y:start.y,px:start.x,py:start.y,angle:start.angle,vx:0,vy:0,speed:0,steer:0,yawRate:0,drifting:false,boosting:false,braking:false,throttle:0,nitro:1,integrity:1,color:this.car.color,progress:0,lap:1,offroad:false,collision:false,name:'ТЫ',sprite:catalog.getCarSprite(this.car,this.options.paint,true),spriteAngle:this.car.raceSprite?0:this.car.spriteAngle||0,carId:this.car.id};
       const opponentColors=['#ff6a93','#f4d67d','#7ba9ff'],opponentNames=['NOVA','GHOST','ECHO'];
       const rivalPool=cars.filter(car=>car.id!==this.car.id).slice();
       for(let i=rivalPool.length-1;i>0;i--){const j=Math.floor(this.random()*(i+1));[rivalPool[i],rivalPool[j]]=[rivalPool[j],rivalPool[i]];}

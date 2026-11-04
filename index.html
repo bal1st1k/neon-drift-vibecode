@@ -9,33 +9,35 @@
   <meta name="description" content="Neon Drift — ночная гоночная аркада. Горные серпантины, японские машины, свапы моторов и твоя идеальная сборка.">
   <title>NEON DRIFT — Touge Garage</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23d7ff3f'/%3E%3Cpath d='M15 47V17h8l18 20V17h8v30h-8L23 27v20z' fill='%230c1013'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css?v=4.4.8">
+  <link rel="stylesheet" href="styles.css?v=4.4.10">
   <link rel="stylesheet" href="autumn.css?v=3.14.1">
   <link rel="stylesheet" href="legends-newspaper.css?v=3.10.3">
   <link rel="stylesheet" href="akina-archive.css?v=3.11.0">
   <link rel="stylesheet" href="roadster.css?v=3.12.0">
   <link rel="stylesheet" href="mustang.css?v=4.3.1">
+  <link rel="stylesheet" href="vw.css?v=2">
   <link rel="stylesheet" href="bmw.css?v=4.4.2">
   <link rel="stylesheet" href="italy.css?v=4.2.0">
   <link rel="stylesheet" href="blackbird.css?v=4.1.0">
   <link rel="stylesheet" href="mercedes.css?v=4.0.2">
   <link rel="stylesheet" href="loot-opening.css?v=3.14.0">
-  <script src="catalog.js?v=4.4.0" defer></script>
+  <script src="catalog.js?v=4.4.9" defer></script>
   <script src="tuning-cards.js?v=4.0.3" defer></script>
   <script src="tracks.js?v=4.0.3" defer></script>
   <script src="traffic.js" defer></script>
-  <script src="engine.js?v=4.4.0" defer></script>
-  <script src="shop.js?v=4.4.2" defer></script>
+  <script src="engine.js?v=4.4.9" defer></script>
+  <script src="shop.js?v=4.4.9" defer></script>
   <script src="radio.js?v=3.10.1" defer></script>
   <script src="autumn.js?v=3.10.1" defer></script>
-  <script src="progress.js?v=4.0.2" defer></script>
+  <script src="progress.js?v=4.4.9" defer></script>
   <script src="loot.js?v=3.14.0" defer></script>
   <script src="renderer.js?v=4.0.2" defer></script>
-  <script src="audio.js?v=4.4.0" defer></script>
+  <script src="audio.js?v=4.4.10" defer></script>
   <script src="bmw-archive.js?v=4.4.1" defer></script>
   <script src="bmw.js?v=4.4.1" defer></script>
-  <script src="garage.js?v=4.4.8" defer></script>
-  <script src="app.js?v=4.4.5" defer></script>
+  <script src="vw.js?v=2" defer></script>
+  <script src="garage.js?v=4.4.10" defer></script>
+  <script src="app.js?v=4.4.10" defer></script>
 </head>
 <body>
   <svg class="svg-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
@@ -120,6 +122,7 @@
           <button class="shop-tab" type="button" data-shop-tab="brothers" aria-controls="brothers-showcase" aria-pressed="false"><span class="shop-tab-mark">USDM</span><span>Братья</span></button>
           <button class="shop-tab" type="button" data-shop-tab="roadster" aria-controls="roadster-showcase" aria-pressed="false"><span class="shop-tab-mark">NA</span><span>Miata</span></button>
           <button class="shop-tab" type="button" data-shop-tab="mercedes" aria-controls="mercedes-showcase" aria-pressed="false"><span class="shop-tab-mark">502</span><span>Mercedes Evo II</span></button>
+          <button class="shop-tab" type="button" data-shop-tab="vw" aria-controls="vw-showcase" aria-pressed="false"><span class="shop-tab-mark">VW</span><span>Народный калибр</span></button>
           <button class="shop-tab" type="button" data-shop-tab="bmw" aria-controls="bmw-showcase" aria-pressed="false"><span class="shop-tab-mark">M</span><span>BMW Motorsport</span></button>
           <button class="shop-tab" type="button" data-shop-tab="mustang" aria-controls="mustang-showcase" aria-pressed="false"><span class="shop-tab-mark">PONY</span><span>Mustang</span></button>
           <button class="shop-tab" type="button" data-shop-tab="italy" aria-controls="italy-showcase" aria-pressed="false"><span class="shop-tab-mark">IT</span><span>Salone Italiano</span></button>
@@ -147,6 +150,7 @@
         <section id="brothers-showcase" class="brothers-showcase" data-shop-panel="brothers" role="region" aria-label="Братья" hidden></section>
         <section id="roadster-showcase" data-shop-panel="roadster" role="region" aria-label="Miata" hidden></section>
         <section id="mercedes-showcase" data-shop-panel="mercedes" role="region" aria-label="Evo II" hidden></section>
+        <section id="vw-showcase" data-shop-panel="vw" role="region" aria-label="Народный калибр" hidden></section>
         <section id="bmw-showcase" data-shop-panel="bmw" role="region" aria-label="BMW Motorsport Magazin" hidden></section>
         <section id="mustang-showcase" data-shop-panel="mustang" role="region" aria-label="Американская лошадка" hidden></section>
         <section id="italy-showcase" data-shop-panel="italy" role="region" aria-label="Salone Italiano" hidden></section>
@@ -164,7 +168,7 @@
         <div id="garage-pane-cars" class="garage-pane"><div class="catalog-toolbar"><label class="search-box"><span class="sr-only">Поиск машины</span><input type="search" id="car-search" placeholder="Модель или кузов…" autocomplete="off"></label><label><span class="sr-only">Марка</span><select id="car-brand"><option value="all">Все марки</option></select></label><label><span class="sr-only">Сортировать машины</span><select id="car-sort"><option value="ratio">По л.с./кг ↑</option><option value="ratio-desc">По л.с./кг ↓</option><option value="name">По названию</option></select></label><button class="filter-button" id="owned-filter" aria-pressed="false">МОИ МАШИНЫ</button></div><div class="catalog-caption"><span id="car-results-count"></span><span>ЦЕНА РАСТЁТ ВМЕСТЕ С Л.С./КГ · ХАРАКТЕРИСТИКИ В СТОКЕ</span></div><div id="car-grid" class="car-grid"></div><div class="pagination" id="car-pagination"></div></div>
         <div id="garage-pane-workshop" class="garage-pane" hidden><div class="section-heading"><div><span class="eyebrow">ТЮНИНГ / <span id="upgrade-car-name"></span></span><h2>Каждая деталь решает<span>.</span></h2></div><span class="section-note">УЛУЧШЕНИЯ СОХРАНЯЮТСЯ ПРИ СВАПЕ</span></div><p class="economy-note">Детали устанавливаются карточками из кейсов. Синяя — уровень 1, жёлтая — 2, красная — 3. Уровни одного слота не суммируются. Прежние оплаченные улучшения остаются базой сборки.</p><div id="upgrade-grid" class="card-slot-grid"></div></div>
         <div id="garage-pane-engines" class="garage-pane" hidden><div class="section-heading"><div><span class="eyebrow">ДРУГОЙ МОТОР. ДРУГОЙ ХАРАКТЕР.</span><h2>Сердце твоей сборки<span>.</span></h2></div><span class="section-note">ДОСТУПНОСТЬ СВАПА ЗАВИСИТ ОТ МОТОРА</span></div><div class="economy-note">Не каждый мотор доступен для свапа: недоступные показаны в полном каталоге. Купленный мотор остаётся у этой машины; повторная установка бесплатна. <details class="engine-price-details"><summary>Как рассчитываются цены</summary><p>Ориентиры в долларах — цены продавцов или оценка по семейству. Игровая цена снижена для баланса и ограничена 75% цены машины.</p></details></div><div id="engine-toolbar" class="engine-toolbar"><label><span class="filter-label">Совместимость</span><select id="engine-compatibility"><option value="compatible">Можно установить на эту машину</option><option value="all">Все моторы каталога</option></select></label><label><span class="filter-label">Тип</span><select id="engine-type"><option value="all">Все типы</option><option value="na">Атмосферные (NA)</option><option value="turbo">Турбо</option><option value="rotary">Роторные</option><option value="v8">V8</option></select></label><label><span class="filter-label">Сортировка</span><select id="engine-sort"><option value="name">По названию</option><option value="weight-asc">По весу: лёгкие сначала</option><option value="weight-desc">По весу: тяжёлые сначала</option><option value="power-asc">По мощности: меньше сначала</option><option value="power-desc">По мощности: больше сначала</option></select></label><span id="engine-results-count" class="engine-results-count"></span></div><div id="engine-grid" class="engine-grid"></div><a class="text-button source-document" href="ECONOMY.md" target="_blank" rel="noopener">ФОРМУЛЫ И ИСТОЧНИКИ ЦЕН ↗</a></div>
-        <div id="garage-pane-inventory" class="garage-pane" hidden><div class="inventory-heading"><div><span class="eyebrow">ТВОИ ТРОФЕИ / ЛОКАЛЬНЫЙ ГАРАЖ</span><h2>Железо приходит с финишем<span>.</span></h2></div><span class="inventory-total"><b data-spare-count>0</b> СВОБОДНЫХ КАРТОЧЕК</span></div><div id="case-panel" class="case-panel owned-case-panel"></div><div class="case-panel owned-case-panel s2000-owned-case" id="s2000-owned-case" hidden><div class="owned-case-image"><img id="s2000-owned-image" alt="Кейс Purple Shadow"></div><div><span class="eyebrow">PURPLE SHADOW / ×<b id="s2000-owned-count">0</b></span><h3>Honda S2000<span>.</span></h3><p>Синяя карта, монеты или Honda S2000. Шанс машины — 2%. Если она уже есть — случайная красная деталь.</p></div><div class="owned-case-actions"><button class="button button-purple" data-action="open-case" data-case="s2000">ОТКРЫТЬ КЕЙС <svg><use href="#i-arrow"/></svg></button><button class="text-button" data-nav="shop">В МАГАЗИН <svg><use href="#i-arrow"/></svg></button></div></div><div id="takumi-owned-cases"></div><div id="legends-owned-case"></div><div id="brothers-owned-case"></div><div id="roadster-owned-case"></div><div id="mercedes-owned-case"></div><div id="bmw-owned-case"></div><div id="mustang-owned-case"></div><div id="italy-owned-case"></div><div id="blackbird-owned-case"></div><section id="inventory-car-cards" class="inventory-car-cards" aria-label="Карточки особых машин"></section><div id="craft-panel" class="craft-grid"></div><div class="catalog-toolbar inventory-toolbar"><label><span class="sr-only">Редкость карточек</span><select id="inventory-rarity"><option value="all">Все редкости</option><option value="blue">Синие · уровень 1</option><option value="yellow">Жёлтые · уровень 2</option><option value="red">Красные · уровень 3</option></select></label><label><span class="sr-only">Тип карточки</span><select id="inventory-slot"><option value="all">Все детали</option></select></label><span class="inventory-equip-note">УСТАНОВКА НА <b id="inventory-car-name"></b></span></div><div id="inventory-grid" class="inventory-grid"></div></div>
+        <div id="garage-pane-inventory" class="garage-pane" hidden><div class="inventory-heading"><div><span class="eyebrow">ТВОИ ТРОФЕИ / ЛОКАЛЬНЫЙ ГАРАЖ</span><h2>Железо приходит с финишем<span>.</span></h2></div><span class="inventory-total"><b data-spare-count>0</b> СВОБОДНЫХ КАРТОЧЕК</span></div><div id="case-panel" class="case-panel owned-case-panel"></div><div class="case-panel owned-case-panel s2000-owned-case" id="s2000-owned-case" hidden><div class="owned-case-image"><img id="s2000-owned-image" alt="Кейс Purple Shadow"></div><div><span class="eyebrow">PURPLE SHADOW / ×<b id="s2000-owned-count">0</b></span><h3>Honda S2000<span>.</span></h3><p>Синяя карта, монеты или Honda S2000. Шанс машины — 2%. Если она уже есть — случайная красная деталь.</p></div><div class="owned-case-actions"><button class="button button-purple" data-action="open-case" data-case="s2000">ОТКРЫТЬ КЕЙС <svg><use href="#i-arrow"/></svg></button><button class="text-button" data-nav="shop">В МАГАЗИН <svg><use href="#i-arrow"/></svg></button></div></div><div id="takumi-owned-cases"></div><div id="legends-owned-case"></div><div id="brothers-owned-case"></div><div id="roadster-owned-case"></div><div id="mercedes-owned-case"></div><div id="bmw-owned-case"></div><div id="vw-owned-case"></div><div id="mustang-owned-case"></div><div id="italy-owned-case"></div><div id="blackbird-owned-case"></div><section id="inventory-car-cards" class="inventory-car-cards" aria-label="Карточки особых машин"></section><div id="craft-panel" class="craft-grid"></div><div class="catalog-toolbar inventory-toolbar"><label><span class="sr-only">Редкость карточек</span><select id="inventory-rarity"><option value="all">Все редкости</option><option value="blue">Синие · уровень 1</option><option value="yellow">Жёлтые · уровень 2</option><option value="red">Красные · уровень 3</option></select></label><label><span class="sr-only">Тип карточки</span><select id="inventory-slot"><option value="all">Все детали</option></select></label><span class="inventory-equip-note">УСТАНОВКА НА <b id="inventory-car-name"></b></span></div><div id="inventory-grid" class="inventory-grid"></div></div>
         <div class="garage-bottom"><span>₡ Кредиты за финиш и дрифт. Тюнинг меняет мощность, массу и поведение машины.</span><button class="button button-lime" data-action="race">ИСПЫТАТЬ НА ТРАССЕ <svg><use href="#i-arrow"/></svg></button></div>
       </section>
 

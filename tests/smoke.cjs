@@ -151,8 +151,8 @@ function engineChecks() {
     }
     assert.equal(createTrack('missing').id, 'akina');
   });
-  check('the supplied 49 cars, 37 engines and 11 upgrades form a complete usable catalogue', () => {
-    assert.equal(cars.length, 49); assert.equal(engines.length, 37); assert.equal(upgrades.length, 11);
+  check('the supplied 54 cars, 42 engines and 11 upgrades form a complete usable catalogue', () => {
+    assert.equal(cars.length, 54); assert.equal(engines.length, 42); assert.equal(upgrades.length, 11);
     assert.equal(cars[0].id, 'ae85');
     assert.equal(new Set(cars.map(car => car.id)).size, cars.length);
     for (let i = 0; i < cars.length; i++) {
@@ -560,7 +560,7 @@ function documentChecks() {
   check('page IDs, local assets and script dependency order match the application', () => {
     assert.equal(available.size, ids.length, 'HTML IDs must be unique');
     const scripts = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(match => match[1].split('?')[0]);
-    assert.deepEqual(scripts, ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'shop.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'bmw-archive.js', 'bmw.js', 'garage.js', 'app.js']);
+    assert.deepEqual(scripts, ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'shop.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'bmw-archive.js', 'bmw.js', 'vw.js', 'garage.js', 'app.js']);
     const styles = [...html.matchAll(/<link\b[^>]*\bhref="([^"]+\.css(?:\?[^"]*)?)"/g)].map(match => match[1].split('?')[0]);
     for (const asset of [...scripts, ...styles]) {
       assert.ok(!asset.includes('://'), 'The game must remain independent of a network connection');
@@ -588,7 +588,7 @@ function documentChecks() {
     assert.equal(clean.version, 3); assert.equal(clean.credits, 1200);
     assert.deepEqual(clean.owned, ['ae85']); assert.equal(clean.selectedCar, 'ae85');
     assert.equal(clean.selectedTrack, 'akina');
-    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0 }, cards: {} });
+    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0,vw:0 }, cards: {} });
     for (const car of core.cars) assert.deepEqual(clean.equippedCards[car.id], {});
     for (const car of core.cars) {
       assert.equal(clean.selectedEngines[car.id], car.stockEngineId);
@@ -661,7 +661,7 @@ function documentChecks() {
     assert.equal(clean.version, 3); assert.equal(clean.credits, 23456);
     assert.equal(clean.upgrades.ae85.turbo, 3); assert.equal(clean.upgrades.ae85.tires, 2);
     assert.equal(clean.selectedCar, 'ae86'); assert.equal(clean.selectedEngines.ae86, 'sr20det');
-    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0 }, cards: {} });
+    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0,vw:0 }, cards: {} });
     assert.deepEqual(clean.equippedCards.ae86, {});
   });
 }
@@ -834,6 +834,28 @@ async function audioChecks() {
       assert.equal(audio.volume, 0);
       audio.setVolume(0.42);
     });
+    check('stationary rev preview reaches the limiter, blows off on lift and silences its buses', () => {
+      const preview = { mode:'rev', state:'running', engineId:'vw-axx', player:{ speed:0, throttle:1 } };
+      const step = () => { ctx.advance(1 / 60); audio.update(preview, 1 / 60); };
+      for (let i = 0; i < 90; i++) step();
+      assert.ok(audio._rpm > 6800 * .98 && audio._rpm <= 6800);
+      assert.equal(audio._gear, 1);
+      assert.ok(audio.turboGain.gain.value > .001);
+      const limiterGains = new Set();
+      for (let i = 0; i < 12; i++) {
+        step();
+        limiterGains.add(audio.engineGain.gain.value.toFixed(2));
+      }
+      assert.ok(limiterGains.size > 1);
+      preview.player.throttle = 0;
+      step();
+      assert.ok(audio.releaseGain.gain.value > .05);
+      for (let i = 0; i < 42; i++) step();
+      assert.ok(audio._rpm < 1300);
+      audio.update(null, 1 / 60);
+      assert.equal(audio.engineGain.gain.value, 0);
+      assert.equal(audio.releaseGain.gain.value, 0);
+    });
     check('audio bounds simultaneous effects and releases ended nodes', () => {
       for (const name of ['click', 'start', 'countdown', 'go', 'lap', 'finish', 'buy', 'error']) audio.play(name);
       for (let i = 0; i < 300; i++) audio.play('click');
@@ -896,7 +918,7 @@ async function audioChecks() {
 
 async function main() {
   check('JavaScript files parse without external dependencies', () => {
-    for (const name of ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'garage.js', 'app.js', 'server.cjs']) {
+    for (const name of ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'vw.js', 'garage.js', 'app.js', 'server.cjs']) {
       const file = path.join(base, name);
       assert.ok(fs.existsSync(file), `Missing application file ${name}`);
       new vm.Script(fs.readFileSync(file, 'utf8'), { filename: name });

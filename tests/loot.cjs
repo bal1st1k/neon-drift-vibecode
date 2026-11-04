@@ -265,7 +265,7 @@ check('v2 migration preserves credits, purchased cars, tuning and motor inventor
   assert.equal(clean.selectedEngines.s15, '13b-rew');
   assert.deepEqual(clean.ownedEngines.s15, old.ownedEngines.s15);
   assert.equal(clean.career.totalCredits, 54321);
-  assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0 }, cards: {} });
+  assert.deepEqual(clean.inventory, fresh().inventory);
   assert.deepEqual(clean.equippedCards.s15, {});
   assert.deepEqual(progress.sanitize(clone(clean)), clean, 'Reloading must not multiply currency');
 });

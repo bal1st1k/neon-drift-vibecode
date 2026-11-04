@@ -21,6 +21,7 @@
     return {
       schema: 'neon-drift', version: 3, credits: 1200, owned: [baseId], selectedCar: baseId, selectedTrack: defaultTrack,
       upgrades: Object.fromEntries(cars.map(car => [car.id, Object.fromEntries(upgrades.map(upgrade => [upgrade.id, 0]))])),
+      paints: {},
       selectedEngines: Object.fromEntries(cars.map(car => [car.id, car.stockEngineId])),
       ownedEngines: Object.fromEntries(cars.map(car => [car.id, [car.stockEngineId]])),
       equippedCards: Object.fromEntries(cars.map(car => [car.id, {}])),
@@ -55,7 +56,10 @@
     if (clean.owned.includes(raw.selectedCar)) clean.selectedCar = raw.selectedCar;
     if (tracks.some(track => track.id === raw.selectedTrack)) clean.selectedTrack = raw.selectedTrack;
     const rawUpgrades = obj(raw.upgrades), rawOwnedEngines = obj(raw.ownedEngines), rawSelectedEngines = obj(raw.selectedEngines);
+    const rawPaints = obj(raw.paints);
     for (const car of cars) {
+      const paint=rawPaints[car.id];
+      if (car.paint && clean.owned.includes(car.id) && typeof paint==='string' && Object.hasOwn(catalog.vwPaints,paint)) clean.paints[car.id] = paint;
       for (const upgrade of upgrades) clean.upgrades[car.id][upgrade.id] = Math.floor(bounded(obj(rawUpgrades[car.id])[upgrade.id], 0, upgrade.maxLevel));
       const inventory = Array.isArray(rawOwnedEngines[car.id]) ? rawOwnedEngines[car.id].filter(id=>engineExists(id)&&(id===car.stockEngineId||engines.find(engine=>engine.id===id).swapAllowed!==false)) : [];
       clean.ownedEngines[car.id] = [...new Set([stock(car.id), ...inventory])];

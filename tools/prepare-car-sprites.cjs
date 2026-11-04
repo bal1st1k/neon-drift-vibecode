@@ -58,6 +58,6 @@ async function prepare(car) {
   fs.mkdirSync(path.join(root,'assets','cars'),{recursive:true});
   const results=[];
   const selected = process.argv.slice(2);
-  for(const car of cars.filter(car => !selected.length || selected.includes(car.id)))results.push(await prepare(car));
+  for(const car of cars.filter(car => car.sprite!==car.raceSprite && (!selected.length || selected.includes(car.id))))results.push(await prepare(car));
   console.log(JSON.stringify({count:results.length,bytes:results.reduce((n,c)=>n+c.bytes,0),cars:results},null,2));
 })().catch(error=>{console.error(error);process.exitCode=1;});

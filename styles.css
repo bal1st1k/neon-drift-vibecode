@@ -275,3 +275,10 @@ body.reduce-motion *,body.reduce-motion *:before,body.reduce-motion *:after{anim
   .race-location>small,.race-timing>div,.speed-label{font-size:10px}
   .rail-button span{font-size:10px}
 }
+.rev-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;max-width:100%;padding:6px 11px;border:1px solid currentColor;border-radius:5px;background:transparent;color:inherit;cursor:pointer;touch-action:none;user-select:none;-webkit-touch-callout:none}
+.rev-button>span{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700}
+.rev-button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7}
+.rev-button small{font-size:10px;opacity:.85}
+.rev-button[aria-pressed=true]{background:#d7ff3f;color:#172012;border-color:#759300}
+.build-data>.rev-button{margin-top:12px}
+.car-content>.rev-button{width:100%;margin-bottom:8px}

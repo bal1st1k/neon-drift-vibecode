@@ -17,7 +17,7 @@ const sandbox={Image:LocalImage,document:{createElement(){pixelReads++;throw Err
 vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path.join(base,'renderer.js'),'utf8'),sandbox);
 (async()=>{
   const sprites=await sandbox.NDRenderer.preloadSprites(catalog.cars);
-  assert.equal(sprites.length,49);assert.ok(sprites.every(sprite=>sprite.status==='ready'));
+  assert.equal(sprites.length,54);assert.ok(sprites.every(sprite=>sprite.status==='ready'));
   const drawn=[];
   const ctx=new Proxy({drawImage(image){drawn.push(image.src);}}, {get(target,key){if(key in target)return target[key];return()=>{};},set(target,key,value){target[key]=value;return true;}});
   for(const car of catalog.cars){
@@ -27,7 +27,7 @@ vm.createContext(sandbox);vm.runInContext(fs.readFileSync(path.join(base,'render
     sandbox.NDRenderer.Renderer.prototype._car.call({quality:'low',elapsed:0},ctx,engine.player,true,false,false);
   }
   assert.equal(pixelReads,0,'PNG rendering must not use a canvas pixel-processing path');
-  assert.equal(drawn.length,49);assert.equal(new Set(drawn).size,49);
-  console.log('PASS all 49 prepared RGBA cars load and draw with pixel processing forbidden');
+  assert.equal(drawn.length,54);assert.equal(new Set(drawn).size,54);
+  console.log('PASS all 54 prepared RGBA cars load and draw with pixel processing forbidden');
   console.log('PASS player and rivals select prepared PNGs with the correct orientation');
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -17,7 +17,11 @@
   const icon = name => `<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
   const editionBadge = car => car.edition || car.team ? `<span class="edition-badge">[${esc(car.edition||car.team)}]</span>` : '';
   const carCardLink = car => car.shopExclusive ? `<button class="text-button custom-car-card-link" data-car-card="${car.id}">ПОСМОТРЕТЬ КАРТОЧКУ ${icon('arrow')}</button>` : '';
-  const carCardArt = (car,offer) => offer.cardPhotos?.[car.id] || offer.photos?.[car.id]?.[1] || offer.assets.card || offer.assets.hero;
+  const revButton = (engineId, build = false) => {
+    const engine = engines.find(item => item.id === engineId);
+    return `<button type="button" class="rev-button" data-rev-engine="${engineId}" ${build?'data-rev-build':''} aria-pressed="false" aria-label="Погазовать · ${esc(engine.name)} · удерживай"><span>${icon('volume')} Погазовать</span><small>Удерживай</small></button>`;
+  };
+  const carCardArt = (car,offer,paint) => car.paint && paint ? root.NDCatalog.vwPhoto(car.id,paint) : offer.cardPhotos?.[car.id] || offer.photos?.[car.id]?.[1] || offer.assets.card || offer.assets.hero;
   const timestamp = seconds => {
     const ms = Math.floor(seconds * 1000);
     return `${String(Math.floor(ms/60000)).padStart(2,'0')}:${String(Math.floor(ms/1000)%60).padStart(2,'0')}.${String(ms%1000).padStart(3,'0')}`;
@@ -44,7 +48,7 @@
     constructor({ getSave, trackCache, onReveal = () => {} }) {
       this.getSave = getSave; this.trackCache = trackCache;
       this.onReveal = onReveal; this.reveal = null; this.revealTimer = null;
-      this.shopTab='cases';this.italyModel='fiat-coupe';this.bmwModel='m3-e30';
+      this.shopTab='cases';this.italyModel='fiat-coupe';this.bmwModel='m3-e30';this.vwModel=NDShop.vw.carId;this.vwView=0;this.vwPreviewPaint=null;
       this.tab = 'cars'; this.carPage = 0; this.query = ''; this.brand = 'all'; this.sort = 'ratio'; this.onlyOwned = false;
       this.engineCompatibility='compatible';this.engineType='all';this.engineSort='name';
       this.trackFamily = tracks.find(track=>track.id===getSave().selectedTrack)?.family==='wangan'?'wangan':tracks.find(track=>track.id===getSave().selectedTrack)?.closed === false ? 'touge' : 'city';
@@ -66,8 +70,21 @@
         if(button.dataset.action==='next-loot'||button.dataset.action==='unseal-case')this.advanceReveal();
         if(button.dataset.garageTab){this.tab=button.dataset.garageTab;this.renderInventory();this.renderTabs();}
         if(button.dataset.cardSlot){this.tab='inventory';this.inventorySlot=button.dataset.cardSlot;$('#inventory-slot').value=this.inventorySlot;this.renderInventory();this.renderTabs();$('.garage-tabs').scrollIntoView({block:'start',behavior:'instant'});}
-        if(button.dataset.bmwModel){this.bmwModel=button.dataset.bmwModel;this.renderBMWShop();this.renderPityMeters();document.querySelector('[data-bmw-model="'+this.bmwModel+'"]').focus({preventScroll:true});}
-        if(button.dataset.italyModel){this.italyModel=button.dataset.italyModel;this.renderItalyShop();this.renderPityMeters();document.querySelector('[data-italy-model="'+this.italyModel+'"]').focus({preventScroll:true});}
+        if(button.dataset.vwModel || button.hasAttribute('data-vw-view') || button.dataset.vwPaint){
+          const {vwModel,vwView,vwPaint}=button.dataset;
+          if(vwModel && vwModel!==this.vwModel){this.vwModel=vwModel;this.vwView=0;this.vwPreviewPaint=null;}
+          if(vwView!==undefined)this.vwView=Number(vwView);
+          if(vwPaint)this.vwPreviewPaint=vwPaint;
+          this.renderVWShop();
+          this.renderShopRevButtons();
+          this.renderShopShortcuts();
+          this.renderPityMeters();
+          this.explainDisabledPurchases(NDShop.getStock(this.getSave()));
+          const selector=vwModel?`[data-vw-model="${vwModel}"]`:vwPaint?`[data-vw-paint="${vwPaint}"]`:`[data-vw-view="${vwView}"]`;
+          $(selector)?.focus({preventScroll:true});
+        }
+        if(button.dataset.bmwModel){this.bmwModel=button.dataset.bmwModel;this.renderBMWShop();this.renderShopRevButtons();this.renderPityMeters();document.querySelector('[data-bmw-model="'+this.bmwModel+'"]').focus({preventScroll:true});}
+        if(button.dataset.italyModel){this.italyModel=button.dataset.italyModel;this.renderItalyShop();this.renderShopRevButtons();this.renderPityMeters();document.querySelector('[data-italy-model="'+this.italyModel+'"]').focus({preventScroll:true});}
         if(button.dataset.trackFamily){this.trackFamily=button.dataset.trackFamily;this.renderTracks();}
         if(button.dataset.carPage){this.carPage=Math.max(0,this.carPage+Number(button.dataset.carPage));this.renderCars();$('#car-search').scrollIntoView({block:'center',behavior:'instant'});}
       });
@@ -89,11 +106,13 @@
       $('#owned-car-count').textContent=String(ownedCars.length);
       $('#owned-car-list').innerHTML=ownedCars.map(item=>{
         const selected=item.id===save.selectedCar;
-        return `<button class="owned-car${selected?' selected':''}" data-car="${item.id}" aria-pressed="${selected}" ${selected?'disabled':''}><span class="owned-car-photo"><img class="${carSpriteClass(item)}" src="${esc(encodeURI(item.sprite))}" alt="" loading="lazy"></span><span class="owned-car-name"><strong>${esc(item.name)}</strong>${editionBadge(item)}<small>${selected?'НА СТАРТЕ':'ВЫБРАТЬ'} · ${item.drivetrain}</small></span>${selected?icon('check'):icon('arrow')}</button>`;
+        return `<button class="owned-car${selected?' selected':''}" data-car="${item.id}" aria-pressed="${selected}" ${selected?'disabled':''}><span class="owned-car-photo"><img class="${carSpriteClass(item)}" src="${esc(encodeURI(root.NDCatalog.getCarSprite(item,save.paints[item.id])))}" alt="" loading="lazy"></span><span class="owned-car-name"><strong>${esc(item.name)}</strong>${editionBadge(item)}<small>${selected?'НА СТАРТЕ':'ВЫБРАТЬ'} · ${item.drivetrain}</small></span>${selected?icon('check'):icon('arrow')}</button>`;
       }).join('');
-      $('#build-summary').innerHTML=`<div class="build-photo"><img class="${carSpriteClass(car)}" src="${esc(encodeURI(car.sprite))}" alt="${esc(car.name)}"><span>${esc(car.tag)}</span></div><div class="build-data"><span class="eyebrow">НА ЛИНИИ СТАРТА / ТВОЯ СБОРКА</span><h2>${esc(car.name)}</h2>${editionBadge(car)}<div class="build-engine">${icon('settings')} ${esc(build.engine.name)} <span>${build.engineId===car.stockEngineId?'ШТАТНЫЙ':'СВАП'}</span></div><div class="build-specs">${spec('МОЩНОСТЬ',n(build.powerHp),'л.с.')}${spec('МАССА',n(build.weightKg),'кг')}${spec('УДЕЛЬНАЯ МОЩНОСТЬ',n(build.hpPerTonne),'л.с./т')}</div><div class="build-actions"><button class="text-button" data-garage-tab="workshop">В МАСТЕРСКУЮ ${icon('arrow')}</button><button class="text-button" data-garage-tab="engines">ЗАМЕНИТЬ МОТОР ${icon('arrow')}</button></div></div>`;
+      $('#build-summary').innerHTML=`<div class="build-photo"><img class="${carSpriteClass(car)}" src="${esc(encodeURI(root.NDCatalog.getCarSprite(car,save.paints[car.id])))}" alt="${esc(car.name)}"><span>${esc(car.tag)}</span></div><div class="build-data"><span class="eyebrow">НА ЛИНИИ СТАРТА / ТВОЯ СБОРКА</span><h2>${esc(car.name)}</h2>${editionBadge(car)}<div class="build-engine">${icon('settings')} ${esc(build.engine.name)} <span>${build.engineId===car.stockEngineId?'ШТАТНЫЙ':'СВАП'}</span></div><div class="build-specs">${spec('МОЩНОСТЬ',n(build.powerHp),'л.с.')}${spec('МАССА',n(build.weightKg),'кг')}${spec('УДЕЛЬНАЯ МОЩНОСТЬ',n(build.hpPerTonne),'л.с./т')}</div><div class="build-actions"><button class="text-button" data-garage-tab="workshop">В МАСТЕРСКУЮ ${icon('arrow')}</button><button class="text-button" data-garage-tab="engines">ЗАМЕНИТЬ МОТОР ${icon('arrow')}</button></div></div>`;
       if(car.tuningLocked)$('#build-summary .build-actions').innerHTML='<span class="stock-build-badge">ФИКСИРОВАННАЯ СБОРКА / ТЮНИНГ ОТКЛЮЧЁН</span>'+carCardLink(car);
       else if(car.shopExclusive)$('#build-summary .build-actions').insertAdjacentHTML('beforeend',carCardLink(car));
+      $('#build-summary .build-data').insertAdjacentHTML('beforeend',revButton(build.engineId,true));
+      if(car.paint)$('#build-summary .build-data').insertAdjacentHTML('beforeend',root.NDVW.paintChoices(save.paints[car.id]||car.paint,'garage',car.id));
       this.renderCars();this.renderUpgrades();this.renderEngines();this.renderInventory();this.renderTabs();
     }
     renderCars() {
@@ -107,7 +126,7 @@
       $('#car-grid').innerHTML=visible.length?visible.map(car=>{
         const owned=save.owned.includes(car.id),selected=save.selectedCar===car.id;
         const action=selected?`${icon('check')} НА СТАРТЕ`:owned?`ВЫБРАТЬ ${icon('arrow')}`:`${icon('lock')} ₡ ${n(car.price)}`;
-        return `<article class="car-card${selected?' selected':''}"><div class="car-illustration sprite-art"><span class="car-type">${esc(car.brand.toUpperCase())} / ${esc(car.drivetrain)}</span><img class="${carSpriteClass(car)}" src="${esc(encodeURI(car.sprite))}" loading="lazy" decoding="async" alt="${esc(car.name)}">${selected?`<span class="car-badge">${icon('check')} ВЫБРАНА</span>`:owned?'<span class="car-badge">В ГАРАЖЕ</span>':''}</div><div class="car-content">${editionBadge(car)}<h2>${esc(car.name)}</h2><p class="car-motor-label">${esc(car.stockEngineLabel||engines.find(engine=>engine.id===car.stockEngineId)?.name||car.stockEngineId)} / СТОК</p><div class="car-real-specs">${spec('Л.С.',n(car.stockPowerHp))}${spec('КГ',n(car.weightKg))}${spec('Л.С./КГ',n(car.stockPowerHp/car.weightKg,3))}</div><div class="car-market-price"><span>ЦЕНА КУЗОВА</span><strong>₡ ${n(car.price)}</strong></div><button class="button ${selected?'button-outline':'button-lime'}" data-car="${car.id}" ${selected?'disabled':''}>${action}</button>${carCardLink(car)}</div></article>`;
+        return `<article class="car-card${selected?' selected':''}"><div class="car-illustration sprite-art"><span class="car-type">${esc(car.brand.toUpperCase())} / ${esc(car.drivetrain)}</span><img class="${carSpriteClass(car)}" src="${esc(encodeURI(root.NDCatalog.getCarSprite(car,save.paints[car.id])))}" loading="lazy" decoding="async" alt="${esc(car.name)}">${selected?`<span class="car-badge">${icon('check')} ВЫБРАНА</span>`:owned?'<span class="car-badge">В ГАРАЖЕ</span>':''}</div><div class="car-content">${editionBadge(car)}<h2>${esc(car.name)}</h2><p class="car-motor-label">${esc(car.stockEngineLabel||engines.find(engine=>engine.id===car.stockEngineId)?.name||car.stockEngineId)} / СТОК</p><div class="car-real-specs">${spec('Л.С.',n(car.stockPowerHp))}${spec('КГ',n(car.weightKg))}${spec('Л.С./КГ',n(car.stockPowerHp/car.weightKg,3))}</div><div class="car-market-price"><span>ЦЕНА КУЗОВА</span><strong>₡ ${n(car.price)}</strong></div>${owned?'':revButton(car.stockEngineId)}<button class="button ${selected?'button-outline':'button-lime'}" data-car="${car.id}" ${selected?'disabled':''}>${action}</button>${carCardLink(car)}</div></article>`;
       }).join(''):'<div class="empty-state">По этому запросу машин нет. Попробуй другую марку или модель.</div>';
       $('#car-pagination').innerHTML=`<button class="button button-outline" data-car-page="-1" ${this.carPage===0?'disabled':''}>← НАЗАД</button><span>${this.carPage+1} / ${pages}</span><button class="button button-outline" data-car-page="1" ${this.carPage>=pages-1?'disabled':''}>ДАЛЬШЕ →</button>`;
     }
@@ -150,6 +169,8 @@
       const brothersCount=save.inventory.cases.brothers||0;
       const roadsterCount=save.inventory.cases.roadster||0;
       $('#roadster-owned-case').innerHTML=roadsterCount?`<div class="case-panel owned-case-panel takumi-owned-case"><div class="owned-case-image"><img src="${esc(NDShop.roadster.assets.closed)}" alt="Кейс Всегда правильный ответ"></div><div><span class="eyebrow">SMILES PER HOUR / ×${roadsterCount}</span><h3>Всегда правильный ответ<span>.</span></h3><p>Синие и жёлтые детали, монеты или Mazda Roadster NA6CE. Базовый шанс машины — 1% на награду.</p></div><div class="owned-case-actions"><button class="button button-gold" data-action="open-case" data-case="roadster">ОТКРЫТЬ КЕЙС ${icon('arrow')}</button></div></div>`:'';
+      const vwCount=save.inventory.cases.vw||0;
+      $('#vw-owned-case').innerHTML=vwCount?`<div class="case-panel owned-case-panel"><div class="owned-case-image"><img src="${NDShop.vw.assets.closed}" alt="Кейс Wolfsburg Edition"></div><div><h3>Народный калибр ×${vwCount}</h3><p>1–3 награды · 2% на пять Volkswagen вместе за награду вне гаранта.</p></div><button class="button" data-action="open-case" data-case="vw">ОТКРЫТЬ КЕЙС</button></div>`:'';
       const bmwCount=save.inventory.cases.bmw||0;
       $('#bmw-owned-case').innerHTML=bmwCount?`<div class="case-panel owned-case-panel"><div class="owned-case-image"><img src="${NDShop.bmw.assets.closed}" alt="Кейс BMW Motorsport"></div><div><h3>BMW Motorsport ×${bmwCount}</h3><p>1–3 награды · 1,5% на три M3 вместе, по 0,5% на каждую.</p></div><button class="button" data-action="open-case" data-case="bmw">ОТКРЫТЬ КЕЙС</button></div>`:'';
       const mustangCount=save.inventory.cases.mustang||0;
@@ -162,7 +183,7 @@
       $('#mercedes-owned-case').innerHTML=mercedesCount?`<div class="case-panel owned-case-panel takumi-owned-case"><div class="owned-case-image"><img src="${esc(NDShop.mercedes.assets.closed)}" alt="Кейс Homologation 502"></div><div><span class="eyebrow">HOMOLOGATION 502 / ×${mercedesCount}</span><h3>Mercedes Evo II<span>.</span></h3><p>Детали, монеты или Mercedes. Шанс машины — 1% на награду.</p></div><div class="owned-case-actions"><button class="button button-gold" data-action="open-case" data-case="mercedes">ОТКРЫТЬ КЕЙС ${icon('arrow')}</button></div></div>`:'';
       $('#brothers-owned-case').innerHTML=brothersCount?`<div class="case-panel owned-case-panel takumi-owned-case"><div class="owned-case-image"><img src="${esc(encodeURI(NDShop.brothers.assets.closed))}" alt="Кейс Заокеанские братья"></div><div><span class="eyebrow">USDM BROTHERS / ×${brothersCount}</span><h3>Заокеанские братья<span>.</span></h3><p>Синие и жёлтые детали, монеты или Lexus. Шанс каждой машины — 0,5% на награду.</p></div><div class="owned-case-actions"><button class="button button-gold" data-action="open-case" data-case="brothers">ОТКРЫТЬ КЕЙС ${icon('arrow')}</button></div></div>`:'';
       const specialCars=cars.filter(car=>car.shopExclusive&&save.owned.includes(car.id));
-      $('#inventory-car-cards').innerHTML=specialCars.length ? `<div class="inventory-car-cards-heading"><span class="eyebrow">КОЛЛЕКЦИЯ / ТВОИ МАШИНЫ</span><h3>Карточки особых машин<span>.</span></h3><p>Посмотри карточки машин, которые уже есть в гараже.</p></div><div class="inventory-car-cards-grid">${specialCars.map(car=>{const offer=NDShop.getCarOffer(car.id); const art=carCardArt(car,offer); return `<button class="inventory-car-card rarity-${car.pityOnly?'purple':'gold'}" data-car-card="${car.id}" aria-label="Посмотреть карточку ${esc(car.name)}"><img src="${esc(encodeURI(art))}" alt="" loading="lazy"><span>${editionBadge(car)}<strong>${esc(car.name)}</strong><small>ПОСМОТРЕТЬ КАРТОЧКУ ${icon('arrow')}</small></span></button>`}).join('')}</div>` : '';
+      $('#inventory-car-cards').innerHTML=specialCars.length ? `<div class="inventory-car-cards-heading"><span class="eyebrow">КОЛЛЕКЦИЯ / ТВОИ МАШИНЫ</span><h3>Карточки особых машин<span>.</span></h3><p>Посмотри карточки машин, которые уже есть в гараже.</p></div><div class="inventory-car-cards-grid">${specialCars.map(car=>{const offer=NDShop.getCarOffer(car.id); const art=carCardArt(car,offer,save.paints[car.id]); return `<button class="inventory-car-card rarity-${car.pityOnly?'purple':'gold'}" data-car-card="${car.id}" aria-label="Посмотреть карточку ${esc(car.name)}"><img src="${esc(encodeURI(art))}" alt="" loading="lazy"><span>${editionBadge(car)}<strong>${esc(car.name)}</strong><small>ПОСМОТРЕТЬ КАРТОЧКУ ${icon('arrow')}</small></span></button>`}).join('')}</div>` : '';
       $('#craft-panel').innerHTML=['blue','yellow'].map(rarity=>{
         const count=NDLoot.countRarity(save,rarity),next=rarity==='blue'?'yellow':'red';
         return `<article class="craft-card"><div class="craft-equation"><span class="rarity-${rarity}">10 <small>${rarity==='blue'?'СИНИХ':'ЖЁЛТЫХ'}</small></span><i>→</i><span class="rarity-${next}">2 <small>${next==='yellow'?'ЖЁЛТЫЕ':'КРАСНЫЕ'}</small></span></div><p>Любые свободные карты этой редкости. Две новые детали выбираются случайно.</p><div class="craft-bottom"><span>ДОСТУПНО <b>${n(count)} / 10</b></span><button class="button button-outline" data-craft="${rarity}" ${count>=10?'':'disabled'}>СОЗДАТЬ</button></div></article>`;
@@ -232,8 +253,9 @@
       this.renderRoadsterShop();
       this.renderMercedesShop();
       this.renderBlackbirdShop();
-      this.renderItalyShop();this.renderMustangShop();this.renderBMWShop();
+      this.renderItalyShop();this.renderMustangShop();this.renderBMWShop();this.renderVWShop();
       this.renderPityShop();
+      this.renderShopRevButtons();
       this.renderPityMeters();
       this.renderShopShortcuts();
       this.explainDisabledPurchases(stock);
@@ -251,6 +273,14 @@
           return `<button type="button" data-shop-jump="${target.id}">${label}</button>`;
         }).join('');
         panel.insertAdjacentHTML('afterbegin',`<nav class="shop-product-nav" aria-label="Быстрый переход по витрине">${links}</nav>`);
+      }
+    }
+    renderShopRevButtons(){
+      for(const button of $$('#view-shop [data-exclusive-car], #s2000-car-buy, #pity-showcase [data-car-card]')){
+        if(button.previousElementSibling?.hasAttribute('data-rev-engine'))continue;
+        const id=button.dataset.exclusiveCar || button.dataset.carCard || NDShop.s2000.carId;
+        const car=cars.find(item=>item.id===id);
+        button.insertAdjacentHTML('beforebegin',revButton(car.stockEngineId));
       }
     }
     explainDisabledPurchases(stock){
@@ -314,6 +344,9 @@
         return `<article class="dealer-spread"><button class="dealer-photo" data-brothers-photo="${id}" aria-label="Открыть фотографию ${esc(car.name)}"><img src="${esc(encodeURI(offer.photos[id][0]))}" alt="${esc(car.name)}" loading="lazy"><span>СМОТРЕТЬ ФОТО ${icon('full')}</span></button><div class="dealer-copy"><span class="dealer-kicker">${story.kicker}</span>${editionBadge(car)}<h3>${esc(car.name)}</h3><h4>${story.title}</h4><p>${story.text}</p><div class="dealer-specs"><span><b>${car.stockPowerHp}</b> PS</span><span><b>${car.weightKg}</b> КГ</span><span><b>${car.stockEngineLabel}</b> FR</span></div><p class="dealer-tuning">Тюнинг и свап доступны. ${car.stockEngineLabel} можно установить и в другие кузова.</p><div class="dealer-price"><small>${owned?'В ТВОЕЙ КОЛЛЕКЦИИ':'ПРЯМАЯ ПОКУПКА'}</small><strong>₡ ${n(car.price)}</strong></div><button class="button dealer-buy full-width" data-exclusive-car="${id}" ${!owned&&save.credits<car.price?'disabled':''}>${owned?'ВЫБРАТЬ ИЗ ГАРАЖА':'КУПИТЬ МАШИНУ'} ${icon('arrow')}</button>${carCardLink(car)}</div></article>`;
       }).join('');
       $('#brothers-showcase').innerHTML=`<div class="dealer-masthead"><span>TOUGE MOTOR JOURNAL</span><span>SPECIAL ISSUE / 03</span></div><header class="dealer-cover"><span class="dealer-kicker">LEXUS IS / THE FIRST GENERATION</span><h2>Заокеанские<br><em>братья.</em></h2><p>Японские корни. Два характера.<br>IS200 и IS300 в одном специальном выпуске.</p><button class="dealer-photo dealer-cover-photo" data-brothers-photo="cover" aria-label="Открыть фотографию двух Lexus"><img src="${esc(encodeURI(offer.assets.hero))}" alt="Lexus IS200 и IS300" loading="lazy"><span>СМОТРЕТЬ ФОТО ${icon('full')}</span></button><div class="dealer-editorial"><strong>Intelligent Sports.</strong><p>Так Lexus расшифровывает имя IS. Первое поколение сделало спортивный седан компактнее, сохранив задний привод и рядные шестицилиндровые моторы. Выбирай свою версию и собирай её под собственный стиль.</p></div></header>${products}<section class="dealer-case"><div><span class="dealer-kicker">THE COLLECTOR’S CASE</span><img src="${esc(encodeURI(offer.assets.closed))}" alt="Кейс Заокеанские братья" loading="lazy"></div><div><h3>Шанс на своего<br>заокеанского брата.</h3><div class="dealer-odds"><span><b>80%</b>СИНИЕ</span><span><b>10%</b>ЖЁЛТЫЕ</span><span><b>9%</b>МОНЕТЫ</span><span><b>1%</b>LEXUS</span></div><p>От 1 до 3 наград. По 0,5% на IS200 и IS300 в каждой награде. Монеты: 500–2000 с шагом 100. Повтор машины заменяется случайной красной деталью.</p><strong class="dealer-case-price">₡ 1 500</strong><button class="button button-gold full-width" data-action="buy-case" data-case="brothers" ${save.credits<offer.casePrice||count>=99999?'disabled':''}>КУПИТЬ КЕЙС ${icon('arrow')}</button><button class="button button-outline full-width" data-action="open-case" data-case="brothers" ${count?'':'disabled'}>ОТКРЫТЬ СВОЙ КЕЙС ×${count}</button></div></section><footer class="dealer-colophon"><span>USDM BROTHERS / TOUGE SUPPLY</span><details><summary>История моделей — источники Lexus</summary><a href="https://media.lexus.co.uk/vehicles/is-200-archive-1999/" target="_blank" rel="noopener">IS200: архив Lexus UK</a><a href="https://pressroom.lexus.com/lexus-is-the-evolution-of-an-icon/" target="_blank" rel="noopener">IS300: Lexus USA</a><a href="https://media.lexus.co.uk/lexus-announces-pricing-of-the-much-awaited-is300-and-enhanced-specification-for-is200/" target="_blank" rel="noopener">Линейка IS: Lexus UK, 2001</a></details></footer>`;
+    }
+    renderVWShop(){
+      $('#vw-showcase').innerHTML=root.NDVW.render(this.getSave(),this.vwModel,this.vwView,this.vwPreviewPaint);
     }
     renderBMWShop(){ $('#bmw-showcase').innerHTML=root.NDBMW.render(this.getSave(),this.bmwModel); }
     renderMustangShop() {
@@ -398,10 +431,10 @@
     revealReducedMotion() {
       return this.getSave().settings.reducedMotion||typeof root.matchMedia==='function'&&root.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
-    rewardMarkup(reward,preview=false) {
+    rewardMarkup(reward,preview=false,paint) {
       const car=reward.type==='car'?cars.find(item=>item.id===reward.carId):null;
       const offer=car?NDShop.getCarOffer(car.id):null;
-      const cardArt=car?carCardArt(car,offer):null;
+      const cardArt=car?carCardArt(car,offer,paint||this.getSave().paints[car.id]):null;
       const art=car?`<img${offer.assets.card||offer.photos?' class="custom-car-art"':''} src="${esc(encodeURI(cardArt))}" alt="${esc(car.name)}">`:`<div class="currency-reward-art"><span>₡</span><strong>${n(reward.amount)}</strong></div>`;
       const carLabel=car?(car.pityOnly?'ГАРАНТ / TOYOTA':reward.guaranteed?'ГАРАНТ / МАШИНА БАННЕРА':offer.label+' / '+(offer.carIds?n((offer.carChance||.015)*100/offer.carIds.length,3):Math.round((1-offer.blueChance-offer.currencyChance)*100))+'%'):'';
       const rarity=car?(car.pityOnly?'purple':'gold'):'purple';

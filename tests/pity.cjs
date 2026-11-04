@@ -33,10 +33,10 @@ for(const caseId of Object.keys(shop.specialCases)){
   // Failed openings must not roll, advance counters or touch inventories.
   const empty=fresh();empty.pity[caseId]=29;const before=clone(empty);assert.equal(loot.openCase(empty,()=>{throw Error('empty case rolled');},caseId).ok,false);assert.deepEqual(empty,before);
 }
-console.log('PASS all eleven banners: 29 ordinary openings, 30th guarantee, both 50/50 outcomes, every pool car, duplicates, early reset, persistence and independent counters');
+console.log('PASS all special banners: 29 ordinary openings, 30th guarantee, both 50/50 outcomes, every pool car, duplicates, early reset, persistence and independent counters');
 {
  const save=fresh();save.inventory.cases.street=90;for(let i=0;i<90;i++)assert.ok(!loot.openCase(save,()=>0,'street').rewards);assert.ok(Object.values(save.pity).every(value=>value===0));assert.equal(shop.getPity(save,'street'),null);
- const invalid=fresh();invalid.pity={s2000:Infinity,brothers:-5,legends:300,'ae86-akina':2.7,'ae86-project-d':'29',street:29};const clean=progress.sanitize(invalid);assert.deepEqual(clean.pity,{s2000:0,'ae86-akina':2,'ae86-project-d':0,legends:29,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0});
+ const invalid=fresh();invalid.pity={s2000:Infinity,brothers:-5,legends:300,'ae86-akina':2.7,'ae86-project-d':'29',street:29};const clean=progress.sanitize(invalid);assert.deepEqual(clean.pity,{...fresh().pity,'ae86-akina':2,legends:29});
  const legacy=fresh();delete legacy.pity;legacy.credits=98765;legacy.owned.push('is300');const restored=progress.sanitize(legacy);assert.equal(restored.credits,98765);assert.ok(restored.owned.includes('is300'));assert.ok(Object.values(restored.pity).every(v=>v===0));
  const s=fresh();s.pity.s2000=29;s.inventory.cases.s2000=1;loot.openCase(s,sequence(.5,0),'s2000');s.lastReward.pityOutcome='banner';assert.equal(progress.sanitize(s).lastReward,null);
 }

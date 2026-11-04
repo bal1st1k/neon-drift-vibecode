@@ -68,6 +68,7 @@
   const previewRenderer = new NDRenderer.Renderer($('#preview-canvas'), { quality: save.settings.quality });
   const raceRenderer = new NDRenderer.Renderer($('#race-canvas'), { quality: save.settings.quality });
   let demo = null, race = null, racing = false, paused = false, currentPage = 'home';
+  let revPreview = null;
   let currentModal = null, focusBeforeModal = null, pendingImport = null;
   let lastLap = 1, lastCountdown = '', awarded = false, countdownEndAt = 0, lapTimer = 0;
   let frameTimestamp = 0, accumulator = 0, hudClock = 0, demoClock = 0;
@@ -79,6 +80,58 @@
   const autumn=new NDAutumn.Leaves($('#autumn-leaves'),$('#menu-shell'),$('#modal-backdrop'));
   function syncAutumn(){autumn.setContext({racing,modal:currentModal,reducedMotion:save.settings.reducedMotion,hidden:document.hidden});}
   function unlockAudio() { Promise.resolve(audio.unlock()).catch(() => {});if(['error','offline'].includes(radio.phase))radio.retry();else radio.unlock(); }
+  function stopRev() {
+    if (!revPreview) return;
+    revPreview.button.setAttribute('aria-pressed', 'false');
+    revPreview = null;
+    audio.update(null, 0);
+  }
+  function releaseRev() {
+    if (!revPreview?.engine.player.throttle) return;
+    revPreview.button.setAttribute('aria-pressed', 'false');
+    revPreview.engine.player.throttle = 0;
+    revPreview.remaining = 0.7;
+  }
+  function startRev(button, trigger, duration = Infinity) {
+    if (racing || startingRace || currentModal || button.closest('[hidden],[inert]')) return false;
+    if (!save.settings.sound || !save.settings.volume) {
+      toast('Включи звук и громкость в настройках.', true);
+      return false;
+    }
+    const build = button.hasAttribute('data-rev-build') ? garageUI.currentBuild() : null;
+    const engineId = build?.engineId || button.dataset.revEngine;
+    if (!Object.hasOwn(NDAudio.profiles, engineId)) return false;
+    stopRev();
+    const engine = { engineId, mode:'rev', state:'running', player:{ speed:0, throttle:1 },
+      effectiveUpgrades:build ? NDCards.getLevels(save.upgrades[build.car.id],save.equippedCards[build.car.id]) : {} };
+    const preview = { button, trigger, remaining:duration, engine };
+    revPreview = preview;
+    button.setAttribute('aria-pressed', 'true');
+    audio.unlock().then(ready => {
+      if (!ready && revPreview === preview) {
+        stopRev();
+        toast('Браузер не смог запустить звук двигателя.', true);
+      }
+    });
+    return true;
+  }
+  function revEngine(dt) {
+    if (!revPreview) return null;
+    const { button, engine } = revPreview;
+    if (startingRace || currentModal || !button.isConnected || button.closest('[hidden],[inert]') || !save.settings.sound) {
+      stopRev();
+      return null;
+    }
+    revPreview.remaining -= dt;
+    if (revPreview.remaining <= 0) {
+      if (!engine.player.throttle) {
+        stopRev();
+        return null;
+      }
+      releaseRev();
+    }
+    return engine;
+  }
   function applySettings() {
     audio.setEnabled(save.settings.sound);
     audio.setVolume(save.settings.volume);
@@ -123,7 +176,7 @@
   }
   function refreshMenus() { renderTracks(); renderGarage(); renderRecords(); garageUI.renderShop(); updateReady(); }
   function refreshDemo() {
-    demo = new Engine({ trackId: save.selectedTrack, carId: save.selectedCar, upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: 19 });
+    demo = new Engine({ trackId: save.selectedTrack, carId: save.selectedCar, paint: save.paints[save.selectedCar], upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: 19 });
     // Move the live preview onto the course before revealing the camera.
     for (let index = 0; index < 390; index++) demo.update(1 / 60, demo.getAutopilotInput());
     const index = tracks.findIndex(track=>track.id===save.selectedTrack);
@@ -224,11 +277,12 @@
   }
   async function startRace(trackId = save.selectedTrack) {
     if (startingRace) return;
+    stopRev();
     startingRace = true;
     unlockAudio();
     let nextRace;
     try {
-      nextRace = new Engine({ trackId, carId: save.selectedCar, upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: Math.floor(Math.random() * 1e7) + 1 });
+      nextRace = new Engine({ trackId, carId: save.selectedCar, paint: save.paints[save.selectedCar], upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: Math.floor(Math.random() * 1e7) + 1 });
       const sprites = await NDRenderer.preloadSprites([nextRace.player, ...nextRace.rivals, ...(nextRace.traffic||[])]);
       if (sprites.length !== 4+(nextRace.traffic?.length||0) || sprites.some(sprite => sprite.status !== 'ready')) {
         toast('Не загрузились 2D-машины. Проверь папку assets/cars и обнови страницу.',true);
@@ -367,7 +421,7 @@
           demoClock += dt;
           if (demoClock > .2) { $('#preview-speed').textContent = String(Math.round(demo.getHUD().speed)); demoClock=0; }
         }
-        audio.update(null,dt);
+        audio.update(revEngine(dt),dt);
       }
     }
     requestAnimationFrame(frame);
@@ -376,6 +430,10 @@
   document.addEventListener('click',event => {
     const button = event.target.closest('button,[data-nav]');
     if (!button || button.disabled) return;
+    if (button.dataset.revEngine) {
+      if (event.detail === 0) startRev(button, null, 0.9);
+      return;
+    }
     unlockAudio();
     if (!button.matches('[data-control]')) audio.play('click');
     if (button.dataset.shopJump && currentPage === 'shop') {
@@ -396,7 +454,8 @@
     if(button.dataset.carCard){
       const car=cars.find(item=>item.id===button.dataset.carCard);
       if(!car?.shopExclusive)return;
-      $('#car-card-content').innerHTML=garageUI.rewardMarkup({type:'car',carId:car.id},true);
+      const paint=button.closest('#vw-showcase')?garageUI.vwPreviewPaint:null;
+      $('#car-card-content').innerHTML=garageUI.rewardMarkup({type:'car',carId:car.id},true,paint);
       $('#modal-car-card').dataset.carRarity=car.pityOnly?'purple':'gold';
       openModal('car-card');return;
     }
@@ -421,6 +480,24 @@
       $('#photo-title').textContent=car.name+' / LEGENDS OF THE INTERNET';
       openModal('photo');return;
     }
+    if(button.hasAttribute('data-vw-photo')){
+      const photo=button.querySelector('img');
+      $('#photo-image').src=photo.currentSrc||photo.src;
+      $('#photo-image').alt=photo.alt;
+      $('#photo-title').textContent=photo.alt;
+      openModal('photo');return;
+    }
+    if(button.dataset.applyVwPaint){
+      const [id,paint]=button.dataset.applyVwPaint.split(':');
+      if(!NDCatalog.vwModels[id]||!save.owned.includes(id)||!Object.hasOwn(NDCatalog.vwPaints,paint))return;
+      const origin=button.closest('#vw-showcase')?'#vw-showcase':'#build-summary';
+      save.paints[id]=paint;
+      persist();renderGarage();garageUI.renderShop();
+      if(save.selectedCar===id)refreshDemo();
+      const focusTarget=origin==='#vw-showcase'?`[data-vw-paint="${paint}"]`:`[data-apply-vw-paint="${id}:${paint}"]`;
+      document.querySelector(`${origin} ${focusTarget}`)?.focus({preventScroll:true});
+      toast(NDCatalog.vwPaints[paint][0]+' сохранён для '+NDCatalog.vwModels[id].name+'.');return;
+    }
     if(button.dataset.bmwPhoto){
       const [id,index]=button.dataset.bmwPhoto.split(':');const photo=NDShop.bmw.photos[id]?.[Number(index)];if(!photo)return;
       $('#photo-image').src=photo;$('#photo-image').alt=cars.find(c=>c.id===id).name+' / '+(button.dataset.bmwCaption||'Фотогалерея');$('#photo-title').textContent=$('#photo-image').alt;openModal('photo');return;
@@ -444,7 +521,7 @@
       if (!car) return;
       if (!save.owned.includes(car.id)) {
         if(car.pityOnly){garageUI.shopTab='pity';navigate('shop');$('#pity-showcase').scrollIntoView({block:'start',behavior:'smooth'});toast('Эта Toyota доступна только на гаранте специальных кейсов.');return;}
-        if (car.shopExclusive) { garageUI.shopTab=car.showcaseId==='bmw-showcase'?'bmw':car.showcaseId==='mustang-showcase'?'mustang':car.showcaseId==='italy-showcase'?'italy':car.showcaseId==='blackbird-showcase'?'blackbird':car.showcaseId==='mercedes-showcase'?'mercedes':car.showcaseId==='roadster-showcase'?'roadster':car.showcaseId==='brothers-showcase'?'brothers':car.showcaseId==='legends-showcase'?'legends':car.showcaseId==='takumi-showcase'?'akina':'shadow';navigate('shop'); $('#'+car.showcaseId).scrollIntoView({block:'start',behavior:'smooth'}); toast(car.name+' продаётся в магазине.'); return; }
+        if (car.shopExclusive) { if(car.paint){garageUI.vwModel=car.id;garageUI.vwView=0;garageUI.vwPreviewPaint=null;} garageUI.shopTab=car.paint?'vw':car.showcaseId==='bmw-showcase'?'bmw':car.showcaseId==='mustang-showcase'?'mustang':car.showcaseId==='italy-showcase'?'italy':car.showcaseId==='blackbird-showcase'?'blackbird':car.showcaseId==='mercedes-showcase'?'mercedes':car.showcaseId==='roadster-showcase'?'roadster':car.showcaseId==='brothers-showcase'?'brothers':car.showcaseId==='legends-showcase'?'legends':car.showcaseId==='takumi-showcase'?'akina':'shadow';navigate('shop'); $('#'+car.showcaseId).scrollIntoView({block:'start',behavior:'smooth'}); toast(car.name+' продаётся в магазине.'); return; }
         if (save.credits < car.price) { audio.play('error'); toast(`До ${car.name} ещё ₡ ${number(car.price-save.credits)}. Заработай их в заезде.`,true); return; }
         save.credits-=car.price; save.owned.push(car.id); audio.play('buy'); toast(`${car.name} теперь в твоём гараже.`);
       } else toast(`${car.name} на линии старта.`);
@@ -482,6 +559,7 @@
       }else{
         const purchase=NDShop.purchaseExclusiveCar(save,id);
         if(!purchase.ok){toast(purchase.message,true);return;}
+        if(NDCatalog.vwModels[id] && garageUI.vwPreviewPaint)save.paints[id]=garageUI.vwPreviewPaint;
         persist();refreshMenus();audio.play('buy');toast(cars.find(car=>car.id===id).name+' добавлена в гараж.');
       }
       return;
@@ -563,6 +641,12 @@
   document.addEventListener('fullscreenchange',()=>{previewRenderer.resize();raceRenderer.resize();});
   const gameKeys = new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','ShiftLeft','ShiftRight']);
   document.addEventListener('keydown',event=>{
+    const revButton = event.target.closest?.('[data-rev-engine]');
+    if (revButton && (event.key === ' ' || event.key === 'Enter')) {
+      event.preventDefault();
+      if (!event.repeat) startRev(revButton, event.code);
+      return;
+    }
     if (['Numpad5','Numpad6'].includes(event.code)) {
       event.preventDefault(); adminKeys.add(event.code);
       if (!event.repeat && adminKeys.has('Numpad5') && adminKeys.has('Numpad6')) { adminKeys.clear(); toggleAdmin(); }
@@ -583,7 +667,28 @@
       if(gameKeys.has(event.code)){event.preventDefault();keys.add(event.code);}
     }
   });
-  document.addEventListener('keyup',event=>{adminKeys.delete(event.code);keys.delete(event.code);if(racing && !currentModal && gameKeys.has(event.code))event.preventDefault();});
+  document.addEventListener('keyup',event=>{
+    if (revPreview?.trigger === event.code) releaseRev();
+    adminKeys.delete(event.code);keys.delete(event.code);
+    if(racing && !currentModal && gameKeys.has(event.code))event.preventDefault();
+  });
+  document.addEventListener('focusout',event=>{
+    if (revPreview?.button === event.target && typeof revPreview.trigger === 'string') releaseRev();
+  });
+  document.addEventListener('pointerdown',event=>{
+    const button = event.target.closest('[data-rev-engine]');
+    if (button && event.isPrimary && event.button === 0 && startRev(button,event.pointerId)) {
+      button.setPointerCapture(event.pointerId);
+    }
+  });
+  for (const eventName of ['pointerup','pointercancel','lostpointercapture']) {
+    document.addEventListener(eventName,event=>{
+      if (revPreview?.trigger === event.pointerId) releaseRev();
+    });
+  }
+  document.addEventListener('contextmenu',event=>{
+    if (event.target.closest('[data-rev-engine]')) event.preventDefault();
+  });
   for(const button of $$('[data-control]')) {
     button.addEventListener('pointerdown',event=>{
       event.preventDefault();unlockAudio();
@@ -594,8 +699,8 @@
     button.addEventListener('pointerup',release);button.addEventListener('pointercancel',release);button.addEventListener('lostpointercapture',release);
     button.addEventListener('contextmenu',event=>event.preventDefault());
   }
-  window.addEventListener('blur',()=>{adminKeys.clear();clearControls();if(racing && !paused)pauseRace();});
-  document.addEventListener('visibilitychange',()=>{frameTimestamp=0;clearControls();if(document.hidden && racing && !paused)pauseRace();syncAutumn();});
+  window.addEventListener('blur',()=>{stopRev();adminKeys.clear();clearControls();if(racing && !paused)pauseRace();});
+  document.addEventListener('visibilitychange',()=>{frameTimestamp=0;clearControls();if(document.hidden){stopRev();if(racing && !paused)pauseRace();}syncAutumn();});
 
   $('#export-save').addEventListener('click',()=>{
     const blob=new Blob([JSON.stringify(save,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),link=document.createElement('a');

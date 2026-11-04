@@ -1,0 +1,5 @@
+Volkswagen Golf GTI 16V (Mk2, 1989): мотор 1.8L KR (I-4 DOHC 16V, мех. впрыск K-Jetronic, вес ~128кг), 139пс, 168Нм, отсечка 7200 об/мин, 960кг, FF, 0–100: 7.9 с, 208 км/ч, цвет Tornado Red
+Volkswagen Golf Rallye G60 (Mk2, 1989): мотор 1.8L 1H G-Lader (I-4 SOHC 8V, спиральный компрессор G60, вес ~142кг), 160пс, 225Нм, отсечка 6500 об/мин, 1195кг, 4WD (Syncro), 0–100: 8.6 с, 216 км/ч, цвет Graphite Metallic
+Volkswagen Corrado VR6 (1992): мотор 2.9L ABV VR6 (узкоугольный V6 15°, SOHC 12V, вес ~178кг), 190пс, 245Нм, отсечка 6500 об/мин, 1210кг, FF, 0–100: 6.9 с, 235 км/ч, цвет Violet Touch Pearl
+Volkswagen Golf R32 (Mk4, 2002): мотор 3.2L BFH VR6 (узкоугольный V6 15°, DOHC 24V, вес ~185кг), 241пс, 320Нм, отсечка 6800 об/мин, 1477кг, 4WD (4Motion Haldex), 0–100: 6.4 с, 247 км/ч, цвет Deep Blue Pearl
+Volkswagen Golf GTI (Mk5, 2005): мотор 2.0L AXX / BWA TFSI (EA113 I-4 DOHC 16V Turbo, прямой впрыск, вес ~152кг), 200пс, 280Нм, отсечка 6800 об/мин, 1336кг, FF, 0–100: 7.2 с, 235 км/ч, цвет Candy White

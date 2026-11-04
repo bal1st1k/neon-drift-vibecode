@@ -15,6 +15,11 @@
     rasp: 0.12, body: 0.24, intake: 0.12, cutoff: 1650, resonance: 0.65,
     turbo: 0, spool: 0.3, whistle: 1600, cam: 1, gears: 5, roughness: 3, ...values });
   const profiles = Object.freeze({
+    'vw-kr':profile('KR · GTI 16V',{redline:7200,body:.21,intake:.25,rasp:.21,cutoff:2350,decay:.83}),
+    'vw-1h':profile('1H · G-Lader',{redline:6500,body:.33,intake:.34,rasp:.18,cutoff:1950,decay:1.04}),
+    'vw-abv':profile('ABV · VR6 12V',{redline:6500,pulses:six,weights:[1,.84,.96,.87,1,.9],body:.46,intake:.23,rasp:.18,cutoff:1700}),
+    'vw-bfh':profile('BFH · VR6 24V',{redline:6800,gears:6,pulses:six,weights:[1,.89,.98,.88,.97,.92],body:.42,intake:.32,rasp:.23,cutoff:2200}),
+    'vw-axx':profile('AXX · TFSI',{redline:6800,gears:6,turbo:.76,spool:.42,body:.31,intake:.16,rasp:.16,whistle:1680,cutoff:1850}),
     s14b25:profile('S14B25 · Sport Evolution',{redline:7250,gears:5,body:.2,intake:.32,rasp:.26,cutoff:2450,decay:.78}),
     s50b32:profile('S50B32 · Euro six',{redline:7600,gears:6,pulses:six,weights:[1,.98,.96,1,.97,.98],body:.35,intake:.26,rasp:.16,cutoff:2200,roughness:1.5}),
     s54b32:profile('S54B32 · high rev',{redline:8000,gears:6,pulses:six,weights:[1,.93,.98,.95,1,.94],body:.23,intake:.34,rasp:.33,cutoff:2900,decay:.72,roughness:2}),
@@ -338,10 +343,12 @@
         }
       }
       const clutch = clamp(kmh / 24, 0, 1);
-      const freeRPM = sound.idle + throttle * (sound.redline - sound.idle) * 0.58;
+      const preview = engine.mode === 'rev';
+      const freeRPM = sound.idle + throttle * (sound.redline - sound.idle) * (preview ? 1 : 0.58);
       const targetRPM = clamp(freeRPM * (1 - clutch) + wheelRPM(this._gear) * clutch,
         sound.idle, sound.redline);
-      this._rpm += (targetRPM - this._rpm) * (1 - Math.exp(-delta / (this._shift ? 0.045 : 0.11)));
+      const response = preview ? (throttle ? 0.21 : 0.24) : this._shift ? 0.045 : 0.11;
+      this._rpm += (targetRPM - this._rpm) * (1 - Math.exp(-delta / response));
       const rev = clamp((this._rpm - sound.idle) / (sound.redline - sound.idle), 0, 1);
       const cam = clamp((rev - sound.cam + 0.06) / 0.12, 0, 1);
       const spoolTarget = turbo * this._load * clamp((rev - 0.25) / 0.5, 0, 1);
@@ -350,7 +357,8 @@
       this._release *= Math.exp(-delta / 0.14);
       const firing = this._rpm / 60 * sound.cycle * sound.pulses.length;
       const shiftDip = this._shift ? 0.55 : 1;
-      const limiter = rev > 0.975 && throttle > 0.8 ? (Math.sin(this.context.currentTime * 95) > 0 ? 0.55 : 1) : 1;
+      const atLimiter = rev > 0.975 && throttle > 0.8;
+      const limiter = atLimiter && Math.sin(this.context.currentTime * 95) > 0 ? 0.55 : 1;
       this._target(this.engineOsc.frequency, this._rpm / 60 * sound.cycle, 0.025);
       this._target(this.engineHarmonic.frequency, firing * (sound.cycle === 1 ? 1.003 : 2.002), 0.025);
       this._target(this.bodyOsc.frequency, this._rpm / 120, 0.03);
@@ -361,7 +369,7 @@
       this._target(this.engineFilter.frequency, 350 + sound.cutoff * (0.22 + rev * 0.85) *
         (0.6 + this._load * 0.4) + cam * 650 + exhaust * 110, 0.065);
       this._target(this.engineFilter.Q, sound.resonance, 0.1);
-      this._target(this.engineGain.gain, (0.055 + this._load * 0.075 + rev * 0.025) * shiftDip * limiter, 0.035);
+      this._target(this.engineGain.gain, (0.055 + this._load * 0.075 + rev * 0.025) * shiftDip * limiter, preview && atLimiter ? 0.008 : 0.035);
       this._target(this.intakeFilter.frequency, 650 + firing * 3.5, 0.08);
       this._target(this.intakeGain.gain, sound.intake * rev * this._load * (0.3 + cam * 0.7), 0.07);
       this._target(this.turboOsc.frequency, sound.whistle * (0.65 + this._spool * 0.85), 0.1);

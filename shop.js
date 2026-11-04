@@ -3,6 +3,7 @@
 (function (root) {
   'use strict';
   const cards = root.NDCards || (typeof require === 'function' ? require('./tuning-cards.js') : null);
+  const catalog = root.NDCatalog || (typeof require === 'function' ? require('./catalog.js') : null);
   const prices = Object.freeze({ case: 500, card: 1000 });
   const assets = Object.freeze({
     closed: 'assets/cases/street-closed.png',
@@ -36,7 +37,15 @@
   const italy=Object.freeze({caseId:'italy',label:'И ВАМ ПРИВЕТ ИЗ ИТАЛИИ',carId:'fiat-coupe',carIds:['fiat-coupe','alfa-155','alfa-gtv','delta-evo2'],casePrice:1500,blueChance:.79,yellowChance:.10,currencyChance:.09,carChance:.02,maxRewards:3,assets:{closed:'assets/cases/italy-closed.png',open:'assets/cases/italy-open.png'},photos:Object.fromEntries(['fiat-coupe','alfa-155','alfa-gtv','delta-evo2'].map(id=>[id,['assets/italy/'+id+'-hero-hq.webp','assets/italy/'+id+'-photo-2.webp']]))});
   const mustang=Object.freeze({caseId:'mustang',label:'АМЕРИКАНСКАЯ ЛОШАДКА',carId:'mustang-gt',carIds:['mustang-gt'],casePrice:1500,blueChance:.80,yellowChance:.10,currencyChance:.09,carChance:.01,maxRewards:3,assets:{hero:'assets/mustang/gt-2005.webp',card:'assets/mustang/gt-2005.webp',closed:'assets/cases/mustang-closed-western.png',open:'assets/cases/mustang-open-western.png'}});
   const bmw=Object.freeze({caseId:'bmw',label:'BMW MOTORSPORT',carId:'m3-e30',carIds:['m3-e30','m3-e36','m3-e46'],casePrice:1500,blueChance:.795,yellowChance:.10,currencyChance:.09,carChance:.015,maxRewards:3,cardPhotos:Object.fromEntries(['m3-e30','m3-e36','m3-e46'].map(id=>[id,'assets/bmw/'+id+'-photo-1.webp'])),assets:{closed:'assets/cases/bmw-closed.png',open:'assets/cases/bmw-open.png'},photos:Object.fromEntries(['m3-e30','m3-e36','m3-e46'].map(id=>[id,[1,2,3,4,5,6].map(i=>'assets/bmw/'+id+'-photo-'+i+'.webp')]))});
-  const specialCases=Object.freeze(Object.fromEntries([s2000,...takumi,legends,brothers,roadster,mercedes,blackbird,italy,mustang,bmw].map(item=>[item.caseId,item])));
+  const vwCarIds = Object.keys(catalog.vwModels);
+  const vw = Object.freeze({
+    caseId:'vw',label:'НАРОДНЫЙ КАЛИБР',carId:vwCarIds[0],carIds:vwCarIds,
+    casePrice:1500,blueChance:.79,yellowChance:.10,currencyChance:.09,carChance:.02,maxRewards:3,
+    assets:{closed:'assets/cases/vw-closed.png',open:'assets/cases/vw-open.png'},
+    photos:Object.fromEntries(vwCarIds.map(id=>[id,[catalog.vwPhoto(id,catalog.vwModels[id].paint)]])),
+    cardPhotos:Object.fromEntries(vwCarIds.map(id=>[id,catalog.vwPhoto(id,catalog.vwModels[id].paint)]))
+  });
+  const specialCases=Object.freeze(Object.fromEntries([s2000,...takumi,legends,brothers,roadster,mercedes,blackbird,italy,mustang,bmw,vw].map(item=>[item.caseId,item])));
   const pityLimit=30;
   const pityCars=Object.freeze(['jzz30','jzx90','jzx81']);
   const pityRoot='for promt/гарант/';
@@ -104,7 +113,7 @@
     save.shop.purchased.push(Number(offer.id.split(':')[1]));
     return { ok: true, card: offer.card, price: prices.card };
   }
-  const api = { prices, assets, s2000, takumi, legends, brothers, roadster, mercedes, blackbird, italy, mustang, bmw, specialCases, pityLimit, pityCars, pityOffer, getCarOffer, getPity, ensureStock, getStock, remainingRaces, purchaseCase, purchaseCard, purchaseS2000, purchaseExclusiveCar };
+  const api = { prices, assets, s2000, takumi, legends, brothers, roadster, mercedes, blackbird, italy, mustang, bmw, vw, specialCases, pityLimit, pityCars, pityOffer, getCarOffer, getPity, ensureStock, getStock, remainingRaces, purchaseCase, purchaseCard, purchaseS2000, purchaseExclusiveCar };
   root.NDShop = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(globalThis);
