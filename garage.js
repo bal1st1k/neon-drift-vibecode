@@ -75,11 +75,7 @@
           if(vwModel && vwModel!==this.vwModel){this.vwModel=vwModel;this.vwView=0;this.vwPreviewPaint=null;}
           if(vwView!==undefined)this.vwView=Number(vwView);
           if(vwPaint)this.vwPreviewPaint=vwPaint;
-          this.renderVWShop();
-          this.renderShopRevButtons();
-          this.renderShopShortcuts();
-          this.renderPityMeters();
-          this.explainDisabledPurchases(NDShop.getStock(this.getSave()));
+          this.refreshVWShop();
           const selector=vwModel?`[data-vw-model="${vwModel}"]`:vwPaint?`[data-vw-paint="${vwPaint}"]`:`[data-vw-view="${vwView}"]`;
           $(selector)?.focus({preventScroll:true});
         }
@@ -347,6 +343,13 @@
     }
     renderVWShop(){
       $('#vw-showcase').innerHTML=root.NDVW.render(this.getSave(),this.vwModel,this.vwView,this.vwPreviewPaint);
+    }
+    refreshVWShop(){
+      this.renderVWShop();
+      this.renderShopRevButtons();
+      this.renderShopShortcuts();
+      this.renderPityMeters();
+      this.explainDisabledPurchases(NDShop.getStock(this.getSave()));
     }
     renderBMWShop(){ $('#bmw-showcase').innerHTML=root.NDBMW.render(this.getSave(),this.bmwModel); }
     renderMustangShop() {

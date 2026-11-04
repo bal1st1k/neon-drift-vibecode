@@ -69,6 +69,8 @@
   const raceRenderer = new NDRenderer.Renderer($('#race-canvas'), { quality: save.settings.quality });
   let demo = null, race = null, racing = false, paused = false, currentPage = 'home';
   let revPreview = null;
+  let vwPhotoState = null;
+  const vwTrialDuration = NDVW.trialDuration;
   let currentModal = null, focusBeforeModal = null, pendingImport = null;
   let lastLap = 1, lastCountdown = '', awarded = false, countdownEndAt = 0, lapTimer = 0;
   let frameTimestamp = 0, accumulator = 0, hudClock = 0, demoClock = 0;
@@ -212,6 +214,17 @@
     syncAutumn();
   }
   function closeModal(restoreFocus = true) {
+    const photo = vwPhotoState;
+    if (photo) {
+      vwPhotoState = null;
+      $('#vw-photo-controls').hidden = true;
+      if (photo.changed) {
+        garageUI.vwView = photo.view;
+        garageUI.vwPreviewPaint = photo.paint;
+        garageUI.refreshVWShop();
+        focusBeforeModal = $$('#vw-showcase [data-vw-photo]')[photo.origin];
+      }
+    }
     if (currentModal === 'loot') garageUI.cancelReveal();
     currentModal = null;
     $('#modal-backdrop').hidden = true;
@@ -275,23 +288,34 @@
       drift: held('Space') || touch.has('drift'), boost: held('ShiftLeft','ShiftRight') || touch.has('boost')
     };
   }
-  async function startRace(trackId = save.selectedTrack) {
+  async function startRace(trackId = save.selectedTrack, trial = null) {
     if (startingRace) return;
+    const previousTrial = trial && racing ? race : null;
     stopRev();
     startingRace = true;
     unlockAudio();
     let nextRace;
     try {
-      nextRace = new Engine({ trackId, carId: save.selectedCar, paint: save.paints[save.selectedCar], upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: Math.floor(Math.random() * 1e7) + 1 });
-      const sprites = await NDRenderer.preloadSprites([nextRace.player, ...nextRace.rivals, ...(nextRace.traffic||[])]);
-      if (sprites.length !== 4+(nextRace.traffic?.length||0) || sprites.some(sprite => sprite.status !== 'ready')) {
+      const carId = save.selectedCar;
+      const build = trial ? {...trial,mode:'vw-trial'} : {
+        carId, paint:save.paints[carId], upgrades:save.upgrades[carId], engineId:save.selectedEngines[carId], cards:save.equippedCards[carId]
+      };
+      nextRace = new Engine({ ...build, trackId, seed: Math.floor(Math.random() * 1e7) + 1 });
+      if (trial) nextRace.rivals = [];
+      const vehicles = [nextRace.player,...nextRace.rivals,...(nextRace.traffic||[])];
+      const sprites = await NDRenderer.preloadSprites(vehicles);
+      if (sprites.length !== vehicles.length || sprites.some(sprite => sprite.status !== 'ready')) {
         toast('Не загрузились 2D-машины. Проверь папку assets/cars и обнови страницу.',true);
         return;
       }
     } finally { startingRace = false; }
+    if (trial && (previousTrial ? race!==previousTrial :
+      currentModal || currentPage!=='shop' || garageUI.shopTab!=='vw' || garageUI.vwModel!==trial.carId)) return;
     closeModal(false);
-    save.selectedTrack = trackId;
-    persist();
+    if (!trial) {
+      save.selectedTrack = trackId;
+      persist();
+    }
     race = nextRace;
     racing = true; paused = false; awarded = false; accumulator = 0; hudClock = 1; lastLap = 1; lastCountdown = ''; countdownEndAt = 0;
     clearControls();
@@ -299,6 +323,9 @@
     $('#race-screen').hidden = false;
     document.body.style.overflow = 'hidden';
     $('#race-track-label').textContent = labels[trackId].district;
+    $('#race-session-label').textContent = trial ? 'ПРОБНЫЙ ЗАЕЗД / VOLKSWAGEN' : 'НОЧНАЯ СМЕНА / NEON DRIFT';
+    $('.race-position').hidden = !!trial;
+    $('#exit-race span').textContent = trial ? 'ВЕРНУТЬСЯ В САЛОН' : 'ВЕРНУТЬСЯ В ГОРОД';
     $('#countdown').hidden = false;
     $('#lap-notice').classList.remove('show');
     raceRenderer.resize();
@@ -319,11 +346,19 @@
     $('#pause-race').focus({preventScroll:true});
   }
   function exitRace() {
+    const trial = race?.mode==='vw-trial';
     closeModal(false); racing = false; paused = false; race = null; clearControls();
     $('#race-screen').hidden = true;
     $('#menu-shell').hidden = false;
     document.body.style.overflow = '';
     audio.update(null, .05);
+    if (trial) {
+      navigate('shop');
+      const button = $('#vw-showcase [data-vw-trial]');
+      button.scrollIntoView({block:'center',behavior:'instant'});
+      button.focus({preventScroll:true});
+      return;
+    }
     refreshMenus(); navigate('home'); refreshDemo();
     $('#start-race').focus({preventScroll:true});
   }
@@ -331,18 +366,19 @@
   function updateHUD() {
     if (!race) return;
     const data = race.getHUD();
+    const trial = race.mode==='vw-trial';
     hud.position.textContent = String(data.position).padStart(2,'0');
     hud.time.textContent = data.time > 0 ? time(data.time) : '00:00.000';
     const sprint = race.track.closed === false;
-    $('#hud-format').textContent = sprint ? 'МАРШРУТ' : 'КРУГ';
-    hud.lap.textContent = sprint ? Math.min(100,Math.round(data.progress*100)) : Math.min(data.lap,data.totalLaps);
-    $('#hud-lap-total').textContent = sprint ? '%' : '/ ' + data.totalLaps;
-    $('#hud-best-label').textContent = sprint ? 'ЛИЧНЫЙ РЕКОРД' : 'ЛУЧШИЙ КРУГ';
-    hud.progress.style.width = `${clamp(data.progress,0,1)*100}%`;
+    $('#hud-format').textContent = trial ? 'ОСТАЛОСЬ' : sprint ? 'МАРШРУТ' : 'КРУГ';
+    hud.lap.textContent = trial ? Math.max(0,Math.ceil(vwTrialDuration-data.time)) : sprint ? Math.min(100,Math.round(data.progress*100)) : Math.min(data.lap,data.totalLaps);
+    $('#hud-lap-total').textContent = trial ? ' с' : sprint ? '%' : '/ ' + data.totalLaps;
+    $('#hud-best-label').textContent = trial ? 'РЕЖИМ' : sprint ? 'ЛИЧНЫЙ РЕКОРД' : 'ЛУЧШИЙ КРУГ';
+    hud.progress.style.width = `${clamp(trial?data.time/vwTrialDuration:data.progress,0,1)*100}%`;
     hud.speed.textContent = String(Math.max(0,Math.round(data.speed))).padStart(3,'0');
     hud.nitro.style.width = `${clamp(data.nitro,0,1)*100}%`;
     hud.integrity.style.width = `${clamp(data.integrity,0,1)*100}%`;
-    hud.best.textContent = time(sprint ? save.records[race.track.id]?.bestTime : data.bestLap);
+    hud.best.textContent = trial ? 'ПРОБА' : time(sprint ? save.records[race.track.id]?.bestTime : data.bestLap);
     hud.combo.textContent = `×${Number(data.combo || 1).toFixed(1)}`;
     hud.drift.textContent = number(data.driftScore);
     $('#drift-feedback').classList.toggle('active',race.player.drifting);
@@ -370,6 +406,11 @@
     } else if (countdownEndAt && performance.now() >= countdownEndAt) countdown.hidden = true;
   }
   function finishRace() {
+    if (race?.mode==='vw-trial') {
+      exitRace();
+      toast('Пробный заезд завершён.');
+      return;
+    }
     if (awarded || !race || !race.result) return;
     awarded = true; clearControls();
     const result = race.result, old = save.records[race.track.id], isRecord = !old || result.time < old.bestTime;
@@ -398,6 +439,27 @@
     audio.play('finish'); openModal('results');
   }
 
+  function vwPaint() {
+    const id = garageUI.vwModel;
+    return garageUI.vwPreviewPaint || save.paints[id] || NDCatalog.vwModels[id].paint;
+  }
+  function updateVWPhoto() {
+    const { id, paint, view } = vwPhotoState;
+    const photo = $('#photo-image'), label = NDVW.photoLabel(id,paint,view);
+    photo.src = NDCatalog.vwPhoto(id,paint,view);
+    photo.alt = label;
+    $('#photo-title').textContent = label;
+    $('#vw-photo-angle').textContent = `${view+1} / ${NDVW.views.length} · ${NDVW.views[view]}`;
+    for (const button of $$('#vw-photo-controls [data-vw-photo-paint]')) {
+      button.setAttribute('aria-pressed',String(button.dataset.vwPhotoPaint===paint));
+    }
+    $('#vw-photo-controls .vw-paint-caption').textContent = NDVW.paintCaption(paint);
+  }
+  function updateVWComparison() {
+    const other = $('#vw-compare-model').value;
+    $('#vw-compare-content').innerHTML = NDVW.compare(garageUI.vwModel,other,vwPaint(),garageUI.vwView);
+  }
+
   function frame(timestamp) {
     const dt = frameTimestamp ? Math.min((timestamp-frameTimestamp)/1000,.05) : 1/60;
     frameTimestamp = timestamp;
@@ -412,7 +474,7 @@
         audio.update(paused || race.state === 'finished' ? null : race,dt);
         hudClock += dt;
         if (hudClock >= .07) { updateHUD(); hudClock = 0; }
-        if (race.state === 'finished' && !awarded) finishRace();
+        if (!awarded && (race.state === 'finished' || race.mode==='vw-trial' && race.time>=vwTrialDuration)) finishRace();
       } else {
         if (currentPage === 'home' && demo) {
           if (!save.settings.reducedMotion) demo.update(dt,demo.getAutopilotInput());
@@ -481,11 +543,34 @@
       openModal('photo');return;
     }
     if(button.hasAttribute('data-vw-photo')){
-      const photo=button.querySelector('img');
-      $('#photo-image').src=photo.currentSrc||photo.src;
-      $('#photo-image').alt=photo.alt;
-      $('#photo-title').textContent=photo.alt;
+      vwPhotoState = { id:garageUI.vwModel, paint:vwPaint(), view:Number(button.dataset.vwPhoto),
+        origin:$$('#vw-showcase [data-vw-photo]').indexOf(button), changed:false };
+      const controls = $('#vw-photo-controls');
+      $('#vw-photo-palette').innerHTML = NDVW.paintChoices(vwPhotoState.paint,'modal');
+      controls.hidden = false;
+      updateVWPhoto();
       openModal('photo');return;
+    }
+    if(vwPhotoState && (button.dataset.vwPhotoStep || button.dataset.vwPhotoPaint)){
+      if(button.dataset.vwPhotoStep){
+        const count = NDVW.views.length;
+        vwPhotoState.view = (vwPhotoState.view+Number(button.dataset.vwPhotoStep)+count)%count;
+      }else vwPhotoState.paint = button.dataset.vwPhotoPaint;
+      vwPhotoState.changed = true;
+      updateVWPhoto();
+      return;
+    }
+    if(button.hasAttribute('data-vw-compare')){
+      $('#vw-compare-model').innerHTML = Object.entries(NDCatalog.vwModels)
+        .filter(([id])=>id!==garageUI.vwModel)
+        .map(([id,model])=>`<option value="${id}">${model.name} · ${model.generation}</option>`).join('');
+      updateVWComparison();
+      openModal('vw-compare');
+      return;
+    }
+    if(button.dataset.vwTrial && button.dataset.vwTrial===garageUI.vwModel){
+      startRace('akina',{carId:garageUI.vwModel,paint:vwPaint()});
+      return;
     }
     if(button.dataset.applyVwPaint){
       const [id,paint]=button.dataset.applyVwPaint.split(':');
@@ -611,14 +696,18 @@
   $('#start-race').addEventListener('click',()=>startRace());
   $('#pause-race').addEventListener('click',pauseRace);
   $('#resume-race').addEventListener('click',resumeRace);
-  $('#restart-race').addEventListener('click',()=>startRace());
+  $('#restart-race').addEventListener('click',()=>{
+    if (race?.mode==='vw-trial') startRace(race.track.id,{carId:race.car.id,paint:race.options.paint});
+    else startRace();
+  });
   $('#exit-race').addEventListener('click',exitRace);
   $('#race-again').addEventListener('click',()=>startRace());
   $('#results-home').addEventListener('click',exitRace);
+  $('#vw-compare-model').addEventListener('change',updateVWComparison);
   $('#modal-backdrop').addEventListener('click',event=>{
     if (event.target === $('#modal-backdrop')) {
       if (currentModal === 'admin') closeAdmin();
-      else if (['settings','help','import','map','loot','photo','car-card'].includes(currentModal)) closeModal();
+      else if (['settings','help','import','map','loot','photo','car-card','vw-compare'].includes(currentModal)) closeModal();
     }
   });
   for (const [id,key,eventName] of [['setting-sound','sound','change'],['setting-music','music','change'],['setting-radio','radio','change'],['setting-radio-station','radioStation','change'],['setting-radio-volume','radioVolume','input'],['setting-motion','reducedMotion','change'],['setting-volume','volume','input'],['pause-volume','volume','input'],['setting-quality','quality','change']]) {
@@ -653,7 +742,7 @@
       return;
     }
     if (currentModal) {
-      if (event.code === 'Escape') { event.preventDefault(); if(currentModal==='admin')closeAdmin(); else if(currentModal==='pause')resumeRace(); else if(['settings','help','import','map','loot','photo','car-card'].includes(currentModal))closeModal(); }
+      if (event.code === 'Escape') { event.preventDefault(); if(currentModal==='admin')closeAdmin(); else if(currentModal==='pause')resumeRace(); else if(['settings','help','import','map','loot','photo','car-card','vw-compare'].includes(currentModal))closeModal(); }
       if (event.code === 'Tab') {
         const focusables=$$('button:not(:disabled),input,select,[tabindex="0"]',$(`#modal-${currentModal}`)).filter(el=>!el.hidden);
         const first=focusables[0],last=focusables[focusables.length-1];

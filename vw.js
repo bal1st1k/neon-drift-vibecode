@@ -3,6 +3,7 @@
   'use strict';
   const { cars, engines, vwModels, vwPaints, vwPhoto, getCarSprite } = root.NDCatalog;
   const views = ['Передний ¾', 'Профиль', 'Задний ¾', 'Сзади', 'Спереди', 'Передний ¾ справа'];
+  const trialDuration = 25;
   const priceSources = {
     'vw-mk2-gti': ['26 825 DM · 1987','https://www.autobild.de/klassik/artikel/sportler-der-achtziger-vw-golf-gti-16v-3770996.html'],
     'vw-rallye': ['46 500 DM · 1989','https://www.autobild.de/artikel/vw-golf-rallye-1990-gebrauchtwagen-27756625.html'],
@@ -15,46 +16,71 @@
       title:'Красная полоска, шестнадцать клапанов',
       origin:'В марте 1986 года Volkswagen запустил в серию Golf GTI 16V. Два распредвала и четыре клапана на цилиндр подняли отдачу 1,8-литрового мотора до 139 PS в версии без катализатора. В августе 1989-го GTI получил массивные бамперы. Именно этот поздний облик представлен в салоне.',
       character:'Под капотом остался атмосферный KR с механическим впрыском Bosch K-Jetronic. Пик мощности приходится на 6 100 об/мин, поэтому на разгоне этому Golf стоит дать раскрутиться.',
-      angle:4, detail:'Двойные круглые фары и красная окантовка решётки.',
+      signature:'Лёгкий атмосферник',
+      details:[[4,'Двойные круглые фары и красная окантовка решётки'],[1,'Профиль с массивными бамперами']],
       source:'https://www.volkswagen-newsroom.com/en/golf-2-gti-19841991-19502'
     },
     'vw-rallye': {
       title:'Golf, которому нужен был допуск к ралли',
       origin:'Golf Rallye появился в конце восьмидесятых ради омологации. Правила группы A требовали выпустить дорожную версию тиражом не менее 5 000 экземпляров. У Rallye были расширенные арки, прямоугольные фары и полный привод.',
       character:'Механический нагнетатель G-Lader приводится от двигателя и даёт наддув уже на низких оборотах. Вместе с полным приводом Syncro это объясняет, почему Rallye заметно отличается по конструкции от переднеприводного GTI 16V.',
-      angle:5, detail:'Квадратные расширители арок и прямоугольная оптика.',
+      signature:'G-Lader и полный привод',
+      details:[[5,'Квадратные расширители колёсных арок'],[4,'Прямоугольная передняя оптика']],
       source:'https://media.vw.com/releases/1503'
     },
     'vw-corrado': {
       title:'Купе, которое выросло из Scirocco',
       origin:'Corrado задумывался как преемник Scirocco II. В итоге Volkswagen поставил его ступенью выше и поручил сборку Karmann в Оснабрюке. Компактное купе 2+2 получило большую заднюю дверь и спойлер, который на немецкой версии автоматически поднимался при 120 км/ч.',
       character:'Для 2,9-литрового VR6 пришлось переработать переднюю часть кузова. Узкий угол между рядами цилиндров позволил уместить шесть цилиндров под одной головкой, сохранив поперечную компоновку и передний привод.',
-      angle:2, detail:'Низкая линия крыши и спойлер над задней дверью.',
+      signature:'Купе с VR6',
+      details:[[2,'Спойлер над задней дверью'],[1,'Низкая линия крыши купе']],
       source:'https://www.volkswagen-newsroom.com/en/corrado-19881995-19683'
     },
     'vw-r32': {
       title:'Первый Golf с буквой R',
       origin:'В 2002 году R32 стал самым мощным Golf на тот момент. Под капотом стоял 3,2-литровый VR6 на 241 PS, тягу передавал полный привод 4Motion. Volkswagen рассчитывал выпустить 5 000 машин, но в итоге собрал 12 000.',
       character:'Шестиступенчатая механика была стандартной, а позже появилась DSG. С ней заводской разгон до 100 км/ч занял 6,4 секунды, на две десятых быстрее механики. Это время использовано в игровом техпаспорте.',
-      angle:3, detail:'Два разнесённых выпускных патрубка под задним бампером.',
+      signature:'VR6 и 4Motion',
+      details:[[3,'Два разнесённых выпускных патрубка'],[4,'Три воздухозаборника переднего бампера']],
       source:'https://www.volkswagen-newsroom.com/en/the-volkswagen-r-models-15258/volkswagen-r-the-history-15267'
     },
     'vw-mk5-gti': {
       title:'GTI вернулся с турбиной',
       origin:'Golf V GTI вышел осенью 2004 года с двухлитровым TFSI и подвеской, заниженной на 15 мм. Красная окантовка осталась фирменной деталью, теперь вокруг решётки с сотами. В салоне вернулась клетчатая ткань спортивных кресел.',
       character:'Турбонаддув и прямой впрыск дали 280 Н·м уже с 1 800 об/мин. Мотор держал этот момент до 5 000 об/мин, поэтому подхват ощущался задолго до верхов.',
-      angle:4, detail:'Сотовая решётка с красной окантовкой.',
+      signature:'Турбо и 280 Н·м',
+      details:[[4,'Сотовая решётка с красной окантовкой'],[2,'Круглые секции задних фонарей']],
       source:'https://www.volkswagen-newsroom.com/en/golf-5-gti-20042008-19511'
     }
   };
   const number = value => value.toLocaleString('ru-RU');
   const spec = (label,value) => `<div><dt>${label}</dt><dd>${value}</dd></div>`;
+  const driveLabel = id => id==='vw-rallye'?'Полный · Syncro':id==='vw-r32'?'Полный · 4Motion':'Передний';
+  const paintCaption = paint => `${vwPaints[paint][0]} · ${paint} · ${vwPaints[paint][1]}`;
+  const photoLabel = (id,paint,view) => `Volkswagen ${vwModels[id].name} · ${vwPaints[paint][0]} · ${views[view]}`;
 
   function paintChoices(selected, surface, id) {
-    return `<fieldset class="vw-palette"><legend>Цвет кузова</legend><div class="vw-swatches">${Object.entries(vwPaints).map(([code,[name,hex]]) => `
-      <button type="button" ${surface==='garage'?`data-apply-vw-paint="${id}:${code}"`:`data-vw-paint="${code}"`} aria-pressed="${code===selected}">
+    const attribute = surface==='garage'?'data-apply-vw-paint':surface==='modal'?'data-vw-photo-paint':'data-vw-paint';
+    return `<fieldset class="vw-palette${surface==='garage'?'':' vw-palette-inline'}"><legend>Цвет кузова</legend><div class="vw-swatches">${Object.entries(vwPaints).map(([code,[name,hex]]) => `
+      <button type="button" ${attribute}="${surface==='garage'?id+':':''}${code}" aria-pressed="${code===selected}" aria-label="${name} · ${code}">
         <span class="vw-chip" style="--paint:${hex}" aria-hidden="true"></span><strong>${name}</strong><small>${code} · ${hex}</small>
-      </button>`).join('')}</div></fieldset>`;
+      </button>`).join('')}</div>${surface==='garage'?'':`<p class="vw-paint-caption" aria-live="polite">${paintCaption(selected)}</p>`}</fieldset>`;
+  }
+
+  function compare(id, other, paint, view) {
+    const ids = [id,other];
+    const metrics = [
+      ['Цена',(_,car)=>'₡ '+number(car.price)],
+      ['Мощность',model=>model.power+' PS'],
+      ['Крутящий момент',model=>model.torque+' Н·м'],
+      ['Масса',model=>number(model.mass)+' кг'],
+      ['Мощность на тонну',(_,car)=>number(Math.round(car.hpPerTonne))+' PS/т'],
+      ['Привод',(_,car)=>driveLabel(car.id)],
+      ['0–100 км/ч',model=>number(model.seconds)+' с']
+    ];
+    return `<div class="vw-compare-cars">${ids.map(key=>`<figure><img src="${vwPhoto(key,paint,view)}" width="768" height="341" alt="${photoLabel(key,paint,view)}"><figcaption><strong>${vwModels[key].name}</strong><small>${vwModels[key].generation} · ${vwModels[key].year}</small></figcaption></figure>`).join('')}</div>
+      <p class="vw-compare-note">${views[view]} · ${vwPaints[paint][0]} · штатные машины</p>
+      <dl class="vw-compare-metrics">${metrics.map(([label,value])=>`<div><dt>${label}</dt>${ids.map(key=>`<dd><span class="sr-only">${vwModels[key].name} ${vwModels[key].generation} </span>${value(vwModels[key],cars.find(car=>car.id===key))}</dd>`).join('')}</div>`).join('')}</dl>`;
   }
 
   function render(save, id, view, previewPaint) {
@@ -63,19 +89,22 @@
     const paint = previewPaint || save.paints[id] || car.paint;
     const engine = engines.find(item => item.id===model.engine);
     const owned = save.owned.includes(id), count = save.inventory.cases.vw || 0;
-    const drive = id==='vw-rallye'?'Полный · Syncro':id==='vw-r32'?'Полный · 4Motion':'Передний';
+    const drive = driveLabel(id);
     const [historicalPrice,priceSource] = priceSources[id];
     const history = histories[id];
+    const [detailView] = history.details[0];
     return `<article class="vw-page">
       <header class="vw-masthead"><span class="vw-monogram">VW</span><strong>Volkswagen <small>WOLFSBURG EDITION</small></strong><span>NEON DRIFT<br>1989–2005</span></header>
       <section class="vw-intro"><p class="vw-kicker">ДИЛЕРСКАЯ КОЛЛЕКЦИЯ / 01–05</p><h2>Народный калибр</h2><p>Пять спортивных Volkswagen. Выбери модель, рассмотри её с шести сторон и подбери цвет кузова.</p></section>
       <nav class="vw-models" aria-label="Выбор модели">${offer.carIds.map((key,index) => `
-        <button type="button" data-vw-model="${key}" aria-pressed="${key===id}"><small>0${index+1} / ${vwModels[key].year}</small><strong>${vwModels[key].name}</strong><span>${vwModels[key].generation}</span></button>`).join('')}</nav>
+        <button type="button" data-vw-model="${key}" aria-pressed="${key===id}"><small>0${index+1} / ${vwModels[key].year} · ${vwModels[key].generation}</small><strong>${vwModels[key].name}</strong><span>${histories[key].signature}</span></button>`).join('')}</nav>
+      <div class="vw-compare-action"><button class="vw-button vw-outline" type="button" data-vw-compare>Сравнить модели</button></div>
       <section class="vw-config" aria-label="Конфигуратор Volkswagen">
         <div class="vw-gallery">
-          <button type="button" class="vw-stage" data-vw-photo aria-label="Увеличить фото: ${views[view]}">
+          <button type="button" class="vw-stage" data-vw-photo="${view}" aria-label="Увеличить фото: ${views[view]}">
             <img src="${vwPhoto(id,paint,view)}" width="768" height="341" alt="${car.name} · ${vwPaints[paint][0]} · ${views[view]}"><span aria-hidden="true">↗</span>
           </button>
+          ${paintChoices(paint,'shop',id)}
           <div class="vw-view-caption"><span aria-live="polite">0${view+1} / 0${views.length} · ${views[view]}</span><span>СТУДИЙНАЯ ВИЗУАЛИЗАЦИЯ</span></div>
           <nav class="vw-angles" aria-label="Ракурс автомобиля">${views.map((label,index) => `<button type="button" data-vw-view="${index}" aria-pressed="${index===view}">${label}</button>`).join('')}</nav>
           <button type="button" class="vw-history-link" data-shop-jump="vw-history">История ${model.name} ↓</button>
@@ -83,10 +112,10 @@
         <div class="vw-order">
           <p class="vw-kicker">${model.generation} / ${model.year}</p><h3>${model.name}</h3>
           <p class="vw-engine-label">${engine.name} / ${drive}</p>
-          ${paintChoices(paint,'shop',id)}
           <div class="vw-game-preview"><img src="${getCarSprite(car,paint)}" alt="" width="110" height="50"><div><small>В ИГРЕ</small><strong>${vwPaints[paint][0]}</strong></div></div>
           ${owned && paint!==(save.paints[id]||car.paint)?`<button class="vw-button vw-outline" data-apply-vw-paint="${id}:${paint}">Сохранить цвет в гараже</button>`:''}
-          <div class="vw-actions"><button class="vw-button" data-exclusive-car="${id}" ${!owned&&save.credits<car.price?'disabled':''}>${owned?'Выбрать из гаража':'Приобрести за ₡ '+number(car.price)}</button><button class="vw-button vw-outline" data-car-card="${id}">Карточка автомобиля ↗</button></div>
+          <div class="vw-actions"><button class="vw-button vw-outline" type="button" data-vw-trial="${id}" aria-describedby="vw-trial-note">Пробный заезд · ${trialDuration} с</button><button class="vw-button" data-exclusive-car="${id}" ${!owned&&save.credits<car.price?'disabled':''}>${owned?'Выбрать из гаража':'Приобрести за ₡ '+number(car.price)}</button><button class="vw-button vw-outline" data-car-card="${id}">Карточка автомобиля ↗</button></div>
+          <p class="vw-trial-note" id="vw-trial-note">Акина · штатная сборка · свободная проба без наград</p>
           <a class="vw-price-source" href="${priceSource}" target="_blank" rel="noopener">Историческая цена · ${historicalPrice} ↗</a>
         </div>
       </section>
@@ -98,8 +127,8 @@
           <a class="vw-history-source" href="${history.source}" target="_blank" rel="noopener">Архив Volkswagen ↗</a>
         </div>
         <figure>
-          <button type="button" class="vw-stage" data-vw-photo aria-label="Увеличить студийный ракурс: ${views[history.angle]}"><img src="${vwPhoto(id,paint,history.angle)}" width="768" height="341" loading="lazy" alt="${car.name} · ${views[history.angle]}"><span aria-hidden="true">↗</span></button>
-          <figcaption>${history.detail}</figcaption>
+          <button type="button" class="vw-stage" data-vw-photo="${detailView}" aria-label="Увеличить студийный ракурс: ${views[detailView]}"><img src="${vwPhoto(id,paint,detailView)}" width="768" height="341" loading="lazy" alt="${car.name} · ${views[detailView]}"><span aria-hidden="true">↗</span></button>
+          <figcaption>Детали кузова<div class="vw-body-details">${history.details.map(([angle,title])=>`<button type="button" data-vw-photo="${angle}">${title} ↗</button>`).join('')}</div></figcaption>
         </figure>
       </section>
       <section class="vw-tech"><p class="vw-kicker">ТЕХНИЧЕСКИЙ ПАСПОРТ</p><h3>${engine.name}</h3><p>${engine.description} Тюнинг доступен, двигатель закреплён за моделью.</p>
@@ -117,5 +146,5 @@
     </article>`;
   }
 
-  root.NDVW = { render, paintChoices };
+  root.NDVW = { render, paintChoices, compare, views, photoLabel, paintCaption, trialDuration };
 })(globalThis);
