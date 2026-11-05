@@ -1,0 +1,119 @@
+.audi-showcase{--audi-bg:#101319;--audi-panel:#22272f;--audi-text:#f4f5f7;background:var(--audi-bg);color:var(--audi-text);border:1px solid #30343b;border-radius:8px;overflow:hidden;font-family:"Segoe UI",Arial,sans-serif}
+.audi-showcase h2,.audi-showcase h3{color:var(--audi-text);font-weight:500;letter-spacing:-.045em;line-height:1.08;margin:0}
+.audi-showcase p{color:#bec2ca;font-size:14px;line-height:1.7;margin:18px 0}
+.audi-masthead{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 4%;background:#08090b;font-size:11px;color:#c6c8cd}
+.audi-rings{width:94px;height:34px;stroke:none;flex-shrink:0}
+.audi-hero{position:relative}
+.audi-hero>img{width:100%;aspect-ratio:1.9;object-fit:cover;display:block}
+.audi-hero-copy{position:absolute;inset:auto 0 0;padding:9% 5% 4%;background:linear-gradient(transparent,#07090be8)}
+.audi-hero-copy h2{font-size:clamp(34px,4.4vw,63px);max-width:720px;margin-top:13px}
+.audi-hero-copy p{margin:14px 0 23px;color:#eee}
+.audi-kicker{font-size:10px;letter-spacing:.16em;font-weight:600;color:#b8bdc6}
+.audi-actions{display:flex;flex-wrap:wrap;gap:10px}
+.audi-button{display:inline-flex;justify-content:center;align-items:center;min-height:46px;padding:12px 25px;border:1px solid #f5f5f5;border-radius:30px;background:#f3f4f6;color:#11151b;font-size:12px;font-weight:600;line-height:1.4;cursor:pointer;text-align:center}
+.audi-button:hover{background:#d9dce2;color:#11151b}
+.audi-button-outline{background:#181d25;color:#f4f5f7;border-color:#5d626c}
+.audi-button-outline:hover{background:#303740;color:#fff}
+.audi-button:disabled{opacity:.45;cursor:default}
+.audi-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:26px 4%;border-radius:9px;background:#30353d;overflow:hidden}
+.audi-stats>div{min-width:0;padding:26px 12px;text-align:center;border-right:1px solid #1f252d}
+.audi-stats>div:last-child{border-right:0}
+.audi-stats span{display:block;font-size:11px;color:#c7cbd1;margin-bottom:17px}
+.audi-stats strong{display:block;font-size:clamp(27px,3.4vw,49px);font-weight:400;letter-spacing:-.055em;white-space:nowrap}
+.audi-stats small{font-size:11px;letter-spacing:0;color:#c9ccd2}
+.audi-section{padding:55px 5%;scroll-margin-top:90px}
+.audi-section h3{font-size:clamp(29px,3.1vw,43px);margin:14px 0 0}
+.audi-section-heading{max-width:650px}
+.audi-car-stage{position:relative;margin-top:30px;background:#171b22;border-radius:12px;overflow:hidden}
+.audi-car-stage button{position:relative;display:block;width:100%;padding:0;cursor:zoom-in}
+.audi-car-stage img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain}
+.audi-zoom{position:absolute;right:20px;bottom:16px;padding:8px 13px;border:1px solid #ffffff40;border-radius:22px;background:#13171dcc;color:#eee;font-size:11px}
+.audi-view-nav{display:flex;justify-content:center;align-items:center;gap:22px;margin:20px 0 14px;color:#b9c1cc;font-size:12px}
+.audi-view-nav button{width:40px;height:40px;background:#313946;border-radius:50%;color:#fff;font-size:20px}
+.audi-views{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+.audi-views button{padding:9px 14px;border:1px solid #3e4651;border-radius:22px;color:#b9c1cc;font-size:11px}
+.audi-views button[aria-pressed=true]{background:#e5e9ef;border-color:#e5e9ef;color:#11151b}
+.audi-game-preview{max-width:300px;margin:0 auto 30px;color:#8e98a6;font-size:11px;text-align:center}
+.audi-game-preview summary{cursor:pointer;padding:10px}
+.audi-game-preview img{width:100%;height:auto}
+.audi-palette{border:0;padding:0;margin:20px auto 34px;text-align:center}
+.audi-palette>div{display:flex;justify-content:center;gap:8px}
+.audi-palette button{display:grid;place-items:center;width:40px;height:40px;padding:4px;border:1px solid transparent;border-radius:50%}
+.audi-palette button[aria-pressed=true]{border-color:#f5f5f5}
+.audi-palette button span{display:block;width:28px;height:28px;border-radius:50%;box-shadow:inset 0 0 0 1px #ffffff36}
+.audi-palette p{margin:13px 0 0}
+.audi-palette strong,.audi-palette small{display:block}
+.audi-palette strong{font-size:13px;font-weight:500;color:#e8eaef}
+.audi-palette small{font-size:10px;margin-top:3px;color:#9299a5}
+.audi-purchase{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid #353b44;padding-top:26px}
+.audi-purchase>div:first-child{display:grid;gap:10px;min-width:0}
+.audi-purchase strong{font-weight:400;font-size:34px;color:#fff}
+.audi-purchase small{font-size:10px;line-height:1.5;color:#a6adb8}
+.audi-purchase-actions{display:grid;gap:8px;min-width:210px}
+.audi-text-button{font-size:11px;color:#c8ced8;text-decoration:underline;padding:10px}
+.audi-showcase .rev-button{color:#d4d8e0;border-color:#525b68;background:#1a2029;min-height:44px}
+.audi-engine{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:#191e25;align-items:center}
+.audi-section a:not(.audi-button){color:#d7dce5;text-decoration:underline;font-size:12px}
+.audi-highlight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:30px}
+.audi-highlight-grid article{min-width:0}
+.audi-highlight-grid button{display:block;width:100%;padding:0;cursor:zoom-in;border-radius:10px;overflow:hidden}
+.audi-highlight-grid img{display:block;width:100%;aspect-ratio:3/2;object-fit:contain;background:#14181e;transition:transform .25s}
+.audi-highlight-grid button:hover img{transform:scale(1.025)}
+.audi-highlight-grid h4{font-size:20px;font-weight:400;line-height:1.3;letter-spacing:-.02em;margin:20px 0 0}
+.audi-highlight-grid p{font-size:12px;margin:10px 0 0}
+.audi-engine{grid-template-columns:.85fr 1.25fr;gap:5%;padding-top:65px;padding-bottom:65px}
+.audi-editorial-photo{position:relative;display:block;width:100%;min-width:0;padding:0;border-radius:10px;overflow:hidden;cursor:zoom-in}
+.audi-editorial-photo img{display:block;width:100%;aspect-ratio:1.25;object-fit:cover}
+.audi-editorial-photo>span{position:absolute;inset:auto 0 0;padding:40px 20px 18px;background:linear-gradient(transparent,#080b10c9);font-size:9px;letter-spacing:.14em;color:#fff;text-align:left}
+.audi-quattro-story{display:grid;grid-template-columns:1.4fr .8fr;gap:5%;align-items:center;margin-bottom:45px}
+.audi-quattro-story .audi-editorial-photo img{aspect-ratio:1.6}
+.audi-quattro>p{max-width:780px}
+.audi-quattro .audi-stats{margin:26px 0}
+.audi-specs{margin-top:25px;border-top:1px solid #414751}
+.audi-specs summary{cursor:pointer;padding:20px 0;font-size:15px}
+.audi-specs dl{margin:0}
+.audi-specs dl>div{display:grid;grid-template-columns:1fr 1.4fr;gap:20px;padding:15px 0;border-top:1px solid #2c333e;font-size:12px}
+.audi-specs dt{color:#b9c0cb}
+.audi-specs dd{margin:0;color:#f1f2f5;line-height:1.5}
+.audi-case{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;background:#191e25}
+.audi-case-art{background:transparent}
+.audi-case-art img{display:block;width:100%;height:auto;filter:drop-shadow(0 18px 20px #0005)}
+.audi-case h3{margin-top:13px}
+.audi-case-odds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:25px 0}
+.audi-case-odds span{font-size:10px;color:#b5bdc9}
+.audi-case-odds b{display:block;font-weight:400;color:#f3f5fa;font-size:28px;margin-bottom:8px}
+.audi-showcase .audi-fineprint{font-size:11px;line-height:1.6}
+.audi-case-price{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0}
+.audi-case-price>span{font-size:11px;color:#b8c0cb}
+.audi-case-price>strong{font-size:30px;font-weight:400}
+.audi-case .audi-button,.audi-case .bulk-case-open{width:100%;margin:5px 0}
+.audi-showcase .pity-meter{border-color:#424b58;color:#d6dbe4;background:#141920}
+.audi-showcase .pity-meter p{font-size:11px;margin:10px 0 0;color:#a8b2c0}
+.audi-showcase .pity-meter strong{color:#f0f3f8}
+.audi-showcase .pity-track i{background:#a5b0c0}
+.audi-showcase .purchase-block-reason{color:#e0b7bb;font-size:11px}
+.audi-sources{padding:25px 5%;border-top:1px solid #303843}
+.audi-sources p{font-size:10px;margin:6px 0;line-height:1.7}
+.audi-sources a{font-size:10px;color:#aeb8c8;text-decoration:underline;margin-right:17px;display:inline-block}
+#audi-showcase .pity-meter{border-color:#424b58;background:#141920;color:#d6dbe4}
+#audi-showcase .pity-meter strong,#audi-showcase .pity-meter>div>span{color:#dce2ec}
+#audi-showcase .pity-track{background:#343c48}
+#audi-showcase .pity-track i{background:#a5b0c0}
+#audi-showcase .bulk-case-open{min-height:46px;border:1px solid #5d626c;border-radius:30px;background:#181d25;color:#f4f5f7;font-family:inherit;font-size:11px;letter-spacing:0}
+@media(max-width:760px){.audi-masthead{flex-wrap:wrap;min-height:66px;font-size:9px;gap:12px}.audi-masthead>span:last-child{display:none}.audi-rings{width:79px;height:28px}.audi-hero-copy{position:relative;padding:24px 6%;background:#101319}.audi-hero-copy h2{font-size:35px}.audi-hero-copy p{font-size:12px}.audi-hero>img{aspect-ratio:1.7;object-fit:cover}.audi-kicker{font-size:8px;letter-spacing:.1em}.audi-stats{margin:18px 5%}.audi-stats>div{padding:19px 5px}.audi-stats span{font-size:8px;line-height:1.4;margin-bottom:12px}.audi-stats strong{font-size:29px}.audi-stats small{font-size:8px}.audi-section{padding:35px 6%}.audi-section h3{font-size:31px}.audi-showcase p{font-size:12px}.audi-car-stage{min-height:160px;margin-top:20px}.audi-palette>div{gap:5px}.audi-palette button{width:34px;height:34px;padding:3px}.audi-palette button span{width:25px;height:25px}.audi-purchase{display:block;padding-top:22px}.audi-purchase-actions{margin-top:20px;min-width:0}.audi-engine,.audi-case{grid-template-columns:1fr;gap:20px}.audi-specs dl>div{grid-template-columns:1fr;gap:6px;font-size:11px}.audi-case-odds b{font-size:25px}.audi-case-odds span{font-size:8px}.audi-case-price>strong{font-size:27px}.audi-section a:not(.audi-button){font-size:11px}.audi-sources{padding:20px 6%}.audi-sources p{font-size:10px}.audi-actions .audi-button{width:100%;font-size:11px}}
+
+@media(max-width:760px){.audi-car-stage{margin-left:-4%;margin-right:-4%;border-radius:7px}.audi-view-nav{gap:12px;font-size:10px}.audi-views{gap:5px}.audi-views button{font-size:9px;padding:8px 10px}.audi-zoom{right:9px;bottom:8px;font-size:8px;padding:5px 8px}.audi-highlight-grid{grid-template-columns:1fr;gap:30px}.audi-highlight-grid img{aspect-ratio:1.5}.audi-highlight-grid h4{font-size:23px;margin-top:15px}.audi-engine,.audi-quattro-story{grid-template-columns:1fr;gap:25px}.audi-quattro-story{margin-bottom:25px}.audi-editorial-photo img{aspect-ratio:1.3}.audi-quattro-story .audi-editorial-photo{order:2}.audi-hero-copy h2{font-size:34px}.audi-hero>img{aspect-ratio:1.4}.audi-game-preview{max-width:210px}}
+@media(prefers-reduced-motion:reduce){.audi-highlight-grid img{transition:none}}
+
+#audi-photo-controls{padding:0 15px 14px;flex-shrink:0}#audi-photo-palette{display:flex;justify-content:center;gap:10px}#audi-photo-palette button{width:32px;height:32px;border-radius:50%;background:var(--paint);border:3px solid #20252d;outline:1px solid #59616e}#audi-photo-palette button[aria-pressed=true]{outline:2px solid #fff}#audi-photo-controls .audi-view-nav{margin:8px 0 12px}
+
+#modal-photo:has(#audi-photo-controls:not([hidden])){grid-template-rows:auto minmax(0,1fr) auto}
+
+#view-shop:has([data-shop-tab="audi"][aria-pressed="true"]) .shop-tabs{background:#10141c;border-color:#3b424d;box-shadow:0 8px 20px #0007}
+#view-shop:has([data-shop-tab="audi"][aria-pressed="true"]) .shop-tabs>.shop-tab{background:#1a2029;color:#aeb7c5;border-color:#3b424d}
+#view-shop .shop-tabs>.shop-tab[data-shop-tab="audi"][aria-pressed="true"]{background:#d7dde5;border-color:#d7dde5;color:#101319}
+#modal-photo[data-theme="audi"]{background:#101319!important;font-family:"Segoe UI",Arial,sans-serif}
+#modal-photo[data-theme="audi"] .photo-modal-header h2{color:#e1e6ee;font-family:inherit;letter-spacing:0}
+#modal-photo[data-theme="audi"] .photo-modal-close{background:#1d2530;color:#e1e6ee;border-color:#626b79;border-radius:24px}
+
+body:has(#modal-photo[data-theme="audi"]:not([hidden])) #autumn-leaves{display:none!important}

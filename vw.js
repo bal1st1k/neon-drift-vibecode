@@ -60,8 +60,9 @@
   const photoLabel = (id,paint,view) => `Volkswagen ${vwModels[id].name} · ${vwPaints[paint][0]} · ${views[view]}`;
 
   function paintChoices(selected, surface, id) {
-    const attribute = surface==='garage'?'data-apply-vw-paint':surface==='modal'?'data-vw-photo-paint':'data-vw-paint';
-    return `<fieldset class="vw-palette${surface==='garage'?'':' vw-palette-inline'}"><legend>Цвет кузова</legend><div class="vw-swatches">${Object.entries(vwPaints).map(([code,[name,hex]]) => `
+    const attribute = surface==='garage'?'data-apply-paint':surface==='modal'?'data-vw-photo-paint':'data-vw-paint';
+    const palette = surface==='garage'?root.NDCatalog.getCarPaints(id):vwPaints;
+    return `<fieldset class="vw-palette${surface==='garage'?'':' vw-palette-inline'}"><legend>Цвет кузова</legend><div class="vw-swatches">${Object.entries(palette).map(([code,[name,hex]]) => `
       <button type="button" ${attribute}="${surface==='garage'?id+':':''}${code}" aria-pressed="${code===selected}" aria-label="${name} · ${code}">
         <span class="vw-chip" style="--paint:${hex}" aria-hidden="true"></span><strong>${name}</strong><small>${code} · ${hex}</small>
       </button>`).join('')}</div>${surface==='garage'?'':`<p class="vw-paint-caption" aria-live="polite">${paintCaption(selected)}</p>`}</fieldset>`;
@@ -113,7 +114,7 @@
           <p class="vw-kicker">${model.generation} / ${model.year}</p><h3>${model.name}</h3>
           <p class="vw-engine-label">${engine.name} / ${drive}</p>
           <div class="vw-game-preview"><img src="${getCarSprite(car,paint)}" alt="" width="110" height="50"><div><small>В ИГРЕ</small><strong>${vwPaints[paint][0]}</strong></div></div>
-          ${owned && paint!==(save.paints[id]||car.paint)?`<button class="vw-button vw-outline" data-apply-vw-paint="${id}:${paint}">Сохранить цвет в гараже</button>`:''}
+          ${owned && paint!==(save.paints[id]||car.paint)?`<button class="vw-button vw-outline" data-apply-paint="${id}:${paint}">Сохранить цвет в гараже</button>`:''}
           <div class="vw-actions"><button class="vw-button vw-outline" type="button" data-vw-trial="${id}" aria-describedby="vw-trial-note">Пробный заезд · ${trialDuration} с</button><button class="vw-button" data-exclusive-car="${id}" ${!owned&&save.credits<car.price?'disabled':''}>${owned?'Выбрать из гаража':'Приобрести за ₡ '+number(car.price)}</button><button class="vw-button vw-outline" data-car-card="${id}">Карточка автомобиля ↗</button></div>
           <p class="vw-trial-note" id="vw-trial-note">Акина · штатная сборка · свободная проба без наград</p>
           <a class="vw-price-source" href="${priceSource}" target="_blank" rel="noopener">Историческая цена · ${historicalPrice} ↗</a>

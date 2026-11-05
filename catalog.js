@@ -11,6 +11,7 @@
   // referenceUsd contains observed asking prices only when priceBasis === 'offer'.
   // Other ranges are explicitly editorial estimates; see ECONOMY.md.
   const engineRows = [
+    ['cepa','2.5L CEPA TFSI',340,183,[0,0],'stock-only','https://www.audi.com/en/highlights-from-40-years-of-audi-sport-gmbh-15337/the-return-of-a-unique-concept-15347','Рядный I5 Turbo 2480 см³, CGI-блок, непосредственный впрыск, порядок 1–2–4–5–3. Данные пользователя.'],
     ['vw-kr','1.8L KR 16V',139,128,[0,0],'stock-only',null,'Атмосферный I4 с механическим впрыском Bosch K-Jetronic.'],
     ['vw-1h','1.8L 1H G-Lader',160,142,[0,0],'stock-only',null,'Омологационный I4 объёмом 1763 см³ со спиральным нагнетателем G60.'],
     ['vw-abv','2.9L ABV VR6',190,178,[0,0],'stock-only',null,'Узкоугольный VR6 с развалом 15° и одной 12-клапанной головкой.'],
@@ -108,7 +109,7 @@
   ];
   const engines = engineRows.map(([id, name, powerHp, weightKg, referenceUsd, priceBasis, sourceUrl, description]) => ({
     id, name, powerHp, weightKg, referenceUsd, priceBasis, sourceUrl, description,
-    gamePrice: (id === 'trd-4age' ? 12000 : round50((referenceUsd[0] + referenceUsd[1]) / 2 * discount)), swapAllowed: !id.startsWith('vw-') && !['s14b25','s50b32','s54b32','modular-46-3v','182-b6','ar67203','ar16102','835a8','4ageu','vq35de','m102-992','type-930-60'].includes(id), offerDate: ['1jz-gte','3sge','4age','1g-fe','2jz-ge','k20a','bp-ve','b6-ze','l24','vq35de'].includes(id) ? '2026-10-30' : ['f20c','4ageu','trd-4age'].includes(id) ? '2026-10-28' : offerDate
+    gamePrice: (id === 'trd-4age' ? 12000 : round50((referenceUsd[0] + referenceUsd[1]) / 2 * discount)), swapAllowed: !id.startsWith('vw-') && !['cepa','s14b25','s50b32','s54b32','modular-46-3v','182-b6','ar67203','ar16102','835a8','4ageu','vq35de','m102-992','type-930-60'].includes(id), offerDate: ['1jz-gte','3sge','4age','1g-fe','2jz-ge','k20a','bp-ve','b6-ze','l24','vq35de'].includes(id) ? '2026-10-30' : ['f20c','4ageu','trd-4age'].includes(id) ? '2026-10-28' : offerDate
   }));
   const engineById = Object.fromEntries(engines.map(engine => [engine.id, engine]));
 
@@ -122,6 +123,32 @@
     LA7W: ['Reflex Silver', '#BFC3C6'],
     LC9Z: ['Black Magic Pearl', '#1C1D21']
   });
+  const toyotaPaints = {
+    jzz30: {
+      '051': ['Diamond White Pearl', '#ECEAE2'],
+      '6N9': ['Dark Green Mica', '#1C352D'],
+      '3L2': ['Renaissance Red', '#C11B24'],
+      '6M2': ['Royal Jade Pearl', '#2E4B46'],
+      '3K3': ['Garnet Pearl', '#5E1D28'],
+      '6M3': ['Silver Spruce Metallic', '#939D9B']
+    },
+    jzx90: {
+      '040': ['Super White II', '#F2F3EE'],
+      '6N9': ['Dark Green Mica', '#1C352D'],
+      '8K0': ['Dark Blue Mica', '#1B2942'],
+      '3K4': ['Crimson Red Pearl', '#6B1923'],
+      '181': ['Warm Grey Pearl', '#828588'],
+      '202': ['Black Onyx', '#18191C']
+    },
+    jzx81: {
+      '046': ['Crystal White', '#EFECE6'],
+      '742': ['Dark Turquoise Mica', '#1B4247'],
+      '3H4': ['Medium Red Pearl', '#7A1C24'],
+      '179': ['Blue Grey Metallic', '#646E78'],
+      '567': ['Champagne Gold Metallic', '#C5B79C'],
+      '205': ['Astor Black Metallic', '#1E2022']
+    }
+  };
   const vwModels = {
     'vw-mk2-gti': {name:'Golf GTI 16V',generation:'Mk2',year:1989,engine:'vw-kr',power:139,mass:960,drive:'FF',torque:168,redline:7200,seconds:7.9,top:208,paint:'LY3D',price:13700},
     'vw-rallye': {name:'Golf Rallye G60',generation:'Mk2',year:1989,engine:'vw-1h',power:160,mass:1195,drive:'AWD',torque:225,redline:6500,seconds:8.6,top:216,paint:'LC9Z',price:23800},
@@ -129,12 +156,25 @@
     'vw-r32': {name:'Golf R32',generation:'Mk4',year:2002,engine:'vw-bfh',power:241,mass:1477,drive:'AWD',torque:320,redline:6800,seconds:6.4,top:247,paint:'LB5R',price:32600},
     'vw-mk5-gti': {name:'Golf GTI',generation:'Mk5',year:2005,engine:'vw-axx',power:200,mass:1336,drive:'FF',torque:280,redline:6800,seconds:7.2,top:235,paint:'LA7W',price:24200}
   };
-  const vwSprite = (id, paint) => `assets/cars/${id}-${paint}.png`;
+  const audiPaints = Object.freeze({
+    LZ3M:['Misano Red Pearl','#B81820'],
+    LY5Q:['Sepang Blue Pearl','#183868'],
+    LY1C:['Imola Yellow','#F2C21A'],
+    LY7F:['Suzuka Grey Metallic','#E2E4E6'],
+    LZ7S:['Daytona Grey Pearl','#4B4E53'],
+    LZ9Z:['Panther Black Crystal','#19181B']
+  });
+  const getCarPaints = id => id==='ttrs-8j'?audiPaints:Object.hasOwn(vwModels,id)?vwPaints:toyotaPaints[id];
+  const hasCarPaint = (id,paint) => typeof paint==='string' && Object.hasOwn(getCarPaints(id)??{},paint);
+  const paintSprite = (id, paint) => `assets/cars/${id}-${paint}.png`;
   const vwPhoto = (id, paint, view = 0) => `assets/vw/${id}/${paint}-${view}.webp`;
-  const getCarSprite = (car, paint, race = false) => car.paint && Object.hasOwn(vwPaints, paint)
-    ? vwSprite(car.id, paint) : race ? car.raceSprite || car.sprite : car.sprite;
+  const getCarSprite = (car, paint, race = false) => {
+    if (hasCarPaint(car.id,paint)) return paintSprite(car.id,paint);
+    return race || Object.hasOwn(toyotaPaints,car.id) ? car.raceSprite || car.sprite : car.sprite;
+  };
   const carRows = [
-    ...Object.entries(vwModels).map(([id, model]) => [id,`Volkswagen ${model.name} (${model.generation})`,'Volkswagen',model.drive,model.engine,model.power,model.mass,vwSprite(id,model.paint)]),
+    ['ttrs-8j','Audi TT RS Coupé (8J, 2009)','Audi','AWD','cepa',340,1450,'assets/cars/ttrs-8j-LZ3M.png'],
+    ...Object.entries(vwModels).map(([id, model]) => [id,`Volkswagen ${model.name} (${model.generation})`,'Volkswagen',model.drive,model.engine,model.power,model.mass,paintSprite(id,model.paint)]),
     ['m3-e30','BMW M3 Sport Evolution (E30)','BMW','FR','s14b25',238,1200,'assets/bmw/m3-e30-sprite.jpg'],
     ['m3-e36','BMW M3 3.2 Euro (E36)','BMW','FR','s50b32',321,1440,'assets/bmw/m3-e36-sprite.jpg'],
     ['m3-e46','BMW M3 Coupé (E46)','BMW','FR','s54b32',343,1495,'assets/bmw/m3-e46-sprite.jpg'],
@@ -211,7 +251,7 @@
     ['fd3s', 'Mazda RX-7 Type R (FD3S)', 'Mazda', 'FR', '13b-rew', 230, 1280,
       'fd3s-sprite.jpg']
   ];
-  const colors = { Volkswagen:'#aec4da', BMW:'#58a5d9', Ford:'#ba4534', Fiat:'#e5bc48', 'Alfa Romeo':'#c34b47', Lancia:'#83ae9e', Porsche:'#c9cbd0', 'Mercedes-Benz':'#c1c9d2', Lexus:'#b4c9dd', Toyota: '#d7ff63', Nissan: '#79edd7', Honda: '#ff839d', Mitsubishi: '#a6a0ff', Subaru: '#7da9ff', Mazda: '#ffb26c' };
+  const colors = { Audi:'#b81820', Volkswagen:'#aec4da', BMW:'#58a5d9', Ford:'#ba4534', Fiat:'#e5bc48', 'Alfa Romeo':'#c34b47', Lancia:'#83ae9e', Porsche:'#c9cbd0', 'Mercedes-Benz':'#c1c9d2', Lexus:'#b4c9dd', Toyota: '#d7ff63', Nissan: '#79edd7', Honda: '#ff839d', Mitsubishi: '#a6a0ff', Subaru: '#7da9ff', Mazda: '#ffb26c' };
   // Source nose directions were inspected in all supplied JPEGs by the renderer pass.
   const leftFacingSprites = new Set(['m3-e30','m3-e36','m3-e46','mustang-gt','alfa-155','alfa-gtv','930-blackbird','w201-evo2','na6ce','jzz30','jzx90','jzx81','is200','is300','altezza','ek9', 'dc2', '180sx', 's14', 's13', 's15', 'sileighty', 'er34', 'ae85', 'mrs', 'supra', 'fd3s', 'evo3', 'evo6', 's2000', 'ae86-akina']);
   const updateSprites = {
@@ -246,22 +286,22 @@
     const pityOnly=['jzz30','jzx90','jzx81'].includes(id);
     const italian=['fiat-coupe','alfa-155','alfa-gtv','delta-evo2'].includes(id);
     const bmw=['m3-e30','m3-e36','m3-e46'].includes(id);
-    const vw=vwModels[id];
+    const vw=vwModels[id],audi=id==='ttrs-8j';
     const mustang=id==='mustang-gt';
     const mercedes=id==='w201-evo2',blackbird=id==='930-blackbird';
-    const exclusive = id === 's2000' || !!edition || legend || brother || pityOnly || roadster || mercedes || blackbird || italian || mustang || bmw || !!vw;
+    const exclusive = audi || id === 's2000' || !!edition || legend || brother || pityOnly || roadster || mercedes || blackbird || italian || mustang || bmw || !!vw;
     return {
       id, name, brand, drivetrain, stockEngineId, stockEngineLabel, stockPowerHp, weightKg,
-      sprite: vw||bmw||mustang||italian||mercedes||blackbird?sprite:updateSprites[id]?'for promt/major update 4.0/машины реворк/'+updateSprites[id]:roadster?sprite:pityOnly?'for promt/гарант/'+sprite:id==='altezza'?'for promt/«Заокеанские братья»/altezza-sprite.jpg':brother?'for promt/«Заокеанские братья»/'+sprite:legend ? 'for promt/легенды интернета/' + sprite : edition ? 'for promt/призрак акины/' + sprite : id === 's2000' ? 'for promt/S2000/' + sprite : spriteRoot + sprite,
-      raceSprite: vw ? sprite : `assets/cars/${id}${updateSprites[id] ? '-v4' : revisedSprites.has(id) ? '-v2' : ''}.png`,
-      spriteAngle: vw ? 0 : leftFacingSprites.has(id) ? Math.PI : downFacingSprites.has(id) ? Math.PI / 2 : -Math.PI / 2,
-      ...(vw ? {paint:vw.paint} : {}),
+      sprite: audi||vw||bmw||mustang||italian||mercedes||blackbird?sprite:updateSprites[id]?'for promt/major update 4.0/машины реворк/'+updateSprites[id]:roadster?sprite:pityOnly?'for promt/гарант/'+sprite:id==='altezza'?'for promt/«Заокеанские братья»/altezza-sprite.jpg':brother?'for promt/«Заокеанские братья»/'+sprite:legend ? 'for promt/легенды интернета/' + sprite : edition ? 'for promt/призрак акины/' + sprite : id === 's2000' ? 'for promt/S2000/' + sprite : spriteRoot + sprite,
+      raceSprite: audi||vw ? sprite : `assets/cars/${id}${updateSprites[id] ? '-v4' : revisedSprites.has(id) ? '-v2' : ''}.png`,
+      spriteAngle: audi||vw ? 0 : leftFacingSprites.has(id) ? Math.PI : downFacingSprites.has(id) ? Math.PI / 2 : -Math.PI / 2,
+      ...(audi ? {paint:'LZ3M'} : vw ? {paint:vw.paint} : {}),
       powerToWeight, hpPerTonne: powerToWeight * 1000,
-      price: vw?vw.price:bmw?({'m3-e30':46000,'m3-e36':39000,'m3-e46':49000})[id]:mustang?32000:italian?({'fiat-coupe':24000,'alfa-155':26000,'alfa-gtv':28000,'delta-evo2':42000})[id]:blackbird?62000:mercedes?48000:roadster?12000:brother?({is200:23000,is300:27000})[id]:legend ? ({fd2:31000,nb8c:15000,s30:39000,z33:29000})[id] : id === 's2000' ? 43000 : id === 'ae86-akina' ? 23000 : id === 'ae86-project-d' ? 54000 : Math.round((6000 * Math.pow(powerToWeight / (80 / 900), 2)) / 100) * 100,
-      shopExclusive: exclusive, pityOnly, swapLocked: !!vw||bmw||mustang||italian||mercedes||blackbird, tuningLocked: !vw && !bmw && !italian && exclusive && !pityOnly && !brother && !roadster && !mercedes && !blackbird && (!legend || id === 'z33'), edition, team: vw?'Народный калибр':bmw?'BMW Motorsport':mustang?'American Pony':italian?'Salone Italiano':blackbird?'Blackbird Spec':mercedes?'HOMOLOGATION 502':roadster?'Always the Answer':pityOnly?'Гарант':brother?'USDM Brothers':legend ? 'Legends of the Internet' : id === 's2000' ? 'Purple Shadow' : '', showcaseId: vw?'vw-showcase':bmw?'bmw-showcase':mustang?'mustang-showcase':italian?'italy-showcase':blackbird?'blackbird-showcase':mercedes?'mercedes-showcase':roadster?'roadster-showcase':pityOnly?'pity-showcase':brother?'brothers-showcase':legend ? 'legends-showcase' : edition ? 'takumi-showcase' : 's2000-showcase',
+      price: audi?44000:vw?vw.price:bmw?({'m3-e30':46000,'m3-e36':39000,'m3-e46':49000})[id]:mustang?32000:italian?({'fiat-coupe':24000,'alfa-155':26000,'alfa-gtv':28000,'delta-evo2':42000})[id]:blackbird?62000:mercedes?48000:roadster?12000:brother?({is200:23000,is300:27000})[id]:legend ? ({fd2:31000,nb8c:15000,s30:39000,z33:29000})[id] : id === 's2000' ? 43000 : id === 'ae86-akina' ? 23000 : id === 'ae86-project-d' ? 54000 : Math.round((6000 * Math.pow(powerToWeight / (80 / 900), 2)) / 100) * 100,
+      shopExclusive: exclusive, pityOnly, swapLocked: audi||!!vw||bmw||mustang||italian||mercedes||blackbird, tuningLocked: !audi && !vw && !bmw && !italian && exclusive && !pityOnly && !brother && !roadster && !mercedes && !blackbird && (!legend || id === 'z33'), edition, team: audi?'Городской спорткласс':vw?'Народный калибр':bmw?'BMW Motorsport':mustang?'American Pony':italian?'Salone Italiano':blackbird?'Blackbird Spec':mercedes?'HOMOLOGATION 502':roadster?'Always the Answer':pityOnly?'Гарант':brother?'USDM Brothers':legend ? 'Legends of the Internet' : id === 's2000' ? 'Purple Shadow' : '', showcaseId: audi?'audi-showcase':vw?'vw-showcase':bmw?'bmw-showcase':mustang?'mustang-showcase':italian?'italy-showcase':blackbird?'blackbird-showcase':mercedes?'mercedes-showcase':roadster?'roadster-showcase':pityOnly?'pity-showcase':brother?'brothers-showcase':legend ? 'legends-showcase' : edition ? 'takumi-showcase' : 's2000-showcase',
       tag: `${drivetrain} / ${stockPowerHp} PS`, color: colors[brand],
       stats: buildStats(stockPowerHp, weightKg, drivetrain, stockLevels),
-      description: `${stockEngineLabel} · ${stockPowerHp} PS · ${weightKg} кг · ${drivetrain}. ${vw||bmw||italian||mercedes||blackbird?'Тюнинг доступен, замена мотора отключена.':exclusive && !pityOnly && !brother && !roadster && (!legend || id === 'z33') ? 'Эксклюзив магазина. Фиксированная сборка без тюнинга и замены мотора.' : 'Данные твоего каталога; доступные моторы и детали можно устанавливать в гараже.'}`
+      description: `${stockEngineLabel} · ${stockPowerHp} PS · ${weightKg} кг · ${drivetrain}. ${audi||vw||bmw||italian||mercedes||blackbird?'Тюнинг доступен, замена мотора отключена.':exclusive && !pityOnly && !brother && !roadster && (!legend || id === 'z33') ? 'Эксклюзив магазина. Фиксированная сборка без тюнинга и замены мотора.' : 'Данные твоего каталога; доступные моторы и детали можно устанавливать в гараже.'}`
     };
   }).sort((a, b) => a.powerToWeight - b.powerToWeight);
   const carById = Object.fromEntries(cars.map(car => [car.id, car]));
@@ -321,7 +361,7 @@
     return upgrade ? upgrade.basePrice * (safeLevel(currentLevel, upgrade.maxLevel) + 1) : 0;
   }
 
-  const api = { cars, engines, upgrades, computeBuild, getSwapPrice, getUpgradePrice, vwModels, vwPaints, vwPhoto, getCarSprite };
+  const api = { cars, engines, upgrades, computeBuild, getSwapPrice, getUpgradePrice, vwModels, vwPaints, vwPhoto, audiPaints, getCarSprite, getCarPaints, hasCarPaint };
   root.NDCatalog = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

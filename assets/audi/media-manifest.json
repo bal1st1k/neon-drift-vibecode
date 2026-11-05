@@ -1,0 +1,302 @@
+[
+  {
+    "paint": "LZ3M",
+    "view": 0,
+    "source": "exec-eef67495-b15b-41ff-9a0f-1fddda7ca085.png",
+    "path": "assets\\audi\\LZ3M-0.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ3M",
+    "view": 1,
+    "source": "exec-c6e14a6c-5bbf-4b29-a835-000421edbba1.png",
+    "path": "assets\\audi\\LZ3M-1.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ3M",
+    "view": 2,
+    "source": "exec-e3c0165d-0ad5-40ee-ab92-8ec1d6db0206.png",
+    "path": "assets\\audi\\LZ3M-2.webp",
+    "width": 1672,
+    "height": 941,
+    "originalSource": "exec-e2c9a23c-6ed3-4be1-bade-6d615b5f5eca.png",
+    "correction": "OEM lower center rear lamp shape"
+  },
+  {
+    "paint": "LZ3M",
+    "view": 3,
+    "source": "exec-2ef9d4c0-844b-4703-b477-67e741a199ca.png",
+    "path": "assets\\audi\\LZ3M-3.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ3M",
+    "view": 4,
+    "source": "exec-0b2c1fb6-73fc-4f3f-af87-96550177e19d.png",
+    "path": "assets\\audi\\LZ3M-4.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ3M",
+    "view": 5,
+    "source": "exec-cd5f9f20-d795-48da-ab0c-3e16a85732a7.png",
+    "path": "assets\\audi\\LZ3M-5.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY5Q",
+    "view": 0,
+    "source": "exec-de10d7f5-b6ad-4152-b8fa-7d76039b3c31.png",
+    "path": "assets\\audi\\LY5Q-0.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY5Q",
+    "view": 1,
+    "source": "exec-2728fb0a-0f9c-4108-86f0-1a6d8724a623.png",
+    "path": "assets\\audi\\LY5Q-1.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY5Q",
+    "view": 2,
+    "source": "exec-7e889005-ad6a-4a5b-a7b8-c26cd81a4bce.png",
+    "path": "assets\\audi\\LY5Q-2.webp",
+    "width": 1672,
+    "height": 941,
+    "originalSource": "exec-d1974cd8-9699-46e0-8e70-91914b121ef2.png",
+    "correction": "OEM lower center rear lamp"
+  },
+  {
+    "paint": "LY5Q",
+    "view": 3,
+    "source": "exec-3039d086-4a2d-4c6f-bf12-6522ae54bb9b.png",
+    "path": "assets\\audi\\LY5Q-3.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY5Q",
+    "view": 4,
+    "source": "exec-d74de805-b793-44cd-8730-fc74326a1df9.png",
+    "path": "assets\\audi\\LY5Q-4.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY5Q",
+    "view": 5,
+    "source": "exec-5c5a61be-5ccc-4155-8408-2ca5951e23a9.png",
+    "path": "assets\\audi\\LY5Q-5.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY1C",
+    "view": 0,
+    "source": "exec-f4f6bfd6-8869-41e5-a40c-d968a166cd8e.png",
+    "path": "assets\\audi\\LY1C-0.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY1C",
+    "view": 1,
+    "source": "exec-d9cc5a87-b84c-4275-9921-76fc3b167ab2.png",
+    "path": "assets\\audi\\LY1C-1.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY1C",
+    "view": 2,
+    "source": "exec-8d0dd77e-5425-41b0-a2ca-b3956d4e7e9c.png",
+    "path": "assets\\audi\\LY1C-2.webp",
+    "width": 1672,
+    "height": 941,
+    "originalSource": "exec-889a6f7a-af56-44ca-8d57-7b423d3bfa06.png",
+    "correction": "OEM lower center rear lamp"
+  },
+  {
+    "paint": "LY1C",
+    "view": 3,
+    "source": "exec-66f5194b-aed4-4f0a-a6be-aa6b149cd070.png",
+    "path": "assets\\audi\\LY1C-3.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY1C",
+    "view": 4,
+    "source": "exec-66d9ebbc-64a7-4a1b-8bef-a42225633617.png",
+    "path": "assets\\audi\\LY1C-4.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY1C",
+    "view": 5,
+    "source": "exec-ef475ee8-1d13-4356-b7bb-1c872f886ce5.png",
+    "path": "assets\\audi\\LY1C-5.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY7F",
+    "view": 0,
+    "source": "exec-4c3a3df6-adf1-463f-9df4-9ab1b8968a50.png",
+    "path": "assets\\audi\\LY7F-0.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY7F",
+    "view": 1,
+    "source": "exec-1b4dc0df-4b88-4608-b82f-324e2c60161c.png",
+    "path": "assets\\audi\\LY7F-1.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY7F",
+    "view": 2,
+    "source": "exec-a81c6cce-fbac-4d60-932e-ad89f9e21eaf.png",
+    "path": "assets\\audi\\LY7F-2.webp",
+    "width": 1672,
+    "height": 941,
+    "originalSource": "exec-615c9603-2321-4bad-aaed-c41d744aff13.png",
+    "correction": "OEM lower center rear lamp"
+  },
+  {
+    "paint": "LY7F",
+    "view": 3,
+    "source": "exec-13fbeb08-af7d-4835-86bd-07d13fe3dc64.png",
+    "path": "assets\\audi\\LY7F-3.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY7F",
+    "view": 4,
+    "source": "exec-e932cbd5-f793-48d8-ad80-d1051c825dd4.png",
+    "path": "assets\\audi\\LY7F-4.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LY7F",
+    "view": 5,
+    "source": "exec-20bc8dfb-bfe5-4d18-bfdb-b64ec07cd9ee.png",
+    "path": "assets\\audi\\LY7F-5.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ7S",
+    "view": 0,
+    "source": "exec-cc33c131-f6cc-47ab-be2a-44d7dc8a3e53.png",
+    "path": "assets\\audi\\LZ7S-0.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ7S",
+    "view": 1,
+    "source": "exec-750d0500-7917-4d29-936d-87ab241e7f44.png",
+    "path": "assets\\audi\\LZ7S-1.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ7S",
+    "view": 2,
+    "source": "exec-16ae37f8-2947-4e3e-a38b-fbf25ad85867.png",
+    "path": "assets\\audi\\LZ7S-2.webp",
+    "width": 1672,
+    "height": 941,
+    "originalSource": "exec-2678849b-9580-4daa-8f03-e9d78223b32e.png",
+    "correction": "OEM lower center rear lamp"
+  },
+  {
+    "paint": "LZ7S",
+    "view": 3,
+    "source": "exec-35c18e58-3084-43d0-a60a-e15ced0d39d9.png",
+    "path": "assets\\audi\\LZ7S-3.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ7S",
+    "view": 4,
+    "source": "exec-c7fa9dc0-b806-424a-a865-d926ebd5eb08.png",
+    "path": "assets\\audi\\LZ7S-4.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ7S",
+    "view": 5,
+    "source": "exec-39dde5f5-4073-472f-890a-85f34eef6636.png",
+    "path": "assets\\audi\\LZ7S-5.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ9Z",
+    "view": 0,
+    "source": "exec-14f31931-8b0d-4425-8f8d-18ca0c29c9b2.png",
+    "path": "assets\\audi\\LZ9Z-0.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ9Z",
+    "view": 1,
+    "source": "exec-47b7cb24-806e-4761-bdf3-2eb9e00e2711.png",
+    "path": "assets\\audi\\LZ9Z-1.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ9Z",
+    "view": 2,
+    "source": "exec-9c4619b3-31e4-4acf-ac01-b56609699217.png",
+    "path": "assets\\audi\\LZ9Z-2.webp",
+    "width": 1672,
+    "height": 941,
+    "originalSource": "exec-da7e5c0c-1653-41e6-86e2-54fa1ff07f06.png",
+    "correction": "OEM lower center rear lamp"
+  },
+  {
+    "paint": "LZ9Z",
+    "view": 3,
+    "source": "exec-6b719610-b23e-4955-9644-0353e84de2d4.png",
+    "path": "assets\\audi\\LZ9Z-3.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ9Z",
+    "view": 4,
+    "source": "exec-c0615f61-a3f7-400c-ae39-32dc29853851.png",
+    "path": "assets\\audi\\LZ9Z-4.webp",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "paint": "LZ9Z",
+    "view": 5,
+    "source": "exec-f43fd1d3-ac6d-4809-a0b5-f5562b148a6a.png",
+    "path": "assets\\audi\\LZ9Z-5.webp",
+    "width": 1672,
+    "height": 941
+  }
+]

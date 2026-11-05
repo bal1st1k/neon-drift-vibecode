@@ -15,6 +15,7 @@
     rasp: 0.12, body: 0.24, intake: 0.12, cutoff: 1650, resonance: 0.65,
     turbo: 0, spool: 0.3, whistle: 1600, cam: 1, gears: 5, roughness: 3, ...values });
   const profiles = Object.freeze({
+    cepa:profile('CEPA · five-cylinder TFSI',{redline:6800,gears:6,pulses:[0,.2,.4,.6,.8],weights:[1,.84,.96,.88,.93],turbo:.9,spool:.4,body:.37,rasp:.24,intake:.2,cutoff:2100,whistle:1750,roughness:2.5}),
     'vw-kr':profile('KR · GTI 16V',{redline:7200,body:.21,intake:.25,rasp:.21,cutoff:2350,decay:.83}),
     'vw-1h':profile('1H · G-Lader',{redline:6500,body:.33,intake:.34,rasp:.18,cutoff:1950,decay:1.04}),
     'vw-abv':profile('ABV · VR6 12V',{redline:6500,pulses:six,weights:[1,.84,.96,.87,1,.9],body:.46,intake:.23,rasp:.18,cutoff:1700}),

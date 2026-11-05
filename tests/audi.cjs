@@ -1,0 +1,81 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const catalog = require('../catalog.js');
+const core = require('../engine.js');
+const cards = require('../tuning-cards.js');
+const shop = require('../shop.js');
+const progress = require('../progress.js');
+const loot = require('../loot.js');
+const audio = require('../audio.js');
+globalThis.NDCatalog=catalog;globalThis.NDCore=core;globalThis.NDShop=shop;
+require('../audi.js');
+
+const id = 'ttrs-8j';
+const car = catalog.cars.find(car => car.id === id);
+const engine = catalog.engines.find(engine => engine.id === 'cepa');
+const sequence = (...values) => () => values.shift() ?? 0;
+assert.deepEqual([car.stockPowerHp,car.weightKg,car.drivetrain,car.price,car.tuningLocked,car.swapLocked],[340,1450,'AWD',44000,false,true]);
+assert.deepEqual([engine.powerHp,engine.weightKg,engine.swapAllowed],[340,183,false]);
+assert.equal(cards.computeBuild(id,{},'k20a').engineId,'cepa');
+assert.ok(cards.computeBuild(id,{turbo:1}).powerHp > 340);
+assert.equal(Object.keys(catalog.getCarPaints(id)).length,6);
+assert.equal(NDAudi.views.length,6);
+const media=JSON.parse(fs.readFileSync('assets/audi/media-manifest.json','utf8'));
+assert.equal(media.length,36);
+assert.equal(new Set(media.map(item=>item.source)).size,36);
+assert.ok(media.every(item=>item.width>=1600&&item.height>=900));
+for(const paint of Object.keys(catalog.audiPaints))for(let view=0;view<NDAudi.views.length;view++){
+  assert.ok(fs.existsSync(NDAudi.photo(paint,view)),`Missing full-resolution view ${paint}/${view}`);
+}
+const markup=NDAudi.render(progress.defaults(),'LY5Q',5);
+assert.ok(markup.includes(NDAudi.photo('LY5Q',5)));
+assert.equal((markup.match(/data-audi-view=/g)||[]).length,6);
+assert.ok(!markup.includes('audi-cylinder-art'));
+assert.ok(markup.includes('assets/audi/detail-archive.webp'));
+for (const code of Object.keys(catalog.audiPaints)) {
+  const sprite = catalog.getCarSprite(car,code,true), data = fs.readFileSync(sprite);
+  assert.equal(data[25],6,'Each paint must preserve RGBA transparency');
+  assert.ok(data.readUInt32BE(16) >= 1024,'Full-resolution sprites');
+  const save = progress.defaults();
+  save.owned.push(id); save.selectedCar=id; save.paints[id]=code;
+  const restored = progress.sanitize(save);
+  assert.equal(restored.paints[id],code);
+  assert.equal(new core.Engine({carId:id,paint:code}).player.sprite,sprite);
+}
+const save = progress.defaults();
+save.credits = 44000;
+assert.ok(shop.purchaseExclusiveCar(save,id).ok);
+assert.equal(save.credits,0);
+assert.ok(!shop.purchaseExclusiveCar(save,id).ok);
+delete save.inventory.cases.audi; delete save.pity.audi;
+const restored = progress.sanitize(save);
+assert.ok(restored.owned.includes(id));
+assert.equal(restored.inventory.cases.audi,0);
+assert.equal(restored.pity.audi,0);
+assert.equal(shop.audi.casePrice,1500);
+for (const [chance,expected] of [[.79999,'blue'],[.8,'yellow'],[.9,'currency'],[.99,'car']]) {
+  const save = progress.defaults();
+  save.inventory.cases.audi=1;
+  const reward=loot.openCase(save,sequence(0,chance,0),'audi').rewards[0];
+  assert.equal(reward.type==='card'?cards.getCard(reward.cardId).rarity:reward.type,expected);
+}
+const guarantee = progress.defaults();
+guarantee.inventory.cases.audi=2;
+guarantee.pity.audi=29;
+const winner=loot.openCase(guarantee,sequence(0,0),'audi').rewards[0];
+assert.ok(winner.guaranteed);
+assert.equal(winner.carId,id);
+const duplicate=loot.openCase(guarantee,sequence(0,.999,0),'audi').rewards[0];
+assert.ok(duplicate.duplicate);
+assert.equal(cards.getCard(duplicate.cardId).rarity,'red');
+const profile=audio.getEngineProfile({engineId:'cepa'});
+assert.equal(profile.pulses.length,5);
+assert.equal(profile.redline,6800);
+assert.equal(profile.gears,6);
+for (const path of Object.values(shop.audi.assets)) assert.ok(fs.existsSync(path),path);
+const race=new core.Engine({carId:id,trackId:'akina',weather:'rain'});
+assert.equal(race.performance.stockZeroToHundred,4.6);
+for (let frame=0;frame<60*360&&race.state!=='finished';frame++) race.update(1/60,race.getAutopilotInput());
+assert.equal(race.state,'finished');
+console.log('PASS Audi specs, 36 distinct studio originals, six RGBA paints, acquisition, save migration, tuning, case boundaries, guarantee, duplicate, five-cylinder audio and wet Akina finish');

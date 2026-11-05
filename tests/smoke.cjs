@@ -151,8 +151,8 @@ function engineChecks() {
     }
     assert.equal(createTrack('missing').id, 'akina');
   });
-  check('the supplied 54 cars, 42 engines and 11 upgrades form a complete usable catalogue', () => {
-    assert.equal(cars.length, 54); assert.equal(engines.length, 42); assert.equal(upgrades.length, 11);
+  check('the supplied 55 cars, 43 engines and 11 upgrades form a complete usable catalogue', () => {
+    assert.equal(cars.length, 55); assert.equal(engines.length, 43); assert.equal(upgrades.length, 11);
     assert.equal(cars[0].id, 'ae85');
     assert.equal(new Set(cars.map(car => car.id)).size, cars.length);
     for (let i = 0; i < cars.length; i++) {
@@ -328,6 +328,109 @@ function engineChecks() {
     engine.update(0.5, { throttle: 1 });
     assert.ok(engine.player.speed > 0);
     assert.ok(Math.abs(engine.time - 0.5) < 1e-8);
+  });
+  check('wet asphalt lengthens braking and lateral slide while fog keeps dry grip', () => {
+    function sample(weather) {
+      const engine = new Engine({ carId: 's2000', weather });
+      engine.reset();
+      begin(engine);
+      const { player } = engine, x = Math.cos(player.angle), y = Math.sin(player.angle);
+      player.vx = 160 * x - 30 * y;
+      player.vy = 160 * y + 30 * x;
+      player.steer = .1;
+      engine.update(.2, { brake: 1, drift: 1, right: .1 });
+      return { weather: engine.weather, speed: player.speed, lateral: -player.vx * Math.sin(player.angle) + player.vy * Math.cos(player.angle) };
+    }
+    const dry = sample(), rain = sample('rain'), fog = sample('fog');
+    assert.deepEqual(sample('unknown'), dry);
+    assert.equal(rain.weather, 'rain');
+    assert.ok(rain.speed > dry.speed && rain.lateral > dry.lateral);
+    assert.deepEqual(fog, { ...dry, weather: 'fog' });
+  });
+  check('rivals get ten distinct bounded lines ranked for the build and weather', () => {
+    const dry = new Engine({ trackId: 'akina', carId: 's2000', seed: 1 });
+    const wet = new Engine({ trackId: 'akina', carId: 's2000', weather: 'rain', seed: 1 });
+    const lines = wet.racingLines;
+    assert.equal(lines.length, 10);
+    assert.equal(new Set(lines.map(line => line.points.map(({ x, y }) => x + ',' + y).join(';'))).size, 10);
+    assert.equal(new Set(dry.rivals.map(rival => rival.lineRank)).size, 3);
+    assert.equal(dry.rivals[0].lineRank, 1);
+    assert.ok(lines[0].estimate > dry.racingLines[0].estimate);
+    for (let rank = 0; rank < lines.length; rank++) {
+      assert.ok(rank === 0 || lines[rank - 1].estimate <= lines[rank].estimate);
+      lines[rank].points.forEach((point, i) => {
+        const center = wet.track.points[i];
+        assert.ok(Math.hypot(point.x - center.x, point.y - center.y) <= wet.track.width * .321);
+      });
+    }
+    assert.equal(wet.rivals.length, 3);
+    assert.deepEqual(wet.rivals.map(rival => rival.carId), dry.rivals.map(rival => rival.carId));
+    assert.equal(new Engine({ mode:'random', weather:'fog' }).rivals.length, 3);
+    assert.notEqual(wet.rivals[0].carId, wet.car.id);
+    for (let seed = 1; seed <= 12; seed++) {
+      const duel = new Engine({ mode: 'duel', seed });
+      assert.ok(duel.rivals[0].lineRank <= 3);
+    }
+  });
+  check('the three competitive lines match or beat player autopilot on dry and wet Akina', () => {
+    for (const weather of ['dry', 'rain']) {
+      for (const rank of [1, 2, 3]) {
+        const duel = new Engine({ trackId: 'akina', carId: 'ae85', mode: 'duel', duelRole: 'lead', weather });
+        const rival = duel.rivals[0];
+        rival.lineRank = rank;
+        begin(duel);
+        for (let frame = 0; frame < 18000 && duel.state !== 'finished'; frame++) duel.update(1 / 60, duel.getAutopilotInput());
+        assert.equal(duel.state, 'finished');
+        const rivalTime = rival.finishTime - rival.releaseAt;
+        assert.ok(rivalTime <= duel.result.time, `${weather} line ${rank}: ${rivalTime} vs ${duel.result.time}`);
+      }
+    }
+  });
+  check('Cat & Mouse holds the follower for 1.5 seconds and judges the gap at both finishes', () => {
+    for (const role of ['lead', 'chase']) {
+      const engine = new Engine({ mode: 'duel', duelRole: role, seed: 42 });
+      begin(engine);
+      for (let i = 0; i < 120; i++) engine.update(1 / 120, { throttle: 1 });
+      assert.equal(engine.player.speed > 0, role === 'lead');
+      assert.equal(engine.rivals[0].speed > 0, role === 'chase');
+      for (let i = 0; i < 72; i++) engine.update(1 / 120, { throttle: 1 });
+      assert.ok(engine.player.speed > 0 && engine.rivals[0].speed > 0);
+      engine.time = 100;
+      engine._finish();
+      assert.equal(engine.state, 'running');
+      assert.equal(engine.player.speed, 0);
+      engine.rivals[0].finished = true;
+      engine.rivals[0].finishTime = role === 'lead' ? 102 : 99;
+      engine.update(1 / 120);
+      assert.equal(engine.state, 'finished');
+      assert.deepEqual(engine.result.duel, { role, margin: .5, won: true });
+      assert.equal(engine.result.time, 100);
+    }
+  });
+  check('Time Attack records a finished sprint and replays its own previous ghost', () => {
+    const options = { mode: 'time-attack', trackId: 'akina', carId: 's2000', weather: 'fog' };
+    const engine = new Engine(options);
+    assert.equal(engine.rivals.length, 0);
+    begin(engine);
+    for (let i = 0; i < 18000 && engine.state !== 'finished'; i++) engine.update(1 / 60, engine.getAutopilotInput());
+    assert.equal(engine.state, 'finished');
+    const ghost = engine.bestGhost;
+    assert.equal(ghost.time, engine.result.time);
+    assert.equal(ghost.carId, 's2000');
+    assert.ok(ghost.frames.length > 100);
+    assert.equal(ghost.frames.at(-1)[0], Math.round(ghost.time * 1000));
+    const retry = new Engine({ ...options, ghost });
+    const x = retry.ghost.x, y = retry.ghost.y;
+    begin(retry);
+    for (let i = 0; i < 60; i++) retry.update(1 / 60);
+    assert.ok(retry.ghost.visible);
+    assert.ok(Math.hypot(retry.ghost.x - x, retry.ghost.y - y) > 10);
+    assert.equal(retry.bestGhost, ghost);
+    const circuit = new Engine({ ...options, trackId: 'harbor' });
+    begin(circuit);
+    for (let i = 0; i < 18000 && circuit.state !== 'finished'; i++) circuit.update(1 / 60, circuit.getAutopilotInput());
+    assert.equal(circuit.lapTimes.length, 3);
+    assert.equal(circuit.bestGhost.time, Math.min(...circuit.lapTimes));
   });
   check('ordered gates reject finish shortcuts, repeated starts and reverse crossings', () => {
     for (const trackId of ['akina', 'harbor']) {
@@ -560,7 +663,7 @@ function documentChecks() {
   check('page IDs, local assets and script dependency order match the application', () => {
     assert.equal(available.size, ids.length, 'HTML IDs must be unique');
     const scripts = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map(match => match[1].split('?')[0]);
-    assert.deepEqual(scripts, ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'shop.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'bmw-archive.js', 'bmw.js', 'vw.js', 'garage.js', 'app.js']);
+    assert.deepEqual(scripts, ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'shop.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'bmw-archive.js', 'bmw.js', 'vw.js', 'audi.js', 'garage.js', 'app.js']);
     const styles = [...html.matchAll(/<link\b[^>]*\bhref="([^"]+\.css(?:\?[^"]*)?)"/g)].map(match => match[1].split('?')[0]);
     for (const asset of [...scripts, ...styles]) {
       assert.ok(!asset.includes('://'), 'The game must remain independent of a network connection');
@@ -588,7 +691,7 @@ function documentChecks() {
     assert.equal(clean.version, 3); assert.equal(clean.credits, 1200);
     assert.deepEqual(clean.owned, ['ae85']); assert.equal(clean.selectedCar, 'ae85');
     assert.equal(clean.selectedTrack, 'akina');
-    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0,vw:0 }, cards: {} });
+    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0,vw:0,audi:0 }, cards: {} });
     for (const car of core.cars) assert.deepEqual(clean.equippedCards[car.id], {});
     for (const car of core.cars) {
       assert.equal(clean.selectedEngines[car.id], car.stockEngineId);
@@ -661,7 +764,7 @@ function documentChecks() {
     assert.equal(clean.version, 3); assert.equal(clean.credits, 23456);
     assert.equal(clean.upgrades.ae85.turbo, 3); assert.equal(clean.upgrades.ae85.tires, 2);
     assert.equal(clean.selectedCar, 'ae86'); assert.equal(clean.selectedEngines.ae86, 'sr20det');
-    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0,vw:0 }, cards: {} });
+    assert.deepEqual(clean.inventory, { cases: { street: 0, s2000: 0, 'ae86-akina':0, 'ae86-project-d':0, legends:0,brothers:0,roadster:0,mercedes:0,blackbird:0,italy:0,mustang:0,bmw:0,vw:0,audi:0 }, cards: {} });
     assert.deepEqual(clean.equippedCards.ae86, {});
   });
 }
@@ -918,7 +1021,7 @@ async function audioChecks() {
 
 async function main() {
   check('JavaScript files parse without external dependencies', () => {
-    for (const name of ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'vw.js', 'garage.js', 'app.js', 'server.cjs']) {
+    for (const name of ['catalog.js', 'tuning-cards.js', 'tracks.js', 'traffic.js', 'engine.js', 'radio.js', 'autumn.js', 'progress.js', 'loot.js', 'renderer.js', 'audio.js', 'vw.js', 'audi.js', 'garage.js', 'app.js', 'server.cjs']) {
       const file = path.join(base, name);
       assert.ok(fs.existsSync(file), `Missing application file ${name}`);
       new vm.Script(fs.readFileSync(file, 'utf8'), { filename: name });

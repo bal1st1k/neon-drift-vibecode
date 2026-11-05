@@ -21,7 +21,7 @@
     const engine = engines.find(item => item.id === engineId);
     return `<button type="button" class="rev-button" data-rev-engine="${engineId}" ${build?'data-rev-build':''} aria-pressed="false" aria-label="Погазовать · ${esc(engine.name)} · удерживай"><span>${icon('volume')} Погазовать</span><small>Удерживай</small></button>`;
   };
-  const carCardArt = (car,offer,paint) => car.paint && paint ? root.NDCatalog.vwPhoto(car.id,paint) : offer.cardPhotos?.[car.id] || offer.photos?.[car.id]?.[1] || offer.assets.card || offer.assets.hero;
+  const carCardArt = (car,offer,paint) => car.id==='ttrs-8j' ? root.NDAudi.photo(paint||car.paint) : car.paint && paint ? root.NDCatalog.vwPhoto(car.id,paint) : offer.cardPhotos?.[car.id] || offer.photos?.[car.id]?.[1] || offer.assets.card || offer.assets.hero;
   const timestamp = seconds => {
     const ms = Math.floor(seconds * 1000);
     return `${String(Math.floor(ms/60000)).padStart(2,'0')}:${String(Math.floor(ms/1000)%60).padStart(2,'0')}.${String(ms%1000).padStart(3,'0')}`;
@@ -49,6 +49,7 @@
       this.getSave = getSave; this.trackCache = trackCache;
       this.onReveal = onReveal; this.reveal = null; this.revealTimer = null;
       this.shopTab='cases';this.italyModel='fiat-coupe';this.bmwModel='m3-e30';this.vwModel=NDShop.vw.carId;this.vwView=0;this.vwPreviewPaint=null;
+      this.audiPreviewPaint=null;this.audiView=0;
       this.tab = 'cars'; this.carPage = 0; this.query = ''; this.brand = 'all'; this.sort = 'ratio'; this.onlyOwned = false;
       this.engineCompatibility='compatible';this.engineType='all';this.engineSort='name';
       this.trackFamily = tracks.find(track=>track.id===getSave().selectedTrack)?.family==='wangan'?'wangan':tracks.find(track=>track.id===getSave().selectedTrack)?.closed === false ? 'touge' : 'city';
@@ -108,7 +109,7 @@
       if(car.tuningLocked)$('#build-summary .build-actions').innerHTML='<span class="stock-build-badge">ФИКСИРОВАННАЯ СБОРКА / ТЮНИНГ ОТКЛЮЧЁН</span>'+carCardLink(car);
       else if(car.shopExclusive)$('#build-summary .build-actions').insertAdjacentHTML('beforeend',carCardLink(car));
       $('#build-summary .build-data').insertAdjacentHTML('beforeend',revButton(build.engineId,true));
-      if(car.paint)$('#build-summary .build-data').insertAdjacentHTML('beforeend',root.NDVW.paintChoices(save.paints[car.id]||car.paint,'garage',car.id));
+      if(root.NDCatalog.getCarPaints(car.id))$('#build-summary .build-data').insertAdjacentHTML('beforeend',root.NDVW.paintChoices(save.paints[car.id]||car.paint,'garage',car.id));
       this.renderCars();this.renderUpgrades();this.renderEngines();this.renderInventory();this.renderTabs();
     }
     renderCars() {
@@ -174,6 +175,8 @@
       const italyCount=save.inventory.cases.italy||0;
       $('#italy-owned-case').innerHTML=italyCount?`<div class="case-panel owned-case-panel"><div class="owned-case-image"><img src="assets/cases/italy-closed.png" alt="Кейс Reparto Corse"></div><div><h3>И вам привет из Италии</h3><p>1–3 награды · 2% на одну из четырёх машин. В наличии: ×${italyCount}</p></div><button class="button" data-action="open-case" data-case="italy">ОТКРЫТЬ КЕЙС</button></div>`:'';
       const blackbirdCount=save.inventory.cases.blackbird||0;
+      const audiCount=save.inventory.cases.audi||0;
+      $('#audi-owned-case').innerHTML=audiCount?`<div class="case-panel owned-case-panel"><div class="owned-case-image"><img src="${NDShop.audi.assets.closed}" alt="Кейс Audi Sport RS"></div><div><h3>Городской спорткласс ×${audiCount}</h3><p>1–3 награды · Audi TT RS: 1% на награду вне гаранта.</p></div><button class="button" data-action="open-case" data-case="audi">ОТКРЫТЬ КЕЙС</button></div>`:'';
       $('#blackbird-owned-case').innerHTML=blackbirdCount?`<div class="case-panel owned-case-panel"><div class="owned-case-image"><img src="${NDShop.blackbird.assets.closed}" alt="Кейс Blackbird"></div><div><span class="eyebrow">BLACKBIRD / ×${blackbirdCount}</span><h3>Porsche 911 Turbo 3.3</h3><p>1–3 награды. Шанс Blackbird — 1% на награду вне гаранта.</p></div><div class="owned-case-actions"><button class="button button-gold" data-action="open-case" data-case="blackbird">ОТКРЫТЬ КЕЙС ${icon('arrow')}</button></div></div>`:'';
       const mercedesCount=save.inventory.cases.mercedes||0;
       $('#mercedes-owned-case').innerHTML=mercedesCount?`<div class="case-panel owned-case-panel takumi-owned-case"><div class="owned-case-image"><img src="${esc(NDShop.mercedes.assets.closed)}" alt="Кейс Homologation 502"></div><div><span class="eyebrow">HOMOLOGATION 502 / ×${mercedesCount}</span><h3>Mercedes Evo II<span>.</span></h3><p>Детали, монеты или Mercedes. Шанс машины — 1% на награду.</p></div><div class="owned-case-actions"><button class="button button-gold" data-action="open-case" data-case="mercedes">ОТКРЫТЬ КЕЙС ${icon('arrow')}</button></div></div>`:'';
@@ -249,7 +252,7 @@
       this.renderRoadsterShop();
       this.renderMercedesShop();
       this.renderBlackbirdShop();
-      this.renderItalyShop();this.renderMustangShop();this.renderBMWShop();this.renderVWShop();
+      this.renderItalyShop();this.renderMustangShop();this.renderBMWShop();this.renderVWShop();this.renderAudiShop();
       this.renderPityShop();
       this.renderShopRevButtons();
       this.renderPityMeters();
@@ -352,6 +355,7 @@
       this.explainDisabledPurchases(NDShop.getStock(this.getSave()));
     }
     renderBMWShop(){ $('#bmw-showcase').innerHTML=root.NDBMW.render(this.getSave(),this.bmwModel); }
+    renderAudiShop(){ $('#audi-showcase').innerHTML=root.NDAudi.render(this.getSave(),this.audiPreviewPaint,this.audiView); }
     renderMustangShop() {
       const save=this.getSave(),offer=NDShop.mustang,car=cars.find(c=>c.id===offer.carId),owned=save.owned.includes(car.id),count=save.inventory.cases.mustang||0;
       $('#mustang-showcase').innerHTML=`<div class="tx-paper">
@@ -581,7 +585,7 @@
         const rework=track.reworked?'<span class="track-rework-banner"><span aria-hidden="true">★</span> РЕВОРК / '+esc(track.reworkLabel||'ГОРНЫЙ ПЕРЕВАЛ')+'</span>':'';
         const mountains=track.reworked?`<g class="track-mountains" style="${track.sceneryTheme==='iroha-autumn-night'?'filter:hue-rotate(270deg) brightness(.65)':''}" stroke="none"><path d="M-8 94 40 30 74 66 109 12 166 74 195 39 233 97Z" fill="#314535"/><path d="m40 30 34 36-23-12Zm69-18 57 62-44-27Zm86 27 38 58-29-28Z" fill="#53634a"/></g>`:'';
         const viaduct=track.sceneryTheme==='usui-gorge-night'?'<g fill="none" stroke="#b7805c" stroke-width="5"><path d="M88 45h93M90 46v20m22-20v20m22-20v20m22-20v20m22-20v20"/><path d="M90 61q11-25 22 0m0 0q11-25 22 0m0 0q11-25 22 0m0 0q11-25 22 0" stroke-width="3"/></g>':'';
-        return `<button class="track-card${track.reworked?' reworked'+(track.sceneryTheme==='iroha-autumn-night'?' iroha-night':track.sceneryTheme==='usui-gorge-night'?' usui-night':track.sceneryTheme==='tsuchisaka-forest-day'?' tsuchisaka-day':''):''}${save.selectedTrack===track.id?' selected':''}" data-track="${track.id}" aria-pressed="${save.selectedTrack===track.id}" aria-label="${esc(track.name)}, ${esc(track.difficulty)}${track.reworked?', РЕВОРК — '+esc(track.reworkLabel||'горный перевал'):''}">${rework}<div class="track-art" style="--track-color:${track.accent}"><span class="track-number">${String(index+1).padStart(2,'0')}</span><span class="track-badge">${esc(track.difficulty.toUpperCase())}</span><svg viewBox="0 0 220 100" aria-hidden="true">${mountains}${viaduct}<path d="${d}" stroke-width="8" stroke-opacity=".08"/><path d="${d}" stroke-width="1.6"/><circle cx="${start.x}" cy="${start.y}" r="2.5" fill="#d4ff42" stroke="none"/>${open?`<rect x="${finish.x-2}" y="${finish.y-2}" width="4" height="4" fill="#f4f5ed" stroke="none"/>`:''}</svg></div><div class="track-info"><h3>${esc(track.name)}</h3><p>${track.family==='wangan'?'WANGAN / ПОТОК':open?'ТОГЕ / СПРИНТ':'ГОРОД / 3 КРУГА'} <span>·</span> ${length}</p><span class="track-record">${record?`РЕКОРД ${timestamp(record.bestTime)}`:open?'СТАРТ → ФИНИШ':'ТВОЯ ЛИНИЯ'}</span><span class="track-selected-mark">${icon('check')}</span></div></button>`;
+        return `<button class="track-card${track.reworked?' reworked'+(track.sceneryTheme==='iroha-autumn-night'?' iroha-night':track.sceneryTheme==='usui-gorge-night'?' usui-night':track.sceneryTheme==='tsuchisaka-forest-day'?' tsuchisaka-day':''):''}${save.selectedTrack===track.id?' selected':''}" data-track="${track.id}"${track.raceClosed?' disabled':''} aria-pressed="${save.selectedTrack===track.id}" aria-label="${esc(track.name)}, ${esc(track.difficulty)}${track.raceClosed?', временно закрыта':''}${track.reworked?', РЕВОРК — '+esc(track.reworkLabel||'горный перевал'):''}">${rework}<div class="track-art" style="--track-color:${track.accent}"><span class="track-number">${String(index+1).padStart(2,'0')}</span><span class="track-badge">${track.raceClosed?'ВРЕМЕННО ЗАКРЫТА':esc(track.difficulty.toUpperCase())}</span><svg viewBox="0 0 220 100" aria-hidden="true">${mountains}${viaduct}<path d="${d}" stroke-width="8" stroke-opacity=".08"/><path d="${d}" stroke-width="1.6"/><circle cx="${start.x}" cy="${start.y}" r="2.5" fill="#d4ff42" stroke="none"/>${open?`<rect x="${finish.x-2}" y="${finish.y-2}" width="4" height="4" fill="#f4f5ed" stroke="none"/>`:''}</svg></div><div class="track-info"><h3>${esc(track.name)}</h3><p>${track.family==='wangan'?'WANGAN / ПОТОК':open?'ТОГЕ / СПРИНТ':'ГОРОД / 3 КРУГА'} <span>·</span> ${length}</p><span class="track-record">${record?`РЕКОРД ${timestamp(record.bestTime)}`:open?'СТАРТ → ФИНИШ':'ТВОЯ ЛИНИЯ'}</span><span class="track-selected-mark">${icon('check')}</span></div></button>`;
       }).join(''):'<div class="empty-state">Маршрут не найден. Попробуй другое название.</div>';
       const track=tracks.find(item=>item.id===save.selectedTrack);
       $('#route-summary').innerHTML=`<div><span class="eyebrow">ВЫБРАННЫЙ МАРШРУТ</span><strong>${esc(track.name)} <small>${track.family==='wangan'?'SPRINT / HIGHWAY':track.closed===false?'SPRINT / TOUGE':'CIRCUIT / NIGHT CITY'}</small></strong><p>${esc(track.description)}</p>${track.referencePhotos?`<div class="wangan-reference-strip">${track.referencePhotos.map((src,i)=>`<img src="${esc(encodeURI(src))}" alt="${esc(track.name)} — ориентир ${i+1}" loading="lazy">`).join('')}</div>`:''}</div>${track.sourceImage?`<button class="button button-outline" data-action="map">СХЕМА ТРАССЫ ${icon('arrow')}</button>`:''}`;

@@ -1683,13 +1683,23 @@
         const speed = Math.abs(car.speed || Math.hypot(car.vx || 0, car.vy || 0));
         const drift = car.drifting || (speed > 120 && Math.abs((car.vy || 0) * Math.cos(car.angle) - (car.vx || 0) * Math.sin(car.angle)) > 75);
         const moved = prev ? Math.hypot(car.x - prev.x, car.y - prev.y) : 0;
+        const wet = engine.weather === 'rain' && !car.offroad;
+        if (wet && active && !reducedMotion && speed > 26 && Math.random() < dt * 26) {
+          const dx = Math.cos(car.angle), dy = Math.sin(car.angle);
+          for (const side of [-1, 1]) {
+            const spread = side * (12 + Math.random() * speed * .24);
+            this._spawn(car.x - dx * 16 - dy * side * 9, car.y - dy * 16 + dx * side * 9,
+              -car.vx * .22 - dy * spread, -car.vy * .22 + dx * spread,
+              .24 + Math.random() * .23, 'spray', '#b7ddf2', 1 + Math.random() * .8);
+          }
+        }
         if (active && prev && drift && speed > 75 && moved > .05 && moved < 70) {
           for (const side of [-1, 1]) {
             const ax = -Math.cos(car.angle) * 13 - Math.sin(car.angle) * 9 * side;
             const ay = -Math.sin(car.angle) * 13 + Math.cos(car.angle) * 9 * side;
             this.skids.push({ x1: prev.x + ax, y1: prev.y + ay, x2: car.x + ax, y2: car.y + ay, life: 8 });
           }
-          if (!reducedMotion && this.particles.length < (this.quality === 'high' ? 150 : 55) && Math.random() > .4) {
+          if (!wet && !reducedMotion && this.particles.length < (this.quality === 'high' ? 150 : 55) && Math.random() > .4) {
             this._spawn(car.x - Math.cos(car.angle) * 20, car.y - Math.sin(car.angle) * 20,
               -car.vx * .08 + (Math.random() - .5) * 35, -car.vy * .08 + (Math.random() - .5) * 35,
               .35 + Math.random() * .3, 'smoke', '#a9bdc6', 5 + Math.random() * 5);
@@ -1848,9 +1858,65 @@
           ctx.fillStyle = rgba(p.color, alpha * .13);
           ctx.beginPath(); ctx.arc(p.x, p.y, p.size * (2 - alpha), 0, TAU); ctx.fill();
         } else {
-          ctx.strokeStyle = rgba(p.color, alpha); ctx.lineWidth = p.size * alpha;
+          ctx.strokeStyle = rgba(p.color, p.type === 'spray' ? alpha * .65 : alpha); ctx.lineWidth = p.size * alpha;
           ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x - p.vx * .035, p.y - p.vy * .035); ctx.stroke();
         }
+      }
+    }
+
+    _drawWetRoad(ctx, track, car) {
+      if (!this.roadPath || !car) return;
+      ctx.save();
+      ctx.lineWidth = track.width - 5;
+      ctx.lineCap = ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'rgba(14,34,58,.4)';
+      ctx.stroke(this.roadPath);
+
+      const dx = Math.cos(car.angle), dy = Math.sin(car.angle);
+      const shine = ctx.createLinearGradient(car.x + dx * 20, car.y + dy * 20, car.x + dx * 235, car.y + dy * 235);
+      shine.addColorStop(0, 'rgba(202,234,255,.61)');
+      shine.addColorStop(.26, 'rgba(152,205,244,.43)');
+      shine.addColorStop(.54, 'rgba(130,186,229,.23)');
+      shine.addColorStop(1, 'rgba(130,186,229,0)');
+      ctx.save();
+      ctx.translate(car.x, car.y); ctx.rotate(car.angle);
+      ctx.beginPath();
+      for (const side of [-1, 1]) {
+        ctx.moveTo(18, side * 9 - 3);
+        ctx.quadraticCurveTo(90, side * 13 - 13, 235, side * 20 - 17);
+        ctx.lineTo(235, side * 20 + 17);
+        ctx.quadraticCurveTo(105, side * 13 + 13, 18, side * 9 + 3);
+        ctx.closePath();
+      }
+      ctx.restore();
+      ctx.clip();
+      ctx.strokeStyle = shine;
+      ctx.stroke(this.roadPath);
+      ctx.restore();
+    }
+
+    _drawWeather(ctx, weather, w, h, reducedMotion) {
+      if (weather === 'fog') {
+        const mist = ctx.createRadialGradient(w * .5, h * .5, 36, w * .5, h * .5, Math.max(w, h) * .57);
+        mist.addColorStop(0, 'rgba(147,172,179,.1)');
+        mist.addColorStop(.45, 'rgba(139,166,174,.43)');
+        mist.addColorStop(1, 'rgba(119,145,154,.86)');
+        ctx.fillStyle = mist;
+        ctx.fillRect(0, 0, w, h);
+      }
+      if (weather === 'rain' && !reducedMotion) {
+        const count = Math.min(this.quality === 'high' ? 400 : 150, Math.ceil(w * h / 2600));
+        ctx.beginPath();
+        for (let i = 1; i <= count; i++) {
+          const speed = 360 + i % 13 * 29;
+          const x = (i * 421.63 + this.elapsed * speed * .26) % (w + 30) - 15;
+          const y = (i * 173.51 + this.elapsed * speed) % (h + 36) - 24;
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + speed * .008, y + speed * .026);
+        }
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'rgba(180,218,247,.32)';
+        ctx.stroke();
       }
     }
 
@@ -1878,6 +1944,7 @@
       // then paint the road as vectors so lane marks remain crisp at racing zoom.
       if (!overview && !highway && cache.scale < .45) this._road(ctx, engine.track, null, true);
       if (!overview && !highway) this._drawRoadTexture(ctx, camera);
+      if (!overview && engine.weather === 'rain') this._drawWetRoad(ctx, engine.track, engine.player);
 
       if (!overview) this._drawSkids(ctx);
       if(!overview)for(const car of engine.traffic||[]){
@@ -1888,6 +1955,12 @@
         ctx.drawImage(sprite.canvas,-car.halfLength,-car.halfWidth,car.halfLength*2,car.halfWidth*2);ctx.restore();
       }
       for (const rival of engine.rivals || []) this._car(ctx, rival, false, reducedMotion, overview);
+      if (engine.ghost?.visible) {
+        ctx.save();
+        ctx.globalAlpha = .38;
+        this._car(ctx, engine.ghost, false, true, overview);
+        ctx.restore();
+      }
       if (engine.player) this._car(ctx, engine.player, true, reducedMotion, overview);
       if (!overview && !reducedMotion) this._drawParticles(ctx);
       if(engine.track.sceneryTheme==='usui-gorge-night')this._drawUsuiOverhead(ctx,camera);
@@ -1895,6 +1968,7 @@
 
       // A soft optical falloff focuses the road, without obscuring touch controls.
       if(engine.track.sceneryTheme!=='tsuchisaka-forest-day'){ctx.fillStyle = this.vignette; ctx.fillRect(0, 0, w, h);}
+      if (!overview) this._drawWeather(ctx, engine.weather, w, h, reducedMotion);
       if (!overview && engine.player && engine.player.boosting && !reducedMotion && this.quality === 'high') {
         this._speedLines(ctx, w, h);
       }

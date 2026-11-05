@@ -1,0 +1,16 @@
+[
+  {
+    "state": "closed",
+    "source": "exec-e6454c72-7a1a-4796-a598-a33a1e8c4ba3.png",
+    "path": "assets/cases/audi-closed.png",
+    "tool": "built-in imagegen",
+    "prompt": "Use case: background-extraction. Edit target: the supplied closed Audi Sport RS equipment case illustration. Remove ONLY the exterior plain WHITE BACKGROUND and replace it with genuine alpha transparency. Preserve the case EXACTLY as supplied: same shape, perspective, black outline, grey metal panels, silver latches and hinges, red RS slash, carbon texture, and exact white text \"AUDI SPORT · RS\". Preserve all white/silver details INSIDE the case and preserve the closed lid and clasps. No redesign, recoloring, new objects, added shadow, backdrop, checkerboard, text changes or cropping. Clean high-quality antialiased edges, whole object within same wide landscape canvas, high native resolution. Output a transparent PNG."
+  },
+  {
+    "state": "open",
+    "source": "exec-63d2084b-b4e7-449c-8472-618d432a2141.png",
+    "path": "assets/cases/audi-open.png",
+    "tool": "built-in imagegen",
+    "prompt": "Use case: background-extraction. Edit target: the supplied open Audi Sport RS equipment case illustration. Remove ONLY the exterior plain WHITE BACKGROUND and replace it with genuine alpha transparency. Preserve the case EXACTLY as supplied: same shape, perspective, black outline, grey metal panels, silver latches and hinges, red RS slash, carbon texture, and exact white text \"AUDI SPORT · RS\". Preserve all white/silver details INSIDE the case and preserve the red glowing honeycomb interior and open lid. No redesign, recoloring, new objects, added shadow, backdrop, checkerboard, text changes or cropping. Clean high-quality antialiased edges, whole object within same wide landscape canvas, high native resolution. Output a transparent PNG."
+  }
+]

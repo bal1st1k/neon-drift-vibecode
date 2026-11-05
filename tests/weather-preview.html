@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="../">
+  <title>Neon Drift — тест погоды</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #0e141b; color: #e1eaf0; font: 14px system-ui, sans-serif; }
+    main { min-height: 100svh; display: flex; flex-direction: column; }
+    header, footer { padding: 12px clamp(10px, 3vw, 26px); }
+    header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; border-bottom: 1px solid #31404c; }
+    h1 { font-size: 18px; margin: 0 auto 0 0; }
+    h1 span { display: block; color: #a8bdca; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .buttons { display: flex; flex-wrap: wrap; gap: 5px; }
+    button { min-height: 44px; padding: 6px 12px; border: 1px solid #516779; border-radius: 5px; background: #182530; color: inherit; font: inherit; cursor: pointer; touch-action: none; }
+    button[aria-pressed="true"], button:active { background: #d4ff42; border-color: #d4ff42; color: #111a0b; }
+    button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+    .stage { position: relative; flex: 1; display: grid; min-height: 0; }
+    canvas { display: block; width: 100%; height: 100%; min-height: 320px; position: absolute; inset: 0; }
+    .readout { align-self: start; justify-self: start; position: relative; margin: 10px; padding: 8px 12px; border-radius: 5px; background: #0c151ee8; pointer-events: none; }
+    #speed { font: bold 21px monospace; color: #d4ff42; }
+    .readout p { margin: 3px 0 0; }
+    footer { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; align-items: center; border-top: 1px solid #31404c; color: #a8bdca; }
+    footer p { margin: 0; }
+    footer button { color: #e1eaf0; }
+    @media (max-height: 620px) { .stage { min-height: 320px; } }
+  </style>
+  <script src="catalog.js" defer></script>
+  <script src="tuning-cards.js" defer></script>
+  <script src="tracks.js" defer></script>
+  <script src="engine.js?v=wet-1" defer></script>
+  <script src="renderer.js?v=wet-1" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1><span>Neon Drift · Акина</span>Тест погоды</h1>
+      <div class="buttons" role="group" aria-label="Погода">
+        <button data-weather="dry" aria-pressed="false">Сухо</button>
+        <button data-weather="rain" aria-pressed="true">Дождь</button>
+        <button data-weather="fog" aria-pressed="false">Туман</button>
+      </div>
+      <div class="buttons">
+        <button id="auto" aria-pressed="true">Автопилот</button>
+        <button id="pause" aria-pressed="false">Пауза</button>
+        <button id="restart">Сначала</button>
+      </div>
+    </header>
+    <div class="stage">
+      <canvas aria-label="Ночная дорога на Акине"></canvas>
+      <div class="readout">
+        <strong id="speed">0 км/ч</strong>
+        <p id="surface" role="status"></p>
+        <p id="finish" role="status" hidden>Финиш · «Сначала» для нового заезда</p>
+      </div>
+    </div>
+    <footer>
+      <p>WASD или стрелки · Shift — дрифт</p>
+      <div class="buttons" role="group" aria-label="Ручное управление">
+        <button data-control="left" aria-label="Влево">←</button>
+        <button data-control="right" aria-label="Вправо">→</button>
+        <button data-control="throttle">Газ</button>
+        <button data-control="brake">Тормоз</button>
+        <button data-control="drift">Дрифт</button>
+      </div>
+    </footer>
+  </main>
+  <script>
+    addEventListener('DOMContentLoaded', () => {
+      const renderer = new NDRenderer.Renderer(document.querySelector('canvas'));
+      const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      const weatherButtons = document.querySelectorAll('[data-weather]');
+      const auto = document.querySelector('#auto');
+      const pause = document.querySelector('#pause');
+      const speed = document.querySelector('#speed');
+      const finish = document.querySelector('#finish');
+      const surface = document.querySelector('#surface');
+      const keyControls = {
+        ArrowUp: 'throttle', KeyW: 'throttle', ArrowDown: 'brake', KeyS: 'brake',
+        ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
+        ShiftLeft: 'drift', ShiftRight: 'drift'
+      };
+      const inputs = new Map();
+      let engine, autopilot = true, paused = false, last = performance.now();
+
+      function setAutopilot(active) {
+        autopilot = active;
+        auto.setAttribute('aria-pressed', String(active));
+      }
+      function setPaused(active) {
+        paused = active;
+        pause.setAttribute('aria-pressed', String(active));
+      }
+      function start(weather) {
+        inputs.clear();
+        engine = new NDCore.Engine({ trackId: 'akina', carId: 's2000', weather });
+        engine.rivals = [];
+        engine.state = 'running';
+        setPaused(false);
+        finish.hidden = true;
+        for (const button of weatherButtons) button.setAttribute('aria-pressed', String(button.dataset.weather === weather));
+        const condition = { dry: 'Сухой асфальт', rain: 'Мокрый асфальт', fog: 'Ограниченная видимость' }[weather];
+        surface.textContent = condition + ' · сцепление ' + Math.round(engine.surfaceGrip * 100) + '%';
+      }
+      function frame(now) {
+        const dt = Math.max(0, Math.min((now - last) / 1000, .05));
+        last = now;
+        const active = !paused && engine.state !== 'finished';
+        if (active) {
+          const controls = autopilot ? engine.getAutopilotInput() : Object.fromEntries(Array.from(inputs.values(), control => [control, 1]));
+          const hud = engine.update(dt, controls);
+          speed.textContent = hud.speed + ' км/ч';
+          finish.hidden = hud.state !== 'finished';
+        }
+        renderer.render(engine, active ? dt : 0, { reducedMotion: motion.matches });
+        requestAnimationFrame(frame);
+      }
+
+      for (const button of weatherButtons) button.addEventListener('click', () => start(button.dataset.weather));
+      auto.addEventListener('click', () => setAutopilot(!autopilot));
+      pause.addEventListener('click', () => setPaused(!paused));
+      document.querySelector('#restart').addEventListener('click', () => start(engine.weather));
+      addEventListener('keydown', event => {
+        const control = keyControls[event.code];
+        if (!control || event.altKey || event.ctrlKey || event.metaKey) return;
+        event.preventDefault();
+        setAutopilot(false);
+        inputs.set(event.code, control);
+      });
+      addEventListener('keyup', event => inputs.delete(event.code));
+      addEventListener('blur', () => inputs.clear());
+      for (const button of document.querySelectorAll('[data-control]')) {
+        button.addEventListener('pointerdown', event => {
+          if (event.button !== 0) return;
+          button.setPointerCapture(event.pointerId);
+          setAutopilot(false);
+          inputs.set(event.pointerId, button.dataset.control);
+        });
+        button.addEventListener('lostpointercapture', event => inputs.delete(event.pointerId));
+      }
+      start('rain');
+      requestAnimationFrame(frame);
+    });
+  </script>
+</body>
+</html>

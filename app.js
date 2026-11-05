@@ -6,6 +6,10 @@
   const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
   const { Engine, tracks, cars, upgrades, engines, createTrack, clamp, computeBuild, getSwapPrice, getUpgradePrice } = NDCore;
   const STORAGE_KEY = 'neon-drift.garage.v1';
+  const raceModes = { race:'Обычная гонка', 'time-attack':'Time Attack', duel:'Cat & Mouse', random:'Случайный старт' };
+  const weatherNames = { dry:'Сухо', rain:'Дождь', fog:'Туман' };
+  const ghostKey = (trackId, weather) => `neon-drift.ghost.v1.${trackId}.${weather}`;
+  const randomItem = items => items[Math.floor(Math.random() * items.length)];
   const labels = Object.fromEntries(tracks.map(track => [track.id, { en: track.name.toUpperCase(), district: track.name.toUpperCase(), surface: track.family==='wangan'?'WANGAN / ПОТОК':track.closed === false ? 'ТОГЕ / СПРИНТ' : 'ГОРОД / КОЛЬЦО', condition: track.closed === false ? 'СТАРТ → ФИНИШ' : '3 КРУГА' }]));
   const icon = name => `<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
   const number = value => Math.floor(value || 0).toLocaleString('ru-RU');
@@ -68,8 +72,11 @@
   const previewRenderer = new NDRenderer.Renderer($('#preview-canvas'), { quality: save.settings.quality });
   const raceRenderer = new NDRenderer.Renderer($('#race-canvas'), { quality: save.settings.quality });
   let demo = null, race = null, racing = false, paused = false, currentPage = 'home';
+  let matchup = null, matchupTimer = 0, improvedGhost = false;
+  let selectedRaceMode = 'race';
   let revPreview = null;
   let vwPhotoState = null;
+  let audiPhotoOpen = false;
   const vwTrialDuration = NDVW.trialDuration;
   let currentModal = null, focusBeforeModal = null, pendingImport = null;
   let lastLap = 1, lastCountdown = '', awarded = false, countdownEndAt = 0, lapTimer = 0;
@@ -169,7 +176,7 @@
     $('#records-list').innerHTML = completed.length ? completed.map((track,index) => {
       const record = save.records[track.id];
       const car = cars.find(item => item.id === record.carId);
-      return `<div class="record-row"><div class="record-route"><span>${String(index + 1).padStart(2,'0')}</span><div><b>${track.name}</b><small>${car ? car.name : 'МАШИНА ИЗ ПРОШЛОГО ЗАЕЗДА'}</small></div></div><div class="record-time"><span>ВРЕМЯ ЗАЕЗДА</span><b>${time(record.bestTime)}</b></div><div class="record-time"><span>${track.closed === false ? 'ЛУЧШИЙ ДРИФТ' : 'ЛУЧШИЙ КРУГ'}</span><b>${track.closed === false ? number(record.bestDrift) : time(record.bestLap)}</b></div><button class="button button-outline" data-race-track="${track.id}">НА СТАРТ ${icon('arrow')}</button></div>`;
+      return `<div class="record-row"><div class="record-route"><span>${String(index + 1).padStart(2,'0')}</span><div><b>${track.name}</b><small>${car ? car.name : 'МАШИНА ИЗ ПРОШЛОГО ЗАЕЗДА'}</small></div></div><div class="record-time"><span>ВРЕМЯ ЗАЕЗДА</span><b>${time(record.bestTime)}</b></div><div class="record-time"><span>${track.closed === false ? 'ЛУЧШИЙ ДРИФТ' : 'ЛУЧШИЙ КРУГ'}</span><b>${track.closed === false ? number(record.bestDrift) : time(record.bestLap)}</b></div><button class="button button-outline" data-race-track="${track.id}"${track.raceClosed?' disabled':''}>${track.raceClosed?'ВРЕМЕННО ЗАКРЫТА':'НА СТАРТ '+icon('arrow')}</button></div>`;
     }).join('') + `<div class="records-next">${completed.length} из ${tracks.length} маршрутов в архиве. <button class="text-button" data-nav="home">ВЫБРАТЬ СЛЕДУЮЩИЙ МАРШРУТ ${icon('arrow')}</button></div>` : `<div class="records-empty"><strong>Здесь появится твой первый рекорд.</strong><p>Выбери маршрут и заверши заезд — время, лучший круг и машина сохранятся здесь.</p><button class="button button-lime" data-nav="home">ВЫБРАТЬ МАРШРУТ ${icon('arrow')}</button></div>`;
   }
   function updateReady() {
@@ -178,7 +185,7 @@
   }
   function refreshMenus() { renderTracks(); renderGarage(); renderRecords(); garageUI.renderShop(); updateReady(); }
   function refreshDemo() {
-    demo = new Engine({ trackId: save.selectedTrack, carId: save.selectedCar, paint: save.paints[save.selectedCar], upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: 19 });
+    demo = new Engine({ trackId: save.selectedTrack, carId: save.selectedCar, paint: save.paints[save.selectedCar], upgrades: save.upgrades[save.selectedCar], engineId: save.selectedEngines[save.selectedCar], cards: save.equippedCards[save.selectedCar], seed: 19, weather:$('#race-weather').value });
     // Move the live preview onto the course before revealing the camera.
     for (let index = 0; index < 390; index++) demo.update(1 / 60, demo.getAutopilotInput());
     const index = tracks.findIndex(track=>track.id===save.selectedTrack);
@@ -214,6 +221,10 @@
     syncAutumn();
   }
   function closeModal(restoreFocus = true) {
+    clearInterval(matchupTimer);
+    matchup = null;
+    delete $('#modal-photo').dataset.theme;
+    if(audiPhotoOpen){audiPhotoOpen=false;$('#audi-photo-controls').hidden=true;focusBeforeModal=$('#audi-showcase [data-audi-photo]');}
     const photo = vwPhotoState;
     if (photo) {
       vwPhotoState = null;
@@ -288,20 +299,132 @@
       drift: held('Space') || touch.has('drift'), boost: held('ShiftLeft','ShiftRight') || touch.has('boost')
     };
   }
-  async function startRace(trackId = save.selectedTrack, trial = null) {
+  function selectedBuild() {
+    const carId = save.selectedCar;
+    return { carId, paint:save.paints[carId], upgrades:save.upgrades[carId], engineId:save.selectedEngines[carId], cards:save.equippedCards[carId] };
+  }
+
+  function readGhost(trackId, weather) {
+    try {
+      const ghost = JSON.parse(localStorage.getItem(ghostKey(trackId, weather)));
+      if (!ghost || !cars.some(car => car.id === ghost.carId) || !Number.isFinite(ghost.time) || ghost.time <= 0 || ghost.time > 600) return null;
+      const { frames } = ghost, { minX, maxX, minY, maxY } = trackCache[trackId].bounds;
+      if (!Array.isArray(frames) || frames.length < 2 || frames.length > 4800) return null;
+      if (!frames.every((frame, index) => Array.isArray(frame) && frame.length === 4 && frame.every(Number.isSafeInteger)
+        && (index === 0 ? frame[0] === 0 : frame[0] > frames[index-1][0])
+        && frame[1] >= minX*10 && frame[1] <= maxX*10 && frame[2] >= minY*10 && frame[2] <= maxY*10 && Math.abs(frame[3]) <= 3142)) return null;
+      if (frames.at(-1)[0] !== Math.round(ghost.time * 1000)) return null;
+      return ghost;
+    } catch (_) { return null; }
+  }
+
+  function showMatchCard(target, label, name, sprite, details) {
+    target.innerHTML = '<span class="eyebrow"></span><img alt=""><div class="matchup-empty" aria-hidden="true">◌</div><strong></strong><small></small>';
+    $('.eyebrow',target).textContent = label;
+    $('strong',target).textContent = name;
+    $('small',target).textContent = details;
+    const image = $('img',target);
+    image.hidden = !sprite;
+    $('.matchup-empty',target).hidden = !!sprite;
+    if (sprite) image.src = sprite;
+  }
+
+  function selectRaceMode(mode) {
+    if (!Object.hasOwn(raceModes,mode)) return;
+    selectedRaceMode = mode;
+    for (const button of $$('[data-select-mode]')) button.setAttribute('aria-pressed',String(button.dataset.selectMode===mode));
+    $('#duel-role-field').hidden = mode!=='duel';
+    $('#race-weather').disabled = mode==='random';
+    $('#race-setup-note').textContent = {
+      race:'Погода применяется к выбранной трассе.',
+      'time-attack':'Свободный заезд. Призрак сохраняется отдельно для каждой трассы и погоды.',
+      duel:'Свободный заезд на перевале. Выбери погоду и свою роль.',
+      random:'Свободный заезд на штатной машине из каталога. Все три условия выбираются случайно.'
+    }[mode];
+  }
+
+  function launchRace(trackId = save.selectedTrack) {
+    if (selectedRaceMode==='race') startRace(trackId);
+    else prepareMode(selectedRaceMode,trackId);
+  }
+
+  function prepareMode(mode, trackId = save.selectedTrack) {
+    if (startingRace || !Object.hasOwn(raceModes,mode)) return;
+    const selected = trackCache[trackId];
+    const mountain = !selected.closed && selected.family !== 'wangan';
+    const useAkina = mode === 'duel' && !mountain;
+    const track = mode === 'random' ? randomItem(tracks.filter(item => !item.raceClosed))
+      : useAkina ? trackCache.akina : selected;
+    const weather = mode === 'random' ? randomItem(Object.keys(weatherNames)) : $('#race-weather').value;
+    const build = mode === 'random' ? { carId:randomItem(cars).id } : selectedBuild();
+    const next = new Engine({ ...build, trackId:track.id, weather, mode, duelRole:$('#duel-role').value,
+      ghost:mode === 'time-attack' ? readGhost(track.id, weather) : null, seed:Math.floor(Math.random() * 1e7) + 1 });
+    clearInterval(matchupTimer);
+    matchup = next;
+    const right = $('#matchup-rival'), start = $('#matchup-start'), status = $('#matchup-status');
+    const spec = `${Math.round(next.build.powerHp)} PS · ${Math.round(next.build.weightKg)} кг · ${Math.round(next.build.hpPerTonne)} PS/т`;
+    const rival = next.rivals[0], ghost = next.bestGhost;
+    const duelRule = next.duelRole === 'lead' ? 'Увеличь стартовый отрыв 1,5 с.' : 'Сократи стартовый отрыв 1,5 с или обгони.';
+    $('#matchup-route').textContent = `${raceModes[mode]} · ${track.name} · ${weatherNames[weather]}`;
+    showMatchCard($('#matchup-player'), 'ТЫ', next.car.name, next.player.sprite, spec);
+    start.disabled = true;
+    const reveal = () => {
+      right.classList.remove('rolling');
+      if (rival) {
+        showMatchCard(right, next.rivals.length>1 ? 'СОПЕРНИКИ / 3' : 'СОПЕРНИК',
+          cars.find(car => car.id === rival.carId).name, rival.sprite, spec);
+        for (const other of next.rivals.slice(1)) {
+          const entry = document.createElement('div'), image = document.createElement('img'), name = document.createElement('small');
+          entry.className = 'matchup-support';
+          image.src = other.sprite;
+          image.alt = '';
+          name.textContent = cars.find(car => car.id === other.carId).name;
+          entry.append(image,name);
+          right.append(entry);
+        }
+        status.textContent = next.duelRole ? 'Сборки уравнены. ' + duelRule : 'Гонка на четырёх машинах. Сборки соперников уравнены с твоей.';
+      } else if (ghost) {
+        showMatchCard(right, 'ЛИЧНЫЙ ПРИЗРАК', cars.find(car => car.id === ghost.carId).name, next.ghost.sprite, time(ghost.time));
+        status.textContent = 'Призрак лучшего круга для этой трассы и погоды.';
+      } else {
+        showMatchCard(right, 'ЛИЧНЫЙ ПРИЗРАК', 'Первая попытка', null, 'Призрак появится после первого завершённого круга или спринта.');
+        status.textContent = 'Соло · запиши свою первую траекторию.';
+      }
+      start.disabled = false;
+    };
+    if (rival && !save.settings.reducedMotion) {
+      right.classList.add('rolling');
+      const pool = cars.filter(car => car.id !== next.car.id);
+      let step = Math.floor(Math.random() * pool.length), ticks = 0;
+      const roll = () => {
+        const car = pool[step++ % pool.length];
+        showMatchCard(right, 'ПОДБОР СОПЕРНИКА', car.name, car.raceSprite || car.sprite, 'Поиск близкой машины…');
+      };
+      status.textContent = 'Подбираем соперника…';
+      roll();
+      matchupTimer = setInterval(() => {
+        if (++ticks < 12) roll();
+        else { clearInterval(matchupTimer); reveal(); }
+      }, 165);
+    } else reveal();
+    openModal('matchup');
+  }
+
+  async function startRace(trackId = save.selectedTrack, trial = null, prepared = null) {
     if (startingRace) return;
+    if (tracks.find(track => track.id === trackId)?.raceClosed) {
+      toast('Трасса временно закрыта для гонок.', true);
+      return;
+    }
     const previousTrial = trial && racing ? race : null;
+    const previousRace = race, expectedModal = currentModal;
     stopRev();
     startingRace = true;
     unlockAudio();
     let nextRace;
     try {
-      const carId = save.selectedCar;
-      const build = trial ? {...trial,mode:'vw-trial'} : {
-        carId, paint:save.paints[carId], upgrades:save.upgrades[carId], engineId:save.selectedEngines[carId], cards:save.equippedCards[carId]
-      };
-      nextRace = new Engine({ ...build, trackId, seed: Math.floor(Math.random() * 1e7) + 1 });
-      if (trial) nextRace.rivals = [];
+      const build = trial ? {...trial,mode:'vw-trial'} : selectedBuild();
+      nextRace = prepared || new Engine({ ...build, trackId, weather:trial?'dry':$('#race-weather').value, seed: Math.floor(Math.random() * 1e7) + 1 });
       const vehicles = [nextRace.player,...nextRace.rivals,...(nextRace.traffic||[])];
       const sprites = await NDRenderer.preloadSprites(vehicles);
       if (sprites.length !== vehicles.length || sprites.some(sprite => sprite.status !== 'ready')) {
@@ -311,20 +434,23 @@
     } finally { startingRace = false; }
     if (trial && (previousTrial ? race!==previousTrial :
       currentModal || currentPage!=='shop' || garageUI.shopTab!=='vw' || garageUI.vwModel!==trial.carId)) return;
+    if (prepared && (currentModal!==expectedModal || race!==previousRace || expectedModal==='matchup' && matchup!==prepared)) return;
     closeModal(false);
-    if (!trial) {
+    if (nextRace.mode==='race') {
       save.selectedTrack = trackId;
       persist();
     }
     race = nextRace;
+    improvedGhost = false;
     racing = true; paused = false; awarded = false; accumulator = 0; hudClock = 1; lastLap = 1; lastCountdown = ''; countdownEndAt = 0;
     clearControls();
     $('#menu-shell').hidden = true;
     $('#race-screen').hidden = false;
     document.body.style.overflow = 'hidden';
     $('#race-track-label').textContent = labels[trackId].district;
-    $('#race-session-label').textContent = trial ? 'ПРОБНЫЙ ЗАЕЗД / VOLKSWAGEN' : 'НОЧНАЯ СМЕНА / NEON DRIFT';
-    $('.race-position').hidden = !!trial;
+    $('#race-session-label').textContent = trial ? 'ПРОБНЫЙ ЗАЕЗД / VOLKSWAGEN' : raceModes[race.mode]
+      ? `${raceModes[race.mode]} / ${weatherNames[race.weather]}` : 'НОЧНАЯ СМЕНА / NEON DRIFT';
+    $('.race-position').hidden = !race.rivals.length || !!race.duelRole;
     $('#exit-race span').textContent = trial ? 'ВЕРНУТЬСЯ В САЛОН' : 'ВЕРНУТЬСЯ В ГОРОД';
     $('#countdown').hidden = false;
     $('#lap-notice').classList.remove('show');
@@ -367,18 +493,23 @@
     if (!race) return;
     const data = race.getHUD();
     const trial = race.mode==='vw-trial';
+    const weatherRun = race.weather!=='dry' || race.mode==='random';
     hud.position.textContent = String(data.position).padStart(2,'0');
-    hud.time.textContent = data.time > 0 ? time(data.time) : '00:00.000';
+    $('#hud-position-total').textContent = '/ ' + String(data.totalRacers).padStart(2,'0');
+    hud.time.textContent = data.time > 0 ? time(race.playerFinish ?? data.time) : '00:00.000';
     const sprint = race.track.closed === false;
     $('#hud-format').textContent = trial ? 'ОСТАЛОСЬ' : sprint ? 'МАРШРУТ' : 'КРУГ';
     hud.lap.textContent = trial ? Math.max(0,Math.ceil(vwTrialDuration-data.time)) : sprint ? Math.min(100,Math.round(data.progress*100)) : Math.min(data.lap,data.totalLaps);
     $('#hud-lap-total').textContent = trial ? ' с' : sprint ? '%' : '/ ' + data.totalLaps;
-    $('#hud-best-label').textContent = trial ? 'РЕЖИМ' : sprint ? 'ЛИЧНЫЙ РЕКОРД' : 'ЛУЧШИЙ КРУГ';
+    $('#hud-best-label').textContent = trial ? 'РЕЖИМ' : race.duelRole ? 'ДУЭЛЬ' : race.mode==='time-attack' ? 'ВРЕМЯ ПРИЗРАКА'
+      : weatherRun ? 'СЦЕПЛЕНИЕ' : sprint ? 'ЛИЧНЫЙ РЕКОРД' : 'ЛУЧШИЙ КРУГ';
     hud.progress.style.width = `${clamp(trial?data.time/vwTrialDuration:data.progress,0,1)*100}%`;
     hud.speed.textContent = String(Math.max(0,Math.round(data.speed))).padStart(3,'0');
     hud.nitro.style.width = `${clamp(data.nitro,0,1)*100}%`;
     hud.integrity.style.width = `${clamp(data.integrity,0,1)*100}%`;
-    hud.best.textContent = trial ? 'ПРОБА' : time(sprint ? save.records[race.track.id]?.bestTime : data.bestLap);
+    hud.best.textContent = trial ? 'ПРОБА' : race.duelRole ? race.playerFinish!==null ? 'ЖДЁМ СОПЕРНИКА' : race.duelRole==='lead' ? 'ВЕДУЩИЙ' : 'ПРЕСЛЕДОВАТЕЛЬ'
+      : weatherRun ? Math.round(race.surfaceGrip * 100) + '%'
+      : time(race.mode==='time-attack' ? race.bestGhost?.time : sprint ? save.records[race.track.id]?.bestTime : data.bestLap);
     hud.combo.textContent = `×${Number(data.combo || 1).toFixed(1)}`;
     hud.drift.textContent = number(data.driftScore);
     $('#drift-feedback').classList.toggle('active',race.player.drifting);
@@ -399,6 +530,10 @@
         countdown.classList.remove('bump'); void countdown.offsetWidth; countdown.classList.add('bump');
         audio.play('countdown'); lastCountdown = value;
       }
+    } else if (data.state === 'running' && data.time < race.launchDelay) {
+      countdown.hidden = false;
+      $('b',countdown).textContent = (race.launchDelay - data.time).toFixed(1);
+      $('span',countdown).textContent = 'СТАРТ ПРЕСЛЕДОВАТЕЛЯ';
     } else if (data.state === 'running' && !countdownEndAt) {
       $('b',countdown).textContent = 'GO'; $('span',countdown).textContent = 'ГОРОД ТВОЙ';
       countdown.classList.remove('bump'); void countdown.offsetWidth; countdown.classList.add('bump');
@@ -413,27 +548,44 @@
     }
     if (awarded || !race || !race.result) return;
     awarded = true; clearControls();
-    const result = race.result, old = save.records[race.track.id], isRecord = !old || result.time < old.bestTime;
-    const credits = Math.max(0,Math.floor(finite(result.credits,1000,20000)));
-    save.credits += credits; save.career.races++; save.career.wins += result.position === 1 ? 1 : 0;
-    save.career.totalDrift += Math.floor(result.driftScore); save.career.totalCredits += credits;
-    save.records[race.track.id] = {
-      bestTime: isRecord ? result.time : old.bestTime, bestLap: Math.min(old?.bestLap || Infinity,result.bestLap || Infinity),
-      bestPosition: Math.min(old?.bestPosition || 4,result.position), bestDrift: Math.max(old?.bestDrift || 0,result.driftScore),
-      carId: isRecord ? save.selectedCar : old.carId, races: (old?.races || 0)+1
-    };
-    NDLoot.awardCase(save);
-    NDShop.ensureStock(save);
-    persist();
-    $('#result-eyebrow').textContent = result.position === 1 ? 'ЭТА НОЧЬ ПРИНАДЛЕЖИТ ТЕБЕ' : 'ЕЩЁ ОДНА НОЧЬ. ЕЩЁ ОДНА ИСТОРИЯ.';
-    $('#result-medal').textContent = String(result.position).padStart(2,'0');
+    const result = race.result, regular = race.mode==='race', old = save.records[race.track.id];
+    const isRecord = regular ? !old || result.time < old.bestTime : race.mode==='time-attack' && improvedGhost;
+    const credits = regular ? Math.max(0,Math.floor(finite(result.credits,1000,20000))) : 0;
+    if (regular) {
+      save.credits += credits; save.career.races++; save.career.wins += result.position === 1 ? 1 : 0;
+      save.career.totalDrift += Math.floor(result.driftScore); save.career.totalCredits += credits;
+      save.records[race.track.id] = {
+        bestTime: isRecord ? result.time : old.bestTime, bestLap: Math.min(old?.bestLap || Infinity,result.bestLap || Infinity),
+        bestPosition: Math.min(old?.bestPosition || 4,result.position), bestDrift: Math.max(old?.bestDrift || 0,result.driftScore),
+        carId: isRecord ? race.car.id : old.carId, races: (old?.races || 0)+1
+      };
+      NDLoot.awardCase(save);
+      NDShop.ensureStock(save);
+      persist();
+    }
+    const duel = result.duel, solo = race.mode==='time-attack';
+    const note = $('#result-mode-note');
+    note.hidden = !duel;
+    if (duel) {
+      const goal = duel.role==='lead' ? 'Ведущий' : 'Преследователь';
+      const margin = Math.abs(duel.margin) <= 1/120 ? 'Стартовый отрыв сохранился'
+        : (duel.won ? 'Запас до цели ' : 'До цели не хватило ') + Math.abs(duel.margin).toFixed(2).replace('.',',') + ' с';
+      note.textContent = `${goal} · ${margin}`;
+    }
+    $('#result-eyebrow').textContent = regular ? (result.position === 1 ? 'ЭТА НОЧЬ ПРИНАДЛЕЖИТ ТЕБЕ' : 'ЕЩЁ ОДНА НОЧЬ. ЕЩЁ ОДНА ИСТОРИЯ.')
+      : `${raceModes[race.mode]} / ${weatherNames[race.weather]}`;
+    $('#result-medal').textContent = solo ? '⏱' : duel ? duel.won ? '✓' : '—' : String(result.position).padStart(2,'0');
     $('#result-time').textContent = time(result.time);
     $('#new-record').hidden = !isRecord;
-    $('#result-position').textContent = `${result.position} / 4`;
-    $('#result-lap-label').textContent = race.track.closed === false ? 'МОЩНОСТЬ / МАССА' : 'ЛУЧШИЙ КРУГ';
-    $('#result-lap').textContent = race.track.closed === false ? `${Math.round(race.build.hpPerTonne)} л.с./т` : time(result.bestLap);
+    $('#result-position-label').textContent = duel || solo ? 'ИТОГ' : 'ПОЗИЦИЯ';
+    $('#result-position').textContent = duel ? duel.won ? 'Победа' : Math.abs(duel.margin)<=1/120 ? 'Ничья' : 'Поражение'
+      : solo ? 'Соло' : `${result.position} / ${race.rivals.length+1}`;
+    $('#result-lap-label').textContent = solo ? 'ЛИЧНЫЙ ПРИЗРАК' : race.track.closed === false ? 'МОЩНОСТЬ / МАССА' : 'ЛУЧШИЙ КРУГ';
+    $('#result-lap').textContent = solo ? time(race.bestGhost?.time) : race.track.closed === false ? `${Math.round(race.build.hpPerTonne)} л.с./т` : time(result.bestLap);
     $('#result-drift').textContent = number(result.driftScore);
-    $('#result-credits').textContent = `+ ₡ ${number(credits)}`;
+    $('#result-credits').textContent = regular ? `+ ₡ ${number(credits)}` : '—';
+    $('.result-case').hidden = !regular;
+    $('#race-again-label').textContent = race.mode==='random' ? 'НОВЫЙ ЖРЕБИЙ' : 'ЕЩЁ ЗАЕЗД';
     $('#result-laps').innerHTML = result.lapTimes.map((lap,index)=>`<span>${race.track.closed === false ? 'СТАРТ → ФИНИШ' : 'КРУГ 0' + (index+1)}<b>${time(lap)}</b></span>`).join('');
     $('#countdown').hidden = true;
     audio.play('finish'); openModal('results');
@@ -459,6 +611,14 @@
     const other = $('#vw-compare-model').value;
     $('#vw-compare-content').innerHTML = NDVW.compare(garageUI.vwModel,other,vwPaint(),garageUI.vwView);
   }
+  function updateAudiPhoto(){
+    const paint=garageUI.audiPreviewPaint||save.paints['ttrs-8j']||'LZ3M',view=garageUI.audiView;
+    $('#photo-image').src=NDAudi.photo(paint,view);
+    $('#photo-image').alt='Audi TT RS · '+NDCatalog.audiPaints[paint][0]+' · '+NDAudi.views[view];
+    $('#photo-title').textContent=$('#photo-image').alt;
+    $('#audi-photo-angle').textContent=`${view+1} / ${NDAudi.views.length} · ${NDAudi.views[view]}`;
+    $('#audi-photo-palette').innerHTML=Object.entries(NDCatalog.audiPaints).map(([code,[label,hex]])=>`<button type="button" data-audi-paint="${code}" aria-label="${label}" aria-pressed="${paint===code}" title="${label}" style="--paint:${hex}"></button>`).join('');
+  }
 
   function frame(timestamp) {
     const dt = frameTimestamp ? Math.min((timestamp-frameTimestamp)/1000,.05) : 1/60;
@@ -469,6 +629,12 @@
           accumulator = Math.min(accumulator+dt,.12);
           const input = getInput();
           while (accumulator >= 1/120) { race.update(1/120,input); accumulator -= 1/120; }
+        }
+        if (race.mode==='time-attack' && race.bestGhost && race.bestGhost!==race.options.ghost) {
+          race.options.ghost = race.bestGhost;
+          improvedGhost = true;
+          try { localStorage.setItem(ghostKey(race.track.id,race.weather),JSON.stringify(race.bestGhost)); }
+          catch (_) { toast('Призрак доступен в этой сессии. Сохранить его в браузере не удалось.',true); }
         }
         raceRenderer.render(race,paused || race.state === 'finished' ? 0 : dt,{reducedMotion:save.settings.reducedMotion});
         audio.update(paused || race.state === 'finished' ? null : race,dt);
@@ -516,7 +682,7 @@
     if(button.dataset.carCard){
       const car=cars.find(item=>item.id===button.dataset.carCard);
       if(!car?.shopExclusive)return;
-      const paint=button.closest('#vw-showcase')?garageUI.vwPreviewPaint:null;
+      const paint=button.closest('#audi-showcase')?garageUI.audiPreviewPaint:button.closest('#vw-showcase')?garageUI.vwPreviewPaint:null;
       $('#car-card-content').innerHTML=garageUI.rewardMarkup({type:'car',carId:car.id},true,paint);
       $('#modal-car-card').dataset.carRarity=car.pityOnly?'purple':'gold';
       openModal('car-card');return;
@@ -572,16 +738,54 @@
       startRace('akina',{carId:garageUI.vwModel,paint:vwPaint()});
       return;
     }
-    if(button.dataset.applyVwPaint){
-      const [id,paint]=button.dataset.applyVwPaint.split(':');
-      if(!NDCatalog.vwModels[id]||!save.owned.includes(id)||!Object.hasOwn(NDCatalog.vwPaints,paint))return;
+    if(button.dataset.audiEditorial){
+      const key=button.dataset.audiEditorial;
+      if(!['engine','motion','detail'].includes(key))return;
+      $('#photo-image').src=`assets/audi/${key==='detail'?'detail-archive':key}.webp`;
+      $('#modal-photo').dataset.theme='audi';
+      $('#photo-image').alt=button.querySelector('img').alt;
+      $('#photo-title').textContent=$('#photo-image').alt;
+      openModal('photo');return;
+    }
+    if(button.dataset.audiPhoto){
+      $('#modal-photo').dataset.theme='audi';
+      audiPhotoOpen=true;$('#audi-photo-controls').hidden=false;updateAudiPhoto();
+      openModal('photo');return;
+    }
+    if(button.hasAttribute('data-audi-view')||button.dataset.audiStep){
+      const count=NDAudi.views.length;
+      const view=button.hasAttribute('data-audi-view')?Number(button.dataset.audiView):(garageUI.audiView+Number(button.dataset.audiStep)+count)%count;
+      if(!Number.isInteger(view)||view<0||view>=count)return;
+      garageUI.audiView=view;garageUI.renderShop();
+      if(audiPhotoOpen){updateAudiPhoto();button.focus({preventScroll:true});}
+      else document.querySelector(`#audi-showcase [data-audi-view="${view}"]`)?.focus({preventScroll:true});
+      return;
+    }
+    if(button.dataset.audiPaint){
+      const paint=button.dataset.audiPaint,id='ttrs-8j';
+      if(!NDCatalog.hasCarPaint(id,paint))return;
+      garageUI.audiPreviewPaint=paint;
+      if(save.owned.includes(id)){
+        save.paints[id]=paint;persist();renderGarage();
+        if(save.selectedCar===id)refreshDemo();
+      }
+      garageUI.renderShop();
+      if(audiPhotoOpen)updateAudiPhoto();
+      document.querySelector(`${audiPhotoOpen?'#audi-photo-controls':'#audi-showcase'} [data-audi-paint="${paint}"]`)?.focus({preventScroll:true});
+      return;
+    }
+    if(button.dataset.applyPaint){
+      const [id,paint]=button.dataset.applyPaint.split(':');
+      const car=cars.find(item=>item.id===id);
+      if(!car||!save.owned.includes(id)||!NDCatalog.hasCarPaint(id,paint))return;
       const origin=button.closest('#vw-showcase')?'#vw-showcase':'#build-summary';
       save.paints[id]=paint;
+      if(id==='ttrs-8j')garageUI.audiPreviewPaint=paint;
       persist();renderGarage();garageUI.renderShop();
       if(save.selectedCar===id)refreshDemo();
-      const focusTarget=origin==='#vw-showcase'?`[data-vw-paint="${paint}"]`:`[data-apply-vw-paint="${id}:${paint}"]`;
+      const focusTarget=origin==='#vw-showcase'?`[data-vw-paint="${paint}"]`:`[data-apply-paint="${id}:${paint}"]`;
       document.querySelector(`${origin} ${focusTarget}`)?.focus({preventScroll:true});
-      toast(NDCatalog.vwPaints[paint][0]+' сохранён для '+NDCatalog.vwModels[id].name+'.');return;
+      toast(NDCatalog.getCarPaints(id)[paint][0]+' сохранён для '+car.name+'.');return;
     }
     if(button.dataset.bmwPhoto){
       const [id,index]=button.dataset.bmwPhoto.split(':');const photo=NDShop.bmw.photos[id]?.[Number(index)];if(!photo)return;
@@ -645,6 +849,7 @@
         const purchase=NDShop.purchaseExclusiveCar(save,id);
         if(!purchase.ok){toast(purchase.message,true);return;}
         if(NDCatalog.vwModels[id] && garageUI.vwPreviewPaint)save.paints[id]=garageUI.vwPreviewPaint;
+        if(id==='ttrs-8j' && garageUI.audiPreviewPaint)save.paints[id]=garageUI.audiPreviewPaint;
         persist();refreshMenus();audio.play('buy');toast(cars.find(car=>car.id===id).name+' добавлена в гараж.');
       }
       return;
@@ -685,7 +890,8 @@
       persist();renderGarage();garageUI.renderReveal(result.cards,'craft');audio.play('buy');openModal('loot');
     }
     if (button.dataset.raceTrack) startRace(button.dataset.raceTrack);
-    if (button.dataset.action === 'race') startRace();
+    if (button.dataset.selectMode) selectRaceMode(button.dataset.selectMode);
+    if (button.dataset.action === 'race') launchRace();
     if (button.dataset.action === 'help') openModal('help');
     if (button.dataset.action === 'settings') openModal('settings');
     if (button.dataset.action === 'close-modal') { if (currentModal === 'admin') closeAdmin(); else closeModal(); }
@@ -693,21 +899,36 @@
     if (button.dataset.action === 'sound') { save.settings.sound=!save.settings.sound; applySettings(); persist(); toast(save.settings.sound ? 'Звук включён.' : 'Звук выключен.'); }
   });
   $('.wordmark').addEventListener('click',event=>{event.preventDefault();navigate('home');});
-  $('#start-race').addEventListener('click',()=>startRace());
+  $('#start-race').addEventListener('click',()=>launchRace());
+  $('#race-weather').addEventListener('change',refreshDemo);
+  $('#matchup-start').addEventListener('click',async event=>{
+    if (!matchup || startingRace) return;
+    const button = event.currentTarget, next = matchup;
+    button.disabled = true;
+    await startRace(next.track.id,null,next);
+    if (matchup===next) button.disabled = false;
+  });
   $('#pause-race').addEventListener('click',pauseRace);
   $('#resume-race').addEventListener('click',resumeRace);
-  $('#restart-race').addEventListener('click',()=>{
+  function restartRace() {
+    if (!race || startingRace) return;
     if (race?.mode==='vw-trial') startRace(race.track.id,{carId:race.car.id,paint:race.options.paint});
-    else startRace();
-  });
+    else if (raceModes[race.mode]) startRace(race.track.id,null,new Engine({ ...race.options, ghost:race.bestGhost }));
+    else startRace(race.track.id);
+  }
+  $('#restart-race').addEventListener('click',restartRace);
   $('#exit-race').addEventListener('click',exitRace);
-  $('#race-again').addEventListener('click',()=>startRace());
+  $('#race-again').addEventListener('click',()=>{
+    if (race?.mode!=='random') { restartRace(); return; }
+    exitRace();
+    prepareMode('random');
+  });
   $('#results-home').addEventListener('click',exitRace);
   $('#vw-compare-model').addEventListener('change',updateVWComparison);
   $('#modal-backdrop').addEventListener('click',event=>{
     if (event.target === $('#modal-backdrop')) {
       if (currentModal === 'admin') closeAdmin();
-      else if (['settings','help','import','map','loot','photo','car-card','vw-compare'].includes(currentModal)) closeModal();
+      else if (['settings','help','import','map','loot','photo','car-card','vw-compare','matchup'].includes(currentModal)) closeModal();
     }
   });
   for (const [id,key,eventName] of [['setting-sound','sound','change'],['setting-music','music','change'],['setting-radio','radio','change'],['setting-radio-station','radioStation','change'],['setting-radio-volume','radioVolume','input'],['setting-motion','reducedMotion','change'],['setting-volume','volume','input'],['pause-volume','volume','input'],['setting-quality','quality','change']]) {
@@ -742,7 +963,7 @@
       return;
     }
     if (currentModal) {
-      if (event.code === 'Escape') { event.preventDefault(); if(currentModal==='admin')closeAdmin(); else if(currentModal==='pause')resumeRace(); else if(['settings','help','import','map','loot','photo','car-card','vw-compare'].includes(currentModal))closeModal(); }
+      if (event.code === 'Escape') { event.preventDefault(); if(currentModal==='admin')closeAdmin(); else if(currentModal==='pause')resumeRace(); else if(['settings','help','import','map','loot','photo','car-card','vw-compare','matchup'].includes(currentModal))closeModal(); }
       if (event.code === 'Tab') {
         const focusables=$$('button:not(:disabled),input,select,[tabindex="0"]',$(`#modal-${currentModal}`)).filter(el=>!el.hidden);
         const first=focusables[0],last=focusables[focusables.length-1];

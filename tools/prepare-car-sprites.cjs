@@ -7,10 +7,13 @@ const canvasPackage = process.env.ND_CANVAS_PACKAGE || '@napi-rs/canvas';
 const { createCanvas, loadImage } = require(canvasPackage);
 const { cars } = require('../catalog.js');
 const root = path.resolve(__dirname, '..');
+const highResolution = new Set(['jzz30','jzx90','jzx81']);
 
 async function prepare(car) {
   const image = await loadImage(path.join(root, car.sprite));
-  const scale = Math.min(1, 720 / Math.max(image.width, image.height));
+  const length = highResolution.has(car.id) ? 1024 : 256;
+  const padding = length / 64;
+  const scale = Math.min(1, Math.max(720,length*1.5) / Math.max(image.width, image.height));
   const w = Math.round(image.width * scale), h = Math.round(image.height * scale);
   const source = createCanvas(w,h), ctx = source.getContext('2d');
   ctx.drawImage(image,0,0,w,h);
@@ -44,8 +47,8 @@ async function prepare(car) {
   if(opaque<500||tail<100)throw new Error('Invalid sprite mask: '+car.id);
   ctx.putImageData(pixels,0,0);
   const cw=x1-x0+1,ch=y1-y0+1,vertical=Math.abs(Math.sin(car.spriteAngle))>.5;
-  const length=256,width=Math.round(length*(vertical?cw/ch:ch/cw));
-  const output=createCanvas(length+4,width+4), out=output.getContext('2d');
+  const width=Math.round(length*(vertical?cw/ch:ch/cw));
+  const output=createCanvas(length+padding,width+padding), out=output.getContext('2d');
   out.translate(output.width/2,output.height/2);out.rotate(-car.spriteAngle);
   const dw=vertical?width:length,dh=vertical?length:width;
   out.drawImage(source,x0,y0,cw,ch,-dw/2,-dh/2,dw,dh);
@@ -54,10 +57,13 @@ async function prepare(car) {
   return {id:car.id,width:output.width,height:output.height,bytes:fs.statSync(target).size};
 }
 
-(async()=>{
+async function main(){
   fs.mkdirSync(path.join(root,'assets','cars'),{recursive:true});
   const results=[];
   const selected = process.argv.slice(2);
   for(const car of cars.filter(car => car.sprite!==car.raceSprite && (!selected.length || selected.includes(car.id))))results.push(await prepare(car));
   console.log(JSON.stringify({count:results.length,bytes:results.reduce((n,c)=>n+c.bytes,0),cars:results},null,2));
-})().catch(error=>{console.error(error);process.exitCode=1;});
+}
+
+if (require.main===module) main().catch(error=>{console.error(error);process.exitCode=1;});
+module.exports = prepare;

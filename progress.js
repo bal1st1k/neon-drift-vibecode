@@ -54,12 +54,12 @@
     clean.credits = Math.floor(bounded(raw.credits, 1200));
     clean.owned = [...new Set([baseId, ...(Array.isArray(raw.owned) ? raw.owned.filter(carExists) : [])])];
     if (clean.owned.includes(raw.selectedCar)) clean.selectedCar = raw.selectedCar;
-    if (tracks.some(track => track.id === raw.selectedTrack)) clean.selectedTrack = raw.selectedTrack;
+    if (tracks.some(track => track.id === raw.selectedTrack && !track.raceClosed)) clean.selectedTrack = raw.selectedTrack;
     const rawUpgrades = obj(raw.upgrades), rawOwnedEngines = obj(raw.ownedEngines), rawSelectedEngines = obj(raw.selectedEngines);
     const rawPaints = obj(raw.paints);
     for (const car of cars) {
       const paint=rawPaints[car.id];
-      if (car.paint && clean.owned.includes(car.id) && typeof paint==='string' && Object.hasOwn(catalog.vwPaints,paint)) clean.paints[car.id] = paint;
+      if (clean.owned.includes(car.id) && catalog.hasCarPaint(car.id,paint)) clean.paints[car.id] = paint;
       for (const upgrade of upgrades) clean.upgrades[car.id][upgrade.id] = Math.floor(bounded(obj(rawUpgrades[car.id])[upgrade.id], 0, upgrade.maxLevel));
       const inventory = Array.isArray(rawOwnedEngines[car.id]) ? rawOwnedEngines[car.id].filter(id=>engineExists(id)&&(id===car.stockEngineId||engines.find(engine=>engine.id===id).swapAllowed!==false)) : [];
       clean.ownedEngines[car.id] = [...new Set([stock(car.id), ...inventory])];
